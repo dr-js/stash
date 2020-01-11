@@ -36,7 +36,7 @@ Port 22 # consider change to port like 22222 to skip most port scan
 
 PermitRootLogin prohibit-password
 StrictModes yes
-LoginGraceTime 6 # in seconds, default: 2m
+LoginGraceTime 10 # in seconds, default: 2m
 MaxAuthTries 2
 
 PubkeyAuthentication yes    # for ssh key login

@@ -4,12 +4,16 @@ add to `~/.bash_aliases` (recommended),
 else to `~/.bash_profile` or `~/.profile`
 
 ```shell script
-(echo "" > ~/.bash_aliases) && nano ~/.bash_aliases
+(echo "" > ~/.bash_aliases) && nano ~/.bash_aliases # reset the file and open for edit
 ```
 
 ###### default ubuntu `.bashrc` may be found at `/etc/skel/.bashrc`
 
 ```shell script
+# =============================
+# mark version
+alias bash-aliase-version='echo 0.1.0'
+
 # =============================
 # ls aliases (l*)
 alias llh='ls -ahlF'
@@ -45,6 +49,9 @@ alias git-cherry-pack-abort='git cherry-pick --abort'
 alias git-cherry-pack-continue='git cherry-pick --continue'
 alias git-clear='git remote prune origin && git gc --prune=now'
 alias git-tag-clear-local='git tag -d $(git tag -l)'
+alias git-ls-files-stage='git ls-files --stage'
+alias git-update-644='git update-index --chmod=-x'
+alias git-update-755='git update-index --chmod=+x'
 alias git-log='git log'
 alias git-log-16='git-log -16'
 alias git-log-oneline='git log --date=short --pretty=format:"%C(auto,yellow)%h %C(auto,blue)%>(12,trunc)%ad %C(auto,green)%<(7,trunc)%aN%C(auto,reset)%s%C(auto,red)% gD% D"'
@@ -67,6 +74,9 @@ alias GCPA=git-cherry-pack-abort
 alias GCPC=git-cherry-pack-continue
 alias GC=git-clear
 alias GTCL=git-tag-clear-local
+alias GLS=git-ls-files-stage
+alias G644=git-update-644
+alias G755=git-update-755
 alias GL=git-log
 alias GL16=git-log-16
 alias GLO=git-log-oneline
@@ -78,8 +88,12 @@ alias GLG16=git-log-graph-16
 # apt aliases (A*)
 alias apt-list-installed='sudo apt list --installed'
 alias apt-update='sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y --purge'
-  
+alias apt-install='sudo apt install'
+alias apt-remove='sudo apt autoremove --purge'
+
 alias AL=apt-list-installed
+alias AR=apt-remove
+alias AI=apt-install
 alias AU=apt-update
 
 # =============================
@@ -97,6 +111,7 @@ alias SQR4AM=system-queue-reboot-4am
 # systemd aliases (SD*)
 alias systemd-list-active='sudo systemctl list-units --type=service --state=active'
 alias systemd-list-enabled='sudo systemctl list-unit-files --type=service --state=enabled,generated'
+alias systemd-list-timers='sudo systemctl list-timers'
 alias systemd-daemon-reload='sudo systemctl daemon-reload'
 alias systemd-start='sudo systemctl start'
 alias systemd-stop='sudo systemctl stop'
@@ -105,9 +120,11 @@ alias systemd-enable='sudo systemctl enable'
 alias systemd-disable='sudo systemctl disable'
 alias systemd-restart='sudo systemctl restart'
 alias systemd-reload='sudo systemctl reload'
+# TODO: add reset failed from: https://serverfault.com/questions/606520/how-to-remove-missing-systemd-units
 
 alias SDLA=systemd-list-active
 alias SDLE=systemd-list-enabled
+alias SDLT=systemd-list-timers
 alias SDDR=systemd-daemon-reload
 alias SDON=systemd-start
 alias SDOFF=systemd-stop
@@ -155,14 +172,16 @@ for path in ${PATH_GIT_ROOT_LIST}; do
 done
 
 alias cd-git="cd ${PATH_GIT_ROOT}"
-alias cd-shadowsocks="cd /etc/shadowsocks-libev/"
-alias cd-nginx="cd /etc/nginx/"
+alias cd-log="cd /var/log/"
 alias cd-systemd="cd /lib/systemd/system/"
+alias cd-nginx="cd /etc/nginx/"
+alias cd-shadowsocks="cd /etc/shadowsocks-libev/"
 
 alias CG=cd-git
-alias CSS=cd-shadowsocks
-alias CN=cd-nginx
+alias CL=cd-log
 alias CSD=cd-systemd
+alias CN=cd-nginx
+alias CSS=cd-shadowsocks
 
 # =============================
 # proxy alias (P*)
@@ -173,24 +192,27 @@ PROXY_HTTP="http://127.0.0.1:1080"
 # PROXY_SOCK5="socks5://127.0.0.1:8118" # with privoxy
 # PROXY_HTTP="http://127.0.0.1:8118" # with privoxy
 
-alias proxy-on="export \
-  ALL_PROXY=${PROXY_SOCK5}/ \
-  http_proxy=${PROXY_HTTP}/ \
-  https_proxy=${PROXY_HTTP}/ \
-  HTTP_PROXY=${PROXY_HTTP}/ \
-  HTTPS_PROXY=${PROXY_HTTP}/"
-alias proxy-off="unset \
-  ALL_PROXY \
-  http_proxy \
-  https_proxy \
-  HTTP_PROXY \
-  HTTPS_PROXY"
-alias proxy-once=" \
-  ALL_PROXY=${PROXY_SOCK5}/ \
-  http_proxy=${PROXY_HTTP}/ \
-  https_proxy=${PROXY_HTTP}/ \
-  HTTP_PROXY=${PROXY_HTTP}/ \
-  HTTPS_PROXY=${PROXY_HTTP}/"
+alias proxy-on="export
+  http_proxy=${PROXY_HTTP}/
+  https_proxy=${PROXY_HTTP}/
+  HTTP_PROXY=${PROXY_HTTP}/
+  HTTPS_PROXY=${PROXY_HTTP}/
+  ALL_PROXY=${PROXY_SOCK5}/
+"
+alias proxy-off="unset
+  http_proxy
+  https_proxy
+  HTTP_PROXY
+  HTTPS_PROXY
+  ALL_PROXY
+"
+alias proxy-once="
+  http_proxy=${PROXY_HTTP}/
+  https_proxy=${PROXY_HTTP}/
+  HTTP_PROXY=${PROXY_HTTP}/
+  HTTPS_PROXY=${PROXY_HTTP}/
+  ALL_PROXY=${PROXY_SOCK5}/
+"
 
 alias PON=proxy-on
 alias POFF=proxy-off

@@ -19,6 +19,8 @@ sudo apt autoremove --purge -y \
 ```
 
 optionally: (check: https://peteris.rocks/blog/htop/)
+- should check: https://github.com/lxc/lxcfs
+- should check: https://askubuntu.com/questions/202613/how-do-i-check-whether-i-am-using-lvm
 ```shell script
 sudo apt autoremove --purge \
   lxcfs \

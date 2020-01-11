@@ -93,8 +93,7 @@ net.core.optmem_max = 65535
 # Increase the tcp-time-wait buckets pool size to prevent simple DOS attacks
 net.ipv4.tcp_max_tw_buckets = 1440000
 
-# try to reuse time-wait connections, but don't recycle them (recycle can break clients behind NAT)
-net.ipv4.tcp_tw_recycle = 0
+# try to reuse time-wait connections
 net.ipv4.tcp_tw_reuse = 1
 
 # Avoid falling back to slow start after a connection goes idle
