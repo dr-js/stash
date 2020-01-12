@@ -12,7 +12,7 @@ else to `~/.bash_profile` or `~/.profile`
 ```shell script
 # =============================
 # mark version
-alias bash-aliase-version='echo 0.1.0'
+alias bash-aliase-version='echo 0.1.1'
 
 # =============================
 # ls aliases (l*)
@@ -58,6 +58,7 @@ alias git-log-oneline='git log --date=short --pretty=format:"%C(auto,yellow)%h %
 alias git-log-oneline-16='git-log-oneline -16'
 alias git-log-graph='git log --graph --oneline'
 alias git-log-graph-16='git-log-graph -16'
+alias git-trace='GIT_TRACE=1'
 
 alias G=git-fetch
 alias GG=git-git-combo
@@ -83,6 +84,7 @@ alias GLO=git-log-oneline
 alias GLO16=git-log-oneline-16
 alias GLG=git-log-graph
 alias GLG16=git-log-graph-16
+alias GT=git-trace
 
 # =============================
 # apt aliases (A*)
@@ -159,6 +161,12 @@ alias screen-list='screen -ls'
 
 alias SR=screen-resume
 alias SL=screen-list
+
+# =============================
+# nano aliases (NN*)
+function nano-reset { (echo "" > $1) ; nano $1 ; } # $1=file-to-reset-and-edit
+
+alias NNR=nano-reset
 
 # =============================
 # quick path alias (C*)

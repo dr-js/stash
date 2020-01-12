@@ -18,6 +18,7 @@ lighter git config:
   sshCommand = ssh -i ~/.ssh/SOME-SPECIFIC-KEY.pri 
 [remote "origin"]
   url = git@github.com:dr-js/dr-js.git
+  # url = [git@some.other.proxy.com:22]:dr-js/dr-js.git # short syntax for adding port
   tagOpt = --no-tags # do not fetch tags
   fetch = +refs/heads/master:refs/remotes/origin/master
   fetch = +refs/heads/dr/*:refs/remotes/origin/dr/*
@@ -30,3 +31,27 @@ lighter git config:
   merge = refs/heads/branch-a
 ...
 ```
+
+git ssh through proxy, edit `nano ~/.ssh/config`:
+
+for http proxy: 
+- with `connect`: (`apt install connect-proxy`)
+    ```shell script
+    Host github.com
+      IdentityFile ~/.ssh/github_rsa
+      ProxyCommand connect -H 127.0.0.1:1080 %h %p
+    ```
+
+for socks5 proxy: (check: https://unix.stackexchange.com/questions/416010/ssh-through-shadowsocks)
+- with `connect`:
+    ```shell script
+    Host github.com
+      IdentityFile ~/.ssh/github_rsa
+      ProxyCommand connect -S 127.0.0.1:1080 %h %p
+    ```
+- or with `nc`:
+    ```shell script
+    Host github.com
+      IdentityFile ~/.ssh/github_rsa
+      ProxyCommand nc -X 5 -x 127.0.0.1:1080 %h %p
+    ```

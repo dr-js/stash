@@ -1,8 +1,7 @@
 # `swapfile`
 
 
-NOTE: should use SSD for swap
-
+NOTE: should only use SSD for swap
 ```shell script
 sudo fallocate -l 0.5G /swapfile # add 0.5G swap, or change to 2G
 sudo chmod 600 /swapfile

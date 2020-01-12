@@ -1,5 +1,6 @@
 # `apt`
 
+
 #### apt clean up
 
 > - snapd (also remove amazon-ssm-agent)
@@ -25,6 +26,7 @@ optionally: (check: https://peteris.rocks/blog/htop/)
 sudo apt autoremove --purge \
   lxcfs \
   lvm2 \
+  open-iscsi \
   ubuntu-server
 ```
 
