@@ -1,0 +1,17 @@
+[Unit]
+Description=dr-node server
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=8
+
+User=root
+ExecStartPre=/bin/bash /mnt/data-link/server/[systemd]test-data-link.sh
+ExecStart=/bin/bash /mnt/data-link/server/dr-node/systemd/start.sh
+ExecStop=/bin/bash /mnt/data-link/server/dr-node/systemd/stop.sh
+
+[Install]
+WantedBy=multi-user.target

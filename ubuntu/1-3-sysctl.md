@@ -60,8 +60,6 @@ net.ipv4.tcp_rfc1337 = 1
 
 # Use BBR TCP congestion control and set tcp_notsent_lowat to 16384 to ensure HTTP/2 prioritization works optimally
 # Do a 'modprobe tcp_bbr' first (kernel > 4.9)
-# Fall-back to htcp if bbr is unavailable (older kernels)
-net.ipv4.tcp_congestion_control = htcp
 net.ipv4.tcp_congestion_control = bbr
 net.ipv4.tcp_notsent_lowat = 16384
 
