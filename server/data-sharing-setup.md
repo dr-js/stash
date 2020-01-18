@@ -45,13 +45,30 @@ sample-gitignore/
 
 #### `data-host/` directory
 
-should be used as `/root/data-host/` on host server, sample setup:
+should be used as `/root/data-host/` on host server:
 ```shell script
 # first copy to 
 cp -r "./data-host/" "/root/data-host/"
 
-# then search for "TODO: CONFIG HERE"
+# search for "TODO: CONFIG HERE"
 grep "TODO: CONFIG HERE" -rn "/root/data-host/" # and place in actual info
+
+# then do the setup
+. "/root/data-host/00-init/setup-host.sh"
+```
+
+for client server:
+```shell script
+# pull init script from web
+mkdir -p "/root/data-client-init/"
+wget "https://github.com/dr-js/stash/raw/master/server/data-host/00-init/[init]common.sh" -O "/root/data-client-init/[init]common.sh"
+wget "https://github.com/dr-js/stash/raw/master/server/data-host/00-init/setup-client.sh" -O "/root/data-client-init/setup-client.sh"
+
+# search for "TODO: CONFIG HERE"
+grep "TODO: CONFIG HERE" -rn "/root/data-client-init/" # and place in actual info
+
+# then do the setup
+. "/root/data-client-init/setup-client.sh"
 ```
 
 #### layered data directory
