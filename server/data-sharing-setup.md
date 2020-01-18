@@ -45,16 +45,27 @@ sample-gitignore/
 
 #### `data-host/` directory
 
-should be used as `/root/data-host/` on host server:
-```shell script
-# first copy to 
-cp -r "./data-host/" "/root/data-host/"
+should be used as `/root/data-host/` on host server
 
-# search for "TODO: CONFIG HERE"
-grep "TODO: CONFIG HERE" -rn "/root/data-host/" # and place in actual info
+setup command for host server:
+```shell script
+# pull repo from web
+mkdir -p "/root/data-host/__setup/"
+wget "https://github.com/dr-js/stash/archive/master.tar.gz" -O "/root/data-host/__setup/stash-master.tgz"
+tar -xf "/root/data-host/__setup/stash-master.tgz" --strip-components 1 -C "/root/data-host/__setup/"
+
+# copy to root & clear downloaded file
+cp -r "/root/data-host/__setup/server/data-host/"* "/root/data-host/"
+rm -rf "/root/data-host/__setup/"
+
+# search for "TODO: CONFIG HERE" & delete mark & and place in actual info
+if grep "TODO: CONFIG HERE" -rn "/root/data-host/"; then # sanity check
+  echo "should search & place in actual info where marked 'TODO: CONFIG HERE'"
+  exit 1
+fi
 
 # then do the setup
-. "/root/data-host/00-init/setup-host.sh"
+bash "/root/data-host/00-init/setup-host.sh"
 ```
 
 for client server:
@@ -64,11 +75,14 @@ mkdir -p "/root/data-client-init/"
 wget "https://github.com/dr-js/stash/raw/master/server/data-host/00-init/[init]common.sh" -O "/root/data-client-init/[init]common.sh"
 wget "https://github.com/dr-js/stash/raw/master/server/data-host/00-init/setup-client.sh" -O "/root/data-client-init/setup-client.sh"
 
-# search for "TODO: CONFIG HERE"
-grep "TODO: CONFIG HERE" -rn "/root/data-client-init/" # and place in actual info
+# search for "TODO: CONFIG HERE" & delete mark & and place in actual info
+if grep "TODO: CONFIG HERE" -rn "/root/data-client-init/"; then # sanity check
+  echo "should search & place in actual info where marked 'TODO: CONFIG HERE'"
+  exit 1
+fi
 
 # then do the setup
-. "/root/data-client-init/setup-client.sh"
+bash "/root/data-client-init/setup-client.sh"
 ```
 
 #### layered data directory

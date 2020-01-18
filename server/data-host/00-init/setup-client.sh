@@ -3,6 +3,7 @@ set -euo pipefail
 
 SCRIPT_PATH="$(dirname "$(realpath "${BASH_SOURCE[0]}")")" # Absolute directory path this script is in
 
+# common setup
 source "${SCRIPT_PATH}/[init]common.sh"
 
 # data-local
@@ -37,6 +38,7 @@ Host data-host
   IdentityFile "/root/.ssh/${NAME_DATA_LINK}.pri"
 EOM
 echo "==== should add to ${HOST_HOSTNAME} server authorized_keys ===="
+echo "# ${NAME_DATA_LINK}#${HOSTNAME}"
 sudo cat "/root/.ssh/${NAME_DATA_LINK}.pub"
 echo "==== should add to ${HOST_HOSTNAME} server authorized_keys ===="
 read -rsp $'[2] setup host SSH before continue...\n' -n1 # wait for manual setup
