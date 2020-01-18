@@ -14,6 +14,8 @@ edit `nano ~/D/init.sh` add:
 
 ```shell script
 #!/usr/bin/env bash
+set -e 
+set -o pipefail
 
 SCRIPT_PATH=$(dirname "${PWD}/${BASH_SOURCE[0]}") # Absolute path this script is in
 cd ${SCRIPT_PATH} # path reset

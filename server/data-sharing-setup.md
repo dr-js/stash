@@ -45,11 +45,14 @@ sample-gitignore/
 
 #### `data-host/` directory
 
-NOTE: search for `TODO: CONFIG HERE` to and place in actual info before deploy to server
+should be used as `/root/data-host/` on host server, sample setup:
+```shell script
+# first copy to 
+cp -r "./data-host/" "/root/data-host/"
 
-the full content for `/root/data-host/`
-
-
+# then search for "TODO: CONFIG HERE"
+grep "TODO: CONFIG HERE" -rn "/root/data-host/" # and place in actual info
+```
 
 #### layered data directory
 
