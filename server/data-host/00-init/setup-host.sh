@@ -4,7 +4,7 @@ set -euo pipefail
 SCRIPT_PATH="$(dirname "$(realpath "${BASH_SOURCE[0]}")")" # Absolute directory path this script is in
 
 # common setup
-source "${SCRIPT_PATH}/[init]common.sh"
+(source "${SCRIPT_PATH}/[init]common.sh")
 
 # data-host
 sudo mkdir -p "/root/data-host/"
@@ -23,4 +23,4 @@ sudo mkdir -p "/root/data-local/"
 )
 
 # data-link
-ln -sfT "./root/data-host" "/mnt/data-link" # symlink in place of remote-mount
+ln -sfT "/root/data-host" "/mnt/data-link" # symlink in place of remote-mount

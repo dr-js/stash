@@ -59,13 +59,10 @@ cp -r "/root/data-host/__setup/server/data-host/"* "/root/data-host/"
 rm -rf "/root/data-host/__setup/"
 
 # search for "TODO: CONFIG HERE" & delete mark & and place in actual info
-if grep "TODO: CONFIG HERE" -rn "/root/data-host/"; then # sanity check
-  echo "should search & place in actual info where marked 'TODO: CONFIG HERE'"
-  exit 1
+if grep "TODO: CONFIG HERE" -rn "/root/data-host/"
+then echo "should search & place in actual info where marked 'TODO: CONFIG HERE'" # sanity check
+else bash "/root/data-host/00-init/setup-host.sh" # do the setup
 fi
-
-# then do the setup
-bash "/root/data-host/00-init/setup-host.sh"
 ```
 
 for client server:
@@ -76,13 +73,10 @@ wget "https://github.com/dr-js/stash/raw/master/server/data-host/00-init/[init]c
 wget "https://github.com/dr-js/stash/raw/master/server/data-host/00-init/setup-client.sh" -O "/root/data-client-init/setup-client.sh"
 
 # search for "TODO: CONFIG HERE" & delete mark & and place in actual info
-if grep "TODO: CONFIG HERE" -rn "/root/data-client-init/"; then # sanity check
-  echo "should search & place in actual info where marked 'TODO: CONFIG HERE'"
-  exit 1
+if grep "TODO: CONFIG HERE" -rn "/root/data-client-init/"
+then echo "should search & place in actual info where marked 'TODO: CONFIG HERE'" # sanity check
+else bash "/root/data-client-init/setup-client.sh" # do the setup
 fi
-
-# then do the setup
-bash "/root/data-client-init/setup-client.sh"
 ```
 
 #### layered data directory

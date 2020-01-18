@@ -4,7 +4,7 @@ set -euo pipefail
 SCRIPT_PATH="$(dirname "$(realpath "${BASH_SOURCE[0]}")")" # Absolute directory path this script is in
 
 # common setup
-source "${SCRIPT_PATH}/[init]common.sh"
+(source "${SCRIPT_PATH}/[init]common.sh")
 
 # data-local
 sudo mkdir -p "/root/data-local/"

@@ -4,7 +4,7 @@ set -euo pipefail
 SCRIPT_PATH="$(dirname "$(realpath "${BASH_SOURCE[0]}")")" # Absolute directory path this script is in
 
 # setup
-source "${SCRIPT_PATH}/../gen-dh4096.sh"
+(source "${SCRIPT_PATH}/../[gen]dh4096.sh")
 sudo npm i -g "@dr-js/node@0.2.1-dev.4"
 
 # local

@@ -6,9 +6,9 @@ SCRIPT_PATH="$(dirname "$(realpath "${BASH_SOURCE[0]}")")" # Absolute directory 
 FILE_DH4096="${SCRIPT_PATH}/dh4096.pem"
 
 if [[ -f "${FILE_DH4096}" ]]; then
-  echo "[gen-dh4096] skip exist: ${FILE_DH4096}"
+  echo "[gen|dh4096] skip exist: ${FILE_DH4096}"
 else
-  echo "[gen-dh4096] generate: ${FILE_DH4096} (slow)"
+  echo "[gen|dh4096] generate: ${FILE_DH4096} (slow)"
   openssl dhparam \
     -out "${FILE_DH4096}" \
     -outform PEM \
