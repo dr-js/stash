@@ -23,7 +23,8 @@ sudo touch "/root/.ssh/config"
 sudo chmod 600 "/root/.ssh/config"
 
 # generate new ssh key
-HOST_HOSTNAME="$(cd "${SCRIPT_PATH}" && node -p "require('./client-config.json')['client-data-hostname']")"
+HOST_HOSTNAME="$(cd "${SCRIPT_PATH}" && node -p "require('./client-config.json')['client-ssh-hostname']")"
+HOST_PORT="$(cd "${SCRIPT_PATH}" && node -p "require('./client-config.json')['client-ssh-port']")"
 NAME_DATA_LINK="data-link-$(node -p "new Date().toISOString().replace(/\\W/g, '-')")"
 sudo ssh-keygen -t rsa -b 4096 -N "" \
   -f "/root/.ssh/${NAME_DATA_LINK}.pri" \
@@ -33,7 +34,7 @@ sudo tee -a "/root/.ssh/config" <<- EOM
 # data-host
 Host data-host
   HostName ${HOST_HOSTNAME}
-  Port 22
+  Port ${HOST_PORT}
   User root
   IdentityFile "/root/.ssh/${NAME_DATA_LINK}.pri"
 EOM
@@ -49,7 +50,7 @@ read -rsp $'[0] setup host SSH before continue...\n' -n1 # wait for manual setup
 sudo apt-get install sshfs -y
 sudo tee -a /etc/fstab <<- 'EOM'
 # /mnt/data-link/
-sshfs#root@data-host:/root/data-link/ /mnt/data-link/ fuse _netdev,user,auto_cache,reconnect,allow_other 0 0
+sshfs#root@data-host:/mnt/data-link/ /mnt/data-link/ fuse _netdev,user,auto_cache,reconnect,allow_other 0 0
 EOM
 sudo systemctl daemon-reload
 sudo mount -a

@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# SCRIPT_PATH="$(dirname "$(realpath "${BASH_SOURCE[0]}")")" # Absolute directory path this script is in
-
 # systemd
 sudo systemctl stop "dr-js.service" # stop server
 sudo systemctl disable "dr-js.service" # disable server
@@ -13,9 +11,6 @@ sudo rm "/lib/systemd/system/dr-js.service"
 #
 # # mnt
 # sudo rm -rf "/mnt/data-link/share/server/dr-js/"
-#
-# # link
-# sudo rm "${SCRIPT_PATH}/[link]root"
 #
 # # remove
 # sudo npm rm -g "@dr-js/js"

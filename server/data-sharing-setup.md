@@ -47,7 +47,7 @@ sample-gitignore/
 
 should be used as `/root/data-host/` on host server
 
-setup command for host server:
+`00-init/setup-host.sh` for host server:
 ```shell script
 # pull repo from web
 mkdir -p "/root/data-host/__setup/"
@@ -88,7 +88,7 @@ else bash "/root/data-host/00-init/setup-host.sh" # do the setup
 fi
 ```
 
-for client server:
+`00-init/setup-client.sh` for client server:
 ```shell script
 # pull init script from web
 mkdir -p "/root/data-client-init/"
@@ -101,8 +101,11 @@ if [[ -f "${FILE_CLIENT_CONFIG}" ]]; then echo "client config exist"
 else echo "create default client config"
   cat > "${FILE_CLIENT_CONFIG}" <<- 'EOM'
     {
-      "// client-data-hostname": "hostname or ip to the host server, for client server sshfs setup",
-      "client-data-hostname": "TODO: CONFIG HERE"
+      "// client-ssh-hostname": "hostname or ip to the host server, for client server sshfs setup",
+      "client-ssh-hostname": "TODO: CONFIG HERE",
+
+      "// client-ssh-prot": "for non-default ssh port",
+      "client-ssh-port": 22
     }
 EOM
 fi

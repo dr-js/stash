@@ -5,16 +5,14 @@ SCRIPT_PATH="$(dirname "$(realpath "${BASH_SOURCE[0]}")")" # Absolute directory 
 
 # setup
 (source "${SCRIPT_PATH}/../[server-https]common.sh")
-sudo npm i -g "@dr-js/run@0.1.3-dev.1"
+sudo npm i -g "@dr-js/run@0.1.3-dev.2"
 
 # local
 sudo mkdir -p "/root/data-local/server/dr-run/log/"
 sudo mkdir -p "/root/data-local/server/dr-run/temp/"
 
 # mnt
-sudo mkdir -p "/mnt/data-link/private/server/dr-run/file/"
-sudo mkdir -p "/mnt/data-link/public/server/dr-run/"
-sudo ln -sfT "/mnt/data-link/public/server/dr-run" "/mnt/data-link/private/server/dr-run/file/[PUBLIC]"
+sudo mkdir -p "/mnt/data-link/private/server/dr-run/"
 
 # systemd
 sudo tee "/lib/systemd/system/dr-run.service" <<- EOM
