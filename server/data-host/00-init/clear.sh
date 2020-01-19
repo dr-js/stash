@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# data-link
-sudo rm -rf "/mnt/data-link"
+cat <<- 'EOM'
+MANUAL DATA CLEAR WITH:
+  # clinet server
+  sudo umount "/mnt/data-link"
+  sudo rmdir "/mnt/data-link"
+  sudo rm -rf "/root/data-local/"
 
-# data-local
-sudo rm -rf "/root/data-local/"
-
-# data-host
-echo "
-MANUAL DATA CLEAR COMMAND:
-  sudo rm -rf /root/data-host/
-"
-
+  # host server
+  sudo rm "/mnt/data-link"
+  sudo rm -rf "/root/data-local/"
+  sudo rm -rf "/root/data-host/"
+EOM

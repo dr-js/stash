@@ -58,8 +58,31 @@ tar -xf "/root/data-host/__setup/stash-master.tgz" --strip-components 1 -C "/roo
 cp -r "/root/data-host/__setup/server/data-host/"* "/root/data-host/"
 rm -rf "/root/data-host/__setup/"
 
+# init host config
+FILE_HOST_CONFIG="/root/data-host/host-config.json"
+if [[ -f "${FILE_HOST_CONFIG}" ]]; then echo "host config exist"
+else echo "create default host config"
+  mkdir -p "/root/data-host/"
+  cat > "${FILE_HOST_CONFIG}" <<- 'EOM'
+    {
+      "// cert-letsencrypt-email": "email for cert renew",
+      "20-cert-letsencrypt-email": "TODO: CONFIG HERE",
+    
+      "// 51-shadowsocks-config": "default config for all server",
+      "51-shadowsocks-config": {
+        "server": "0.0.0.0",
+        "server_port": 12345,
+        "password": "TODO: CONFIG HERE",
+        "timeout": 1000,
+        "method": "bf-cfb",
+        "fast_open": true
+      }
+    }
+EOM
+fi
+
 # search for "TODO: CONFIG HERE" & delete mark & and place in actual info
-if grep "TODO: CONFIG HERE" -rn "/root/data-host/"
+if grep "TODO: CONFIG HERE" -n "${FILE_HOST_CONFIG}"
 then echo "should search & place in actual info where marked 'TODO: CONFIG HERE'" # sanity check
 else bash "/root/data-host/00-init/setup-host.sh" # do the setup
 fi
@@ -72,8 +95,20 @@ mkdir -p "/root/data-client-init/"
 wget "https://github.com/dr-js/stash/raw/master/server/data-host/00-init/[init]common.sh" -O "/root/data-client-init/[init]common.sh"
 wget "https://github.com/dr-js/stash/raw/master/server/data-host/00-init/setup-client.sh" -O "/root/data-client-init/setup-client.sh"
 
+# init client config
+FILE_CLIENT_CONFIG="/root/data-client-init/client-config.json"
+if [[ -f "${FILE_CLIENT_CONFIG}" ]]; then echo "client config exist"
+else echo "create default client config"
+  cat > "${FILE_CLIENT_CONFIG}" <<- 'EOM'
+    {
+      "// client-data-hostname": "hostname or ip to the host server, for client server sshfs setup",
+      "client-data-hostname": "TODO: CONFIG HERE"
+    }
+EOM
+fi
+
 # search for "TODO: CONFIG HERE" & delete mark & and place in actual info
-if grep "TODO: CONFIG HERE" -rn "/root/data-client-init/"
+if grep "TODO: CONFIG HERE" -n "${FILE_CLIENT_CONFIG}"
 then echo "should search & place in actual info where marked 'TODO: CONFIG HERE'" # sanity check
 else bash "/root/data-client-init/setup-client.sh" # do the setup
 fi

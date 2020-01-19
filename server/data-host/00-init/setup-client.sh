@@ -23,7 +23,7 @@ sudo touch "/root/.ssh/config"
 sudo chmod 600 "/root/.ssh/config"
 
 # generate new ssh key
-HOST_HOSTNAME="DATA-HOST.DOMAIN.HOSTNAME" # TODO: CONFIG HERE
+HOST_HOSTNAME="$(cd "${SCRIPT_PATH}" && node -p "require('./client-config.json')['client-data-hostname']")"
 NAME_DATA_LINK="data-link-$(node -p "new Date().toISOString().replace(/\\W/g, '-')")"
 sudo ssh-keygen -t rsa -b 4096 -N "" \
   -f "/root/.ssh/${NAME_DATA_LINK}.pri" \

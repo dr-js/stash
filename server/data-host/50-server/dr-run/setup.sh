@@ -4,7 +4,7 @@ set -euo pipefail
 SCRIPT_PATH="$(dirname "$(realpath "${BASH_SOURCE[0]}")")" # Absolute directory path this script is in
 
 # setup
-(source "${SCRIPT_PATH}/../[gen]dh4096.sh")
+(source "${SCRIPT_PATH}/../[server-https]common.sh")
 sudo npm i -g "@dr-js/run@0.1.3-dev.1"
 
 # local
@@ -15,10 +15,6 @@ sudo mkdir -p "/root/data-local/server/dr-run/temp/"
 sudo mkdir -p "/mnt/data-link/private/server/dr-run/file/"
 sudo mkdir -p "/mnt/data-link/public/server/dr-run/"
 sudo ln -sfT "/mnt/data-link/public/server/dr-run" "/mnt/data-link/private/server/dr-run/file/[PUBLIC]"
-
-# link
-sudo ln -sfT "/mnt/data-link/private/server/dr-run" "${SCRIPT_PATH}/[link]root"
-sudo ln -sfT "/root/data-local/server/dr-run/temp" "${SCRIPT_PATH}/[link]temp"
 
 # systemd
 sudo tee "/lib/systemd/system/dr-run.service" <<- EOM

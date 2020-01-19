@@ -1,27 +1,15 @@
 module.exports = {
-  host: '0.0.0.0:443',
-
   pidFile: '/root/data-local/server/dr-run/server.pid',
   logPath: '/root/data-local/server/dr-run/log/',
   logFilePrefix: '[dr-run]',
 
-  authFile: '/mnt/data-link/private/server/auth.key',
+  authFile: '/mnt/data-link/private/server/DATA_HOST.key',
 
-  rootPath: './[link]root/',
-  tempPath: './[link]temp/',
+  rootPath: '/mnt/data-link/private/server/dr-run/',
+  tempPath: '/root/data-local/server/dr-run/temp/',
 
+  host: '0.0.0.0:443',
   https: true,
-  TLSDhparam: '../dh4096.pem',
-  TLSSNIConfig: {
-    'default': {
-      key: '../[link]cert/DOMAIN.HOSTNAME/privkey.pem',
-      cert: '../[link]cert/DOMAIN.HOSTNAME/fullchain.pem',
-      chain: '../[link]cert/DOMAIN.HOSTNAME/chain.pem'
-    },
-    'DOMAIN.HOSTNAME': {
-      key: '../[link]cert/DOMAIN.HOSTNAME/privkey.pem',
-      cert: '../[link]cert/DOMAIN.HOSTNAME/fullchain.pem',
-      chain: '../[link]cert/DOMAIN.HOSTNAME/chain.pem'
-    }
-  }
+  TLSDhparam: '/mnt/data-link/private/server/dh4096.pem',
+  TLSSNIConfig: require('../[server-https]TLSSNIConfig')
 }

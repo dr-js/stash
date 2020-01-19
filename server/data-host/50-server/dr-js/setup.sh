@@ -12,9 +12,6 @@ sudo mkdir -p "/root/data-local/server/dr-js/log/"
 # mnt
 sudo mkdir -p "/mnt/data-link/share/server/dr-js/"
 
-# link
-sudo ln -sfT "/mnt/data-link/share/server/dr-js" "${SCRIPT_PATH}/[link]root"
-
 # systemd
 sudo tee "/lib/systemd/system/dr-js.service" <<- EOM
 [Unit]

@@ -1,5 +1,6 @@
 module.exports = {
   serverServeStatic: true,
-  host: '0.0.0.0:80',
-  root: './[link]root/'
+  root: '/mnt/data-link/share/server/dr-js/',
+
+  host: '0.0.0.0:80'
 }

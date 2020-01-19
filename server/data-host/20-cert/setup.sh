@@ -14,12 +14,33 @@ sudo apt-get install certbot -y \
   -o Dpkg::Options::="--path-exclude=/lib/systemd/system/*"
 
 # setup config
-rm -rf "/etc/letsencrypt"
-mkdir "/etc/letsencrypt"
-cp "${SCRIPT_PATH}/letsencrypt/cli.ini" "/etc/letsencrypt/cli.ini"
+sudo rm -rf "/etc/letsencrypt"
+sudo mkdir "/etc/letsencrypt"
+sudo tee "/etc/letsencrypt/cli.ini" <<- EOM
+# Because we are using logrotate for greater flexibility, disable the internal certbot logrotation.
+max-log-backups = 0
+
+# [EXTEND CONFIG] check: https://certbot.eff.org/docs/using.html#configuration-file
+# All flags used by the client can be configured here. Run Certbot with "--help" to learn more about the available options.
+# Note that these options apply automatically to all use of Certbot for obtaining or renewing certificates,
+# so options specific to a single certificate on a system with several certificates should not be placed here.
+
+config-dir = /mnt/data-link/private/cert/letsencrypt/
+
+# Use a 4096 bit RSA key instead of 2048
+rsa-key-size = 4096
+
+# Register with the specified e-mail address
+# register-unsafely-without-email = True
+email = $(node -p "require('/mnt/data-link/host-config.json')['20-cert-letsencrypt-email']")
+eff-email = False
+
+# Use the standalone authenticator (on port 80)
+authenticator = standalone
+EOM
 
 # output
-mkdir -p "/mnt/data-link/private/cert/letsencrypt/"
+sudo mkdir -p "/mnt/data-link/private/cert/letsencrypt/"
 
 echo "
 # to request a new cert for a domain:

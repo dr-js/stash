@@ -7,16 +7,7 @@ sudo apt update
 sudo apt install shadowsocks-libev
 
 # config
-sudo tee "/etc/shadowsocks-libev/config.json" <<- EOM
-{
-  "server":"0.0.0.0",
-  "server_port": 12345,
-  "password": "TODO: CONFIG HERE",
-  "timeout": 1000,
-  "method": "bf-cfb",
-  "fast_open": true
-}
-EOM
+node -p "JSON.stringify(require('/mnt/data-link/host-config.json')['51-shadowsocks-config'], null, 2)" | sudo tee "/etc/shadowsocks-libev/config.json"
 
 # systemd
 sudo systemctl restart shadowsocks-libev.service # apply config
