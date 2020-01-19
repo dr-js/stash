@@ -11,5 +11,7 @@ module.exports = {
   host: '0.0.0.0:443',
   https: true,
   TLSDhparam: '/mnt/data-link/private/server/dh4096.pem',
-  TLSSNIConfig: require('../[server-https]TLSSNIConfig')
+  TLSSNIConfig: require('../[server-https]TLSSNIConfig'),
+
+  ...require('/mnt/data-link/host-config.json')[ '50-server-dr-run' ] // allow overwrite
 }

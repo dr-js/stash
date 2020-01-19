@@ -4,6 +4,9 @@ module.exports = {
   logFilePrefix: '[dr-node]',
 
   authFile: '/mnt/data-link/private/server/DATA_HOST.key',
+  // authFileGroupPath: '/mnt/data-link/private/server/auth/',
+  // authFileGroupKeySuffix: '.key',
+  // authFileGroupDefaultTag: 'DATA_HOST',
   permissionType: 'allow',
   // permissionFile: './permission.config.js',
 
@@ -14,5 +17,7 @@ module.exports = {
   host: '0.0.0.0:443',
   https: true,
   TLSDhparam: '/mnt/data-link/private/server/dh4096.pem',
-  TLSSNIConfig: require('../[server-https]TLSSNIConfig')
+  TLSSNIConfig: require('../[server-https]TLSSNIConfig'),
+
+  ...require('/mnt/data-link/host-config.json')[ '50-server-dr-node' ] // allow overwrite
 }

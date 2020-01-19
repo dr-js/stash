@@ -9,7 +9,7 @@ there's 3 type of data directory:
 - `/root/data-host/`: only on host server, the source of `/mnt/data-link/`
 - `/mnt/data-link/`: symlink(host) or remote-mount(client) link to `/root/data-host/`
 
-the sample base structure:
+## sample base structure
 ```
 $ tar -xf sample.tar
 $ tree sample-gitignore/
@@ -43,19 +43,23 @@ sample-gitignore/
           └── share -> private/public/share
 ```
 
-#### `data-host/` directory
+## `./data-host/` directory
 
-should be used as `/root/data-host/` on host server
+will be `/root/data-host/` on host server,
+the file start with `00-99` will get reset during host setup,
+so keep config in `/root/data-host/host-config.json`,
+and keep data in `/root/data-host/private` (including `public|share`)
 
-`00-init/setup-host.sh` for host server:
+#### `00-init/setup-host.sh` for host server
 ```shell script
 # pull repo from web
 mkdir -p "/root/data-host/__setup/"
 wget "https://github.com/dr-js/stash/archive/master.tar.gz" -O "/root/data-host/__setup/stash-master.tgz"
 tar -xf "/root/data-host/__setup/stash-master.tgz" --strip-components 1 -C "/root/data-host/__setup/"
 
-# copy to root & clear downloaded file
-cp -r "/root/data-host/__setup/server/data-host/"* "/root/data-host/"
+# update to root & clear downloaded file
+rm -rf "/root/data-host/"[0-9]*
+cp -r "/root/data-host/__setup/server/data-host/"[0-9]* "/root/data-host/"
 rm -rf "/root/data-host/__setup/"
 
 # init host config
@@ -65,9 +69,16 @@ else echo "create default host config"
   mkdir -p "/root/data-host/"
   cat > "${FILE_HOST_CONFIG}" <<- 'EOM'
     {
-      "// cert-letsencrypt-email": "email for cert renew",
+      "// host config": "should keep this file updated, will be used in both host client server",
+
+      "// 20-cert-letsencrypt-email": "email for cert renew",
       "20-cert-letsencrypt-email": "TODO: CONFIG HERE",
-    
+
+      "// 50-server-*": "optional config overide, avoid use relative path",
+      "50-server-dr-js": {},
+      "50-server-dr-node": {},
+      "50-server-dr-run": {},
+
       "// 51-shadowsocks-config": "default config for all server",
       "51-shadowsocks-config": {
         "server": "0.0.0.0",
@@ -88,7 +99,7 @@ else bash "/root/data-host/00-init/setup-host.sh" # do the setup
 fi
 ```
 
-`00-init/setup-client.sh` for client server:
+#### `00-init/setup-client.sh` for client server
 ```shell script
 # pull init script from web
 mkdir -p "/root/data-client-init/"
@@ -101,6 +112,8 @@ if [[ -f "${FILE_CLIENT_CONFIG}" ]]; then echo "client config exist"
 else echo "create default client config"
   cat > "${FILE_CLIENT_CONFIG}" <<- 'EOM'
     {
+      "// client config": "one-time config file, for connecting to host server",
+
       "// client-ssh-hostname": "hostname or ip to the host server, for client server sshfs setup",
       "client-ssh-hostname": "TODO: CONFIG HERE",
 
@@ -117,7 +130,7 @@ else bash "/root/data-client-init/setup-client.sh" # do the setup
 fi
 ```
 
-#### layered data directory
+## layered data directory
 
 for a clear data access directory structure, consider using a 3-layered structure `./private/public/share/`:
 - `private/`: not public accessible, auth required
