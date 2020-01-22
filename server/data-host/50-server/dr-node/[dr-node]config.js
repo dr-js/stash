@@ -15,7 +15,6 @@ module.exports = {
   // taskRunnerRootPath: './[link]task/'
 
   host: '0.0.0.0:443',
-  https: true,
   TLSDhparam: '/mnt/data-link/private/server/dh4096.pem',
   TLSSNIConfig: require('../[server-https]TLSSNIConfig'),
 
