@@ -8,7 +8,7 @@ install `shadowsocks-libev`:
     for Debian 8 or higher / Ubuntu 16.10 or higher:
     ```shell script
     sudo apt update
-    sudo apt install shadowsocks-libev
+    sudo apt install shadowsocks-libev -y
     ```
 
 
@@ -39,7 +39,7 @@ sudo systemctl status shadowsocks-libev.service # check status
 get `privoxy` for convert http/https to sock5
 
 ```shell script
-sudo apt install privoxy
+sudo apt install privoxy -y
 ```
 
 edit `sudo nano /etc/privoxy/config` to convert `shadowsocks`, add:

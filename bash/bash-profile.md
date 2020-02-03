@@ -89,7 +89,7 @@ alias GT=git-trace
 # =============================
 # apt aliases (A*)
 alias apt-list-installed='sudo apt list --installed'
-alias apt-update='sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y --purge'
+alias apt-update='sudo apt update && sudo apt upgrade -y && sudo apt autoremove --purge -y'
 alias apt-install='sudo apt install'
 alias apt-remove='sudo apt autoremove --purge'
 

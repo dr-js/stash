@@ -33,7 +33,7 @@ sudo sshfs -o allow_other,IdentityFile=/path/to/ssh/KEY.pri USER@HOSTNAME_OR_IP:
 
 basic setup, edited from: https://www.digitalocean.com/community/tutorials/how-to-use-sshfs-to-mount-remote-file-systems-over-ssh
 ```shell script
-sudo apt-get install sshfs -y
+sudo apt install sshfs -y
 sudo mkdir -p /mnt/SSHFS_SOURCE
 sudo nano /etc/fstab
 ## ADD IN EDITOR

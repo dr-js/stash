@@ -5,11 +5,11 @@ SCRIPT_PATH="$(dirname "$(realpath "${BASH_SOURCE[0]}")")" # Absolute directory 
 
 # install
 # check: https://certbot.eff.org/lets-encrypt/ubuntubionic-other
-sudo apt-get install software-properties-common -y
+sudo apt install software-properties-common -y
 sudo add-apt-repository ppa:certbot/certbot -y
-sudo apt-get update
+sudo apt update
 # stop the auto renew timer, or the triggered multi-write may break shared folder
-sudo apt-get install certbot -y \
+sudo apt install certbot -y \
   -o Dpkg::Options::="--path-exclude=/etc/cron*/*" \
   -o Dpkg::Options::="--path-exclude=/lib/systemd/system/*"
 

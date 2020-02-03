@@ -3,7 +3,7 @@
 
 should be pre-installed, check for command `ssh` and `sshd`, or install with:
 ```shell script
-sudo apt install openssh-client openssh-server
+sudo apt install openssh-client openssh-server -y
 sudo systemctl enable sshd.service # enable server
 sudo systemctl status sshd.service # check status
 ```

@@ -47,7 +47,7 @@ read -rsp $'[1] setup host SSH before continue...\n' -n1 # wait for manual setup
 read -rsp $'[0] setup host SSH before continue...\n' -n1 # wait for manual setup
 
 # sshfs
-sudo apt-get install sshfs -y
+sudo apt install sshfs -y
 sudo tee -a /etc/fstab <<- 'EOM'
 # /mnt/data-link/
 sshfs#root@data-host:/mnt/data-link/ /mnt/data-link/ fuse _netdev,user,auto_cache,reconnect,allow_other 0 0

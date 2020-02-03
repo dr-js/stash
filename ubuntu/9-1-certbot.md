@@ -3,11 +3,11 @@
 check: https://certbot.eff.org/
 
 ```shell script
-sudo apt-get install software-properties-common -y
+sudo apt install software-properties-common -y
 sudo add-apt-repository ppa:certbot/certbot
-sudo apt-get update
+sudo apt update
 # do not want the auto renew timer, this may casue multi-write to break shared cert folder
-sudo apt-get install certbot -y \
+sudo apt install certbot -y \
   -o Dpkg::Options::="--path-exclude=/etc/cron*/*" \
   -o Dpkg::Options::="--path-exclude=/lib/systemd/system/*"
 
