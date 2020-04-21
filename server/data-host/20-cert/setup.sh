@@ -53,4 +53,16 @@ sudo certbot renew --dry-run                      # or use this for cert check
 # to request cert renew: (auto renew is disabled above)
 sudo certbot renew                                # renew all cert
 sudo certbot renew --cert-name DOMAIN.NAME.HERE   # renew single cert
+
+# sample cert renew script:
+(
+  sudo systemctl stop dr-js.service               # free :80 port
+
+  sudo certbot renew --cert-name DOMAIN.NAME.HERE
+  sudo certbot renew --cert-name DOMAIN.NAME.HERE
+
+  sudo systemctl start dr-js.service              # restore service
+  sudo systemctl restart dr-node.service          # reload cert
+  sudo systemctl restart dr-run.service           # reload cert
+)
 "

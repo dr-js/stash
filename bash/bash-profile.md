@@ -12,7 +12,7 @@ else to `~/.bash_profile` or `~/.profile`
 ```shell script
 # =============================
 # mark version
-alias bash-aliase-version='echo 0.1.1'
+alias bash-aliase-version='echo 0.1.2'
 
 # =============================
 # ls aliases (l*)
@@ -145,6 +145,8 @@ alias npm-install-prefer-offline='npm i --prefer-offline'
 alias npm-install-host-puppeteer='PUPPETEER_DOWNLOAD_HOST=https://npm.taobao.org/mirrors npm i'
 alias npm-outdated='npm out'
 alias npm-dedup-install='npm ddp && npm i --prefer-offline'
+alias npm-audit='npm audit'
+alias npm-audit-fix='npm audit fix'
 
 alias NLSG=npm-list-global
 alias NI=npm-install
@@ -153,6 +155,8 @@ alias NIO=npm-install-prefer-offline
 alias NIHP=npm-install-host-puppeteer
 alias NO=npm-outdated
 alias NDI=npm-dedup-install
+alias NA=npm-audit
+alias NAF=npm-audit-fix
 
 # =============================
 # screen aliases (S*)
@@ -167,6 +171,16 @@ alias SL=screen-list
 function nano-reset { (echo "" > $1) ; nano $1 ; } # $1=file-to-reset-and-edit
 
 alias NNR=nano-reset
+
+# =============================
+# @dr-js aliases (D*)
+alias dr-js-install-all='npm i @dr-js/core @dr-js/node @dr-js/dev'
+alias dr-js-install-all-dev='npm i @dr-js/core@dev @dr-js/node@dev @dr-js/dev@dev'
+alias dr-js-package-reset='dr-js --rm package-lock.json node_modules'
+
+alias DIA=dr-js-install-all
+alias DIAD=dr-js-install-all-dev
+alias DPR=dr-js-package-reset
 
 # =============================
 # quick path alias (C*)
