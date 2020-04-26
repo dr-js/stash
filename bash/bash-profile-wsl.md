@@ -20,11 +20,26 @@ function exec-new-terminal {
   cmd.exe /c start bash -ilc "$COMMAND"
 }
 alias ENT=exec-new-terminal
-```
 
-```shell script
 # =============================
 # screen WSL fix, check "https://github.com/Microsoft/WSL/issues/1245"
 export SCREEN_DIR="${HOME}/.screen"
 test -d "${SCREEN_DIR}" || mkdir -p -m 700 "${SCREEN_DIR}"
+```
+
+## one time fix
+
+```shell script
+# =============================
+# fix wsl file permission always reset from win32 fs (too much 777)
+# https://devblogs.microsoft.com/commandline/chmod-chown-wsl-improvements/
+# https://www.turek.dev/post/fix-wsl-file-permissions/
+# https://docs.microsoft.com/en-us/windows/wsl/wsl-config
+sudo tee > /etc/wsl.conf <<- 'EOM'
+[automount]
+enabled = true
+root = /mnt/
+options = "metadata,umask=22,fmask=11"
+mountFsTab = false
+EOM
 ```

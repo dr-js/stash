@@ -32,8 +32,8 @@ change apt mirror `sudo nano /etc/apt/sources.list` to a closer server:
 - check: https://wiki.ubuntu.com/Mirrors
 - check mirror list: https://launchpad.net/ubuntu/+archivemirrors
 - setup apt proxy: `sudo nano /etc/apt/apt.conf.d/70debconf`, add:
-  ```shell script
-  # use local http proxy
+  ```
+  // use local http proxy
   Acquire::http::Proxy "http://127.0.0.1:1080/";
   ```
 

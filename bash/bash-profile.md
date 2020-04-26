@@ -12,7 +12,7 @@ else to `~/.bash_profile` or `~/.profile`
 ```shell script
 # =============================
 # mark version
-alias bash-aliase-version='echo 0.1.2'
+alias bash-aliase-version='echo 0.1.3'
 
 # =============================
 # ls aliases (l*)
@@ -174,12 +174,12 @@ alias NNR=nano-reset
 
 # =============================
 # @dr-js aliases (D*)
-alias dr-js-install-all='npm i @dr-js/core @dr-js/node @dr-js/dev'
-alias dr-js-install-all-dev='npm i @dr-js/core@dev @dr-js/node@dev @dr-js/dev@dev'
+alias dr-js-npm-install-global-all='npm i -g @dr-js/core @dr-js/node @dr-js/dev'
+alias dr-js-npm-install-global-all-dev='npm i -g @dr-js/core@dev @dr-js/node@dev @dr-js/dev@dev'
 alias dr-js-package-reset='dr-js --rm package-lock.json node_modules'
 
-alias DIA=dr-js-install-all
-alias DIAD=dr-js-install-all-dev
+alias DNIGA=dr-js-npm-install-global-all
+alias DNIGAD=dr-js-npm-install-global-all-dev
 alias DPR=dr-js-package-reset
 
 # =============================
