@@ -8,6 +8,8 @@ module.exports = {
   rootPath: '/mnt/data-link/private/server/dr-run/',
   tempPath: '/root/data-local/server/dr-run/temp/',
 
+  // websocketTunnelHost: '127.0.0.1:1080',
+
   host: '0.0.0.0:443',
   TLSDhparam: '/mnt/data-link/private/server/dh4096.pem',
   TLSSNIConfig: require('../[server-https]TLSSNIConfig'),
