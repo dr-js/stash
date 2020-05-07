@@ -2,7 +2,7 @@
 
 here assume we have: (replace with actual port)
 - HTTP proxy at: `127.0.0.1:00_HTTP_PORT_00`
-- SOCK5 proxy at: `127.0.0.1:00_SOCK5_PORT_00`
+- SOCKS5 proxy at: `127.0.0.1:00_SOCKS5_PORT_00`
 
 
 #### ssh
@@ -21,13 +21,13 @@ for socks5 proxy: (check: https://unix.stackexchange.com/questions/416010/ssh-th
     ```
     Host github.com
       IdentityFile ~/.ssh/github_rsa
-      ProxyCommand connect -S 127.0.0.1:00_SOCK5_PORT_00 %h %p
+      ProxyCommand connect -S 127.0.0.1:00_SOCKS5_PORT_00 %h %p
     ```
 - or with `nc`:
     ```
     Host github.com
       IdentityFile ~/.ssh/github_rsa
-      ProxyCommand nc -X 5 -x 127.0.0.1:00_SOCK5_PORT_00 %h %p
+      ProxyCommand nc -X 5 -x 127.0.0.1:00_SOCKS5_PORT_00 %h %p
     ```
 
 
@@ -36,9 +36,9 @@ for socks5 proxy: (check: https://unix.stackexchange.com/questions/416010/ssh-th
 `nano ~/.gitconfig` add:
 ```
 [http]
-	proxy = socks5://127.0.0.1:00_SOCK5_PORT_00
+	proxy = socks5://127.0.0.1:00_SOCKS5_PORT_00
 [https]
-	proxy = socks5://127.0.0.1:00_SOCK5_PORT_00
+	proxy = socks5://127.0.0.1:00_SOCKS5_PORT_00
 ```
 some bonus:
 ```

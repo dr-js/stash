@@ -36,7 +36,7 @@ sudo systemctl status shadowsocks-libev.service # check status
 
 #### `shadowsocks` local
 
-get `privoxy` for convert http/https to sock5
+get `privoxy` for convert http/https to socks5
 
 ```shell script
 sudo apt install privoxy -y

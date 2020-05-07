@@ -12,7 +12,6 @@ module.exports = {
 
   explorerRootPath: '/mnt/data-link/private/server/dr-node/',
   explorerUploadMergePath: '/root/data-local/server/dr-node/temp/',
-  // taskRunnerRootPath: './[link]task/'
 
   host: '0.0.0.0:443',
   TLSDhparam: '/mnt/data-link/private/server/dh4096.pem',

@@ -62,6 +62,8 @@ rm -rf "/root/data-host/"[0-9]*
 cp -r "/root/data-host/__setup/server/data-host/"[0-9]* "/root/data-host/"
 rm -rf "/root/data-host/__setup/"
 
+# TODO: NOTE: up till now should be enough to update file to latest, and the existing config will stay the same
+
 # init host config
 FILE_HOST_CONFIG="/root/data-host/host-config.json"
 if [[ -f "${FILE_HOST_CONFIG}" ]]; then echo "host config exist"

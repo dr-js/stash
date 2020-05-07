@@ -1,18 +1,13 @@
-# Bash profile
+# setup with:
+#   (echo "" > ~/.bash_aliases_extend) && nano ~/.bash_aliases_extend # reset the file and open for edit
+# then add to `~/.bashrc`: (default ubuntu `.bashrc` may be found at `/etc/skel/.bashrc`)
+#   [[ -f ~/.bash_aliases_extend ]] && . ~/.bash_aliases_extend
 
-add to `~/.bash_aliases` (recommended),
-else to `~/.bash_profile` or `~/.profile`
-
-```shell script
-(echo "" > ~/.bash_aliases) && nano ~/.bash_aliases # reset the file and open for edit
-```
-
-###### default ubuntu `.bashrc` may be found at `/etc/skel/.bashrc`
-
-```shell script
 # =============================
 # mark version
-alias bash-aliase-version='echo 0.1.3'
+alias bash-aliases-extend-version='echo 0.1.4'
+
+alias BAEV=bash-aliases-extend-version
 
 # =============================
 # ls aliases (l*)
@@ -143,6 +138,7 @@ alias npm-install='npm i'
 alias npm-install-global='sudo npm i -g'
 alias npm-install-prefer-offline='npm i --prefer-offline'
 alias npm-install-host-puppeteer='PUPPETEER_DOWNLOAD_HOST=https://npm.taobao.org/mirrors npm i'
+alias npm-install-package-lock-only='npm i --package-lock-only'
 alias npm-outdated='npm out'
 alias npm-dedup-install='npm ddp && npm i --prefer-offline'
 alias npm-audit='npm audit'
@@ -153,6 +149,7 @@ alias NI=npm-install
 alias NIG=npm-install-global
 alias NIO=npm-install-prefer-offline
 alias NIHP=npm-install-host-puppeteer
+alias NIPLO=npm-install-package-lock-only
 alias NO=npm-outdated
 alias NDI=npm-dedup-install
 alias NA=npm-audit
@@ -168,7 +165,7 @@ alias SL=screen-list
 
 # =============================
 # nano aliases (NN*)
-function nano-reset { (echo "" > $1) ; nano $1 ; } # $1=file-to-reset-and-edit
+function nano-reset { (echo "" > "$1") ; nano "$1" ; } # $1=file-to-reset-and-edit
 
 alias NNR=nano-reset
 
@@ -208,10 +205,10 @@ alias CSS=cd-shadowsocks
 # =============================
 # proxy alias (P*)
 # (ALL_PROXY is for git)
-PROXY_SOCK5="socks5://127.0.0.1:1080"
+PROXY_SOCKS5="socks5://127.0.0.1:1080"
 PROXY_HTTP="http://127.0.0.1:1080"
 
-# PROXY_SOCK5="socks5://127.0.0.1:8118" # with privoxy
+# PROXY_SOCKS5="socks5://127.0.0.1:8118" # with privoxy
 # PROXY_HTTP="http://127.0.0.1:8118" # with privoxy
 
 alias proxy-on="export
@@ -219,7 +216,7 @@ alias proxy-on="export
   https_proxy=${PROXY_HTTP}/
   HTTP_PROXY=${PROXY_HTTP}/
   HTTPS_PROXY=${PROXY_HTTP}/
-  ALL_PROXY=${PROXY_SOCK5}/
+  ALL_PROXY=${PROXY_SOCKS5}/
 "
 alias proxy-off="unset
   http_proxy
@@ -233,10 +230,9 @@ alias proxy-once="
   https_proxy=${PROXY_HTTP}/
   HTTP_PROXY=${PROXY_HTTP}/
   HTTPS_PROXY=${PROXY_HTTP}/
-  ALL_PROXY=${PROXY_SOCK5}/
+  ALL_PROXY=${PROXY_SOCKS5}/
 "
 
 alias PON=proxy-on
 alias POFF=proxy-off
 alias P1=proxy-once
-```

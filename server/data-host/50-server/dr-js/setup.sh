@@ -4,7 +4,7 @@ set -euo pipefail
 SCRIPT_PATH="$(dirname "$(realpath "${BASH_SOURCE[0]}")")" # Absolute directory path this script is in
 
 # setup
-sudo npm i -g "@dr-js/core@0.3.0-dev.1"
+sudo npm i -g "@dr-js/core@0.3.0-dev.11"
 
 # local
 sudo mkdir -p "/root/data-local/server/dr-js/log/"
