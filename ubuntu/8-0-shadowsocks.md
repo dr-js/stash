@@ -11,6 +11,7 @@ install `shadowsocks-libev`:
     sudo apt install shadowsocks-libev -y
     ```
 
+check manual for config: `man shadowsocks-libev`
 
 #### `shadowsocks` server
 
@@ -22,19 +23,41 @@ config `sudo nano /etc/shadowsocks-libev/config.json` add:
   "password": "123456",
   "timeout": 1000,
   "method": "bf-cfb",
-  "fast_open": true
+  "fast_open": true,
+  "mode": "tcp_and_udp"
 }
 ```
 
-enable server service: 
+enable server service: (should auto started after install)
 ```shell script
 sudo systemctl enable shadowsocks-libev.service # enable server
 sudo systemctl restart shadowsocks-libev.service # apply config
 sudo systemctl status shadowsocks-libev.service # check status
 ```
 
-
 #### `shadowsocks` local
+
+config `sudo nano /etc/shadowsocks-libev/local-config.json` add:
+```json
+{
+  "local_address": "127.0.0.1",
+  "local_port": 1080,
+  "server":"999.999.999.999",
+  "server_port": 12345,
+  "password": "123456",
+  "timeout": 1000,
+  "method": "bf-cfb",
+  "fast_open": true,
+  "mode": "tcp_and_udp"
+}
+```
+
+enable server service: 
+```shell script
+sudo systemctl enable shadowsocks-libev-local@local-config.service # enable server
+sudo systemctl restart shadowsocks-libev-local@local-config.service # apply config
+sudo systemctl status shadowsocks-libev-local@local-config.service # check status
+```
 
 get `privoxy` for convert http/https to socks5
 
@@ -44,8 +67,8 @@ sudo apt install privoxy -y
 
 edit `sudo nano /etc/privoxy/config` to convert `shadowsocks`, add:
 ```shell script
-# listen-address 127.0.0.1:8118 # should already have this line
-forward-socks5 / 127.0.0.1:1080 .
+# listen-address 127.0.0.1:8118 # should already have this line, change to 0.0.0.0:8118 to allow LAN proxy connection
+forward-socks5 / 127.0.0.1:1080 . # forward and change protocol to socks5 for shadowsocks
 ```
 
 apply config:
