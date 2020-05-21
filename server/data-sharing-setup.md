@@ -76,19 +76,21 @@ else echo "create default host config"
       "// 20-cert-letsencrypt-email": "email for cert renew",
       "20-cert-letsencrypt-email": "TODO: CONFIG HERE",
 
-      "// 50-server-*": "optional config overide, avoid use relative path",
+      "// 50-server-*": "optional config overwrite, avoid use relative path",
       "50-server-dr-js": {},
       "50-server-dr-node": {},
       "50-server-dr-run": {},
 
       "// 51-shadowsocks-config": "default config for all server",
       "51-shadowsocks-config": {
-        "server": "0.0.0.0",
+        "server": [ "::", "0.0.0.0" ],
         "server_port": 12345,
         "password": "TODO: CONFIG HERE",
+        "method": "chacha20-ietf-poly1305",
+        "mode": "tcp_and_udp",
         "timeout": 1000,
-        "method": "bf-cfb",
-        "fast_open": true
+        "fast_open": true,
+        "acl": "/etc/shadowsocks-libev/server_block_local.acl"
       }
     }
 EOM
