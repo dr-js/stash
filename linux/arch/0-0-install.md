@@ -111,7 +111,7 @@ make sure to pull 2~4 of the nearest mirror up from the list,
 so later the pacman package download will be faster.
 
 Next in the `Install essential packages` section,
-I use `pacstrap /mnt base linux linux-firmware networkmanager htop wget`,
+I use `pacstrap /mnt base linux linux-firmware networkmanager sudo htop wget`,
 since `networkmanager` includes the lazy `wpa_supplicant + systemd-networkd` WI-FI combo.
 Later you can still `pacman -S` all the package ypu need after setting up the Wi-Fi.
 
@@ -129,7 +129,7 @@ I got a stuck on a text screen for about 1 minute,
 this may be some initial configuration, and not happen again.
 
 After that:
-- `pacman -S sudo openssh screen nodejs npm ...`
-- add `.bashrc` and alias
+- `pacman -S bash-completion man-db which screen openssh git p7zip ...`
 - add a normal user with `sudo`: https://wiki.archlinux.org/index.php/General_recommendations#Users_and_groups
 - setup SSH server: https://wiki.archlinux.org/index.php/OpenSSH
+- add `.bashrc` and alias

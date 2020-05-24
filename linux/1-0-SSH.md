@@ -3,9 +3,8 @@
 
 should be pre-installed, check for command `ssh` and `sshd`, or install with:
 ```shell script
-sudo apt install openssh-client openssh-server -y
-sudo systemctl enable sshd.service # enable server
-sudo systemctl status sshd.service # check status
+sudo pacman -S openssh --noconfirm # arch
+sudo apt install openssh-client openssh-server -y # ubuntu
 ```
 
 
@@ -44,19 +43,14 @@ PermitEmptyPasswords no
 PasswordAuthentication no   # no password login
 ```
 
-check network config:
-```shell script
-cat /etc/netplan/*
-cat /etc/network/interfaces
-cat /etc/resolv.conf
-```
-
 disable ubuntu MOTD:
 ```shell script
 grep motd /etc/pam.d/* # then comment out all lines
 ```
 
-reload `sshd` to apply config:
+start/reload `sshd` to apply config:
 ```shell script
-sudo systemctl reload sshd
+sudo systemctl enable sshd.service # enable server
+sudo systemctl restart sshd.service # apply config
+sudo systemctl status sshd.service # check status
 ```

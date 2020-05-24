@@ -8,14 +8,23 @@ systemctl list-unit-files --type=service --state=enabled,generated
 
 # check service/unit log:
 journalctl -u SERVICE-NAME.service
+
+# check network config: (mainly DNS, test and set to faster DNS for better web surf experience)
+cat /etc/systemd/resolved.conf
+cat /etc/systemd/resolved.conf.d/*
+cat /etc/netplan/*
+cat /etc/network/interfaces
+cat /etc/resolv.conf
+sudo systemd-resolve --status
 ```
 
 content for `sample-server.service`: (should put under: `/lib/systemd/system/`)
 ```ini
 [Unit]
-Description="SAMPLE SERVICE FILE"
+Description="SAMPLE SERVER SERVICE FILE"
 After=network.target
 StartLimitIntervalSec=0
+
 [Service]
 Type=simple
 Restart=always

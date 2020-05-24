@@ -1,4 +1,4 @@
-# setup proxy
+# common proxy config
 
 here assume we have: (replace with actual port)
 - HTTP proxy at: `127.0.0.1:00_HTTP_PORT_00`
@@ -48,26 +48,49 @@ some bonus:
 ```
 
 
-#### npm
+#### `npm`
 
 `nano ~/.npmrc` add:
 ```
-proxy=http://127.0.0.1:00_HTTP_PORT_00/
-https-proxy=http://127.0.0.1:00_HTTP_PORT_00/
+noproxy=127.0.0.1,localhost # exclude localhost
+proxy=http://127.0.0.1:00_HTTP_PORT_00 # for http
+https-proxy=http://127.0.0.1:00_HTTP_PORT_00 # for https
 ```
 some bonus:
 ```
+update-notifier=false # not spawn sneaky update check process
 fetch-retries=5
 fetch-retry-mintimeout=4000
 fetch-retry-maxtimeout=8000
-update-notifier=false
 ```
 
 
-#### apt
+#### `docker`
+
+for docker daemon (`dockerd`):
+`sudo mkdir -p /etc/systemd/system/docker.service.d && sudo nano /etc/systemd/system/docker.service.d/http-proxy.conf`
+and add:
+```
+# use local http proxy
+# check: https://docs.docker.com/config/daemon/systemd/#httphttps-proxy
+[Service]
+Environment="HTTP_PROXY=http://127.0.0.1:00_HTTP_PORT_00"
+```
+then to apply:
+```shell script
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+```
+
+for docker container:
+check: https://docs.docker.com/network/proxy/#configure-the-docker-client
+and edit `~/.docker/config.json`
+
+
+#### `apt` (ubuntu)
 
 `sudo nano /etc/apt/apt.conf.d/70debconf` add:
 ```
 # use local http proxy
-Acquire::http::Proxy "http://127.0.0.1:00_HTTP_PORT_00/";
+Acquire::http::Proxy "http://127.0.0.1:00_HTTP_PORT_00";
 ```

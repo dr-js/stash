@@ -1,6 +1,6 @@
-# Nginx config for GitHub tunnel
+# `nginx` config for basic GitHub tunnel
 
-this config setup a tcp proxy server to speed up git ssh and selected GitHub asset connection.
+this config setup a tcp proxy server to speed up `git` ssh and selected GitHub asset connection.
 
 to use, add `hosts` to redirect GitHub thought the tunnel:
 ```shell script
@@ -11,7 +11,7 @@ to use, add `hosts` to redirect GitHub thought the tunnel:
 ???.???.???.??? raw.githubusercontent.com
 ```
 
-the minimal server Nginx config: (`ssl_preread` requires `nginx@>=1.11.5`)
+the minimal server `nginx` config: (`ssl_preread` requires `nginx@>=1.11.5`)
 ```nginx
 user www-data;
 pid /run/nginx.pid;

@@ -9,10 +9,12 @@ sudo modprobe tcp_bbr
 echo "tcp_bbr" >> /etc/modules-load.d/modules.conf
 ```
 
-then `sudo nano /etc/sysctl.conf`:
+then `sudo nano /etc/sysctl.d/99-sysctl.conf` (arch)
+or `sudo nano /etc/sysctl.conf` (ubuntu)
+and add:
 
 ```shell script
-# /etc/sysctl.conf - Configuration file for setting system variables
+# sysctl.conf - Configuration file for setting system variables
 # check: https://klaver.it/linux/sysctl.conf
 
 
@@ -102,7 +104,8 @@ net.ipv4.tcp_slow_start_after_idle = 0
 net.ipv4.tcp_fastopen = 3
 ```
 
-apply change with: `sudo sysctl -p`
+apply change with `sudo sysctl -p /etc/sysctl.d/99-sysctl.conf` (arch)
+or `sudo sysctl -p` (ubuntu)
 
 check result with:
 ```shell script
@@ -110,8 +113,7 @@ sysctl net.ipv4.tcp_available_congestion_control
 sysctl net.ipv4.tcp_congestion_control
 ```
 
-increase process max open file, with: `sudo nano /etc/security/limits.conf`
-
+increase process max open file with: `sudo nano /etc/security/limits.conf`
 and add:
 ```shell script
 *   soft    nproc     65535

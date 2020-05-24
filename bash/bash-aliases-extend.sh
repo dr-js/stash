@@ -1,11 +1,11 @@
 # setup with:
 #   (echo "" > ~/.bash_aliases_extend) && nano ~/.bash_aliases_extend # reset the file and open for edit
-# then add to `~/.bashrc`: (default ubuntu `.bashrc` may be found at `/etc/skel/.bashrc`)
+# then add to `~/.bashrc`
 #   [[ -f ~/.bash_aliases_extend ]] && . ~/.bash_aliases_extend
 
 # =============================
 # mark version
-alias bash-aliases-extend-version='echo 0.1.4'
+alias bash-aliases-extend-version='echo 0.2.0'
 
 alias BAEV=bash-aliases-extend-version
 
@@ -82,29 +82,6 @@ alias GLG16=git-log-graph-16
 alias GT=git-trace
 
 # =============================
-# apt aliases (A*)
-alias apt-list-installed='sudo apt list --installed'
-alias apt-update='sudo apt update && sudo apt upgrade -y && sudo apt autoremove --purge -y'
-alias apt-install='sudo apt install'
-alias apt-remove='sudo apt autoremove --purge'
-
-alias AL=apt-list-installed
-alias AR=apt-remove
-alias AI=apt-install
-alias AU=apt-update
-
-# =============================
-# system aliases (S*)
-alias system-reboot-required='sudo ls /var/run/reboot-required'
-alias system-queue-reboot-4am='echo "sudo reboot" | sudo at 4am'
-
-alias SRR=system-reboot-required
-alias SQR4AM=system-queue-reboot-4am
-
-## sudo at -l           # list pending job
-## sudo at -c <jobId>   # print job command
-
-# =============================
 # systemd aliases (SD*)
 alias systemd-list-active='sudo systemctl list-units --type=service --state=active'
 alias systemd-list-enabled='sudo systemctl list-unit-files --type=service --state=enabled,generated'
@@ -137,7 +114,6 @@ alias npm-list-global='npm ls -g --depth=0'
 alias npm-install='npm i'
 alias npm-install-global='sudo npm i -g'
 alias npm-install-prefer-offline='npm i --prefer-offline'
-alias npm-install-host-puppeteer='PUPPETEER_DOWNLOAD_HOST=https://npm.taobao.org/mirrors npm i'
 alias npm-install-package-lock-only='npm i --package-lock-only'
 alias npm-outdated='npm out'
 alias npm-dedup-install='npm ddp && npm i --prefer-offline'
@@ -148,7 +124,6 @@ alias NLSG=npm-list-global
 alias NI=npm-install
 alias NIG=npm-install-global
 alias NIO=npm-install-prefer-offline
-alias NIHP=npm-install-host-puppeteer
 alias NIPLO=npm-install-package-lock-only
 alias NO=npm-outdated
 alias NDI=npm-dedup-install
@@ -171,8 +146,8 @@ alias NNR=nano-reset
 
 # =============================
 # @dr-js aliases (D*)
-alias dr-js-npm-install-global-all='npm i -g @dr-js/core @dr-js/node @dr-js/dev'
-alias dr-js-npm-install-global-all-dev='npm i -g @dr-js/core@dev @dr-js/node@dev @dr-js/dev@dev'
+alias dr-js-npm-install-global-all='sudo npm i -g @dr-js/core @dr-js/node @dr-js/dev'
+alias dr-js-npm-install-global-all-dev='sudo npm i -g @dr-js/core@dev @dr-js/node@dev @dr-js/dev@dev'
 alias dr-js-package-reset='dr-js --rm package-lock.json node_modules'
 
 alias DNIGA=dr-js-npm-install-global-all
@@ -184,55 +159,47 @@ alias DPR=dr-js-package-reset
 PATH_GIT_ROOT_LIST="Git/ GitHub/ Documents/Git/ Documents/GitHub/" # list to search
 PATH_GIT_ROOT=""
 for path in ${PATH_GIT_ROOT_LIST}; do
-  path="${HOME}/${path}"
-  # echo ${path}
-  # test -d "${path}" && echo FOUND: ${path}
-  test -d "${path}" && PATH_GIT_ROOT="${path}"
+  [[ -d "${HOME}/${path}" ]] && PATH_GIT_ROOT="${HOME}/${path}"
 done
 
 alias cd-git="cd ${PATH_GIT_ROOT}"
 alias cd-log="cd /var/log/"
 alias cd-systemd="cd /lib/systemd/system/"
 alias cd-nginx="cd /etc/nginx/"
-alias cd-shadowsocks="cd /etc/shadowsocks-libev/"
 
 alias CG=cd-git
 alias CL=cd-log
 alias CSD=cd-systemd
 alias CN=cd-nginx
-alias CSS=cd-shadowsocks
 
 # =============================
-# proxy alias (P*)
+# proxy alias (PX*)
 # (ALL_PROXY is for git)
-PROXY_SOCKS5="socks5://127.0.0.1:1080"
+PROXY_SOCKS5="socks5://127.0.0.1:$(node -e "process.exitCode = Number(os.platform() === 'win32')" && echo "1081" || echo "1080")" # win10 SS have auto redirect
 PROXY_HTTP="http://127.0.0.1:1080"
 
-# PROXY_SOCKS5="socks5://127.0.0.1:8118" # with privoxy
-# PROXY_HTTP="http://127.0.0.1:8118" # with privoxy
-
-alias proxy-on="export
-  http_proxy=${PROXY_HTTP}/
-  https_proxy=${PROXY_HTTP}/
-  HTTP_PROXY=${PROXY_HTTP}/
-  HTTPS_PROXY=${PROXY_HTTP}/
-  ALL_PROXY=${PROXY_SOCKS5}/
+alias proxy-on="export \
+  http_proxy=${PROXY_HTTP} \
+  https_proxy=${PROXY_HTTP} \
+  HTTP_PROXY=${PROXY_HTTP} \
+  HTTPS_PROXY=${PROXY_HTTP} \
+  ALL_PROXY=${PROXY_SOCKS5} \
 "
-alias proxy-off="unset
-  http_proxy
-  https_proxy
-  HTTP_PROXY
-  HTTPS_PROXY
-  ALL_PROXY
+alias proxy-off="unset \
+  http_proxy \
+  https_proxy \
+  HTTP_PROXY \
+  HTTPS_PROXY \
+  ALL_PROXY \
 "
-alias proxy-once="
-  http_proxy=${PROXY_HTTP}/
-  https_proxy=${PROXY_HTTP}/
-  HTTP_PROXY=${PROXY_HTTP}/
-  HTTPS_PROXY=${PROXY_HTTP}/
-  ALL_PROXY=${PROXY_SOCKS5}/
+alias proxy-once=" \
+  http_proxy=${PROXY_HTTP} \
+  https_proxy=${PROXY_HTTP} \
+  HTTP_PROXY=${PROXY_HTTP} \
+  HTTPS_PROXY=${PROXY_HTTP} \
+  ALL_PROXY=${PROXY_SOCKS5} \
 "
 
-alias PON=proxy-on
-alias POFF=proxy-off
-alias P1=proxy-once
+alias PXON=proxy-on
+alias PXOFF=proxy-off
+alias PX1=proxy-once

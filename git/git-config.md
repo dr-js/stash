@@ -2,7 +2,7 @@ lighter git clone:
 - `git clone -b master --single-branch git@github.com:dr-js/dr-js.git`
 - `git clone <url> --branch <branch> --single-branch <folder>`
 
-lighter git config:
+lighter git config: (`repo/.git/config`)
 ```ini
 [core]
   filemode = false # ignore file permission change (for win32 repo)
@@ -32,26 +32,4 @@ lighter git config:
 ...
 ```
 
-git ssh through proxy, edit `nano ~/.ssh/config`:
-
-for http proxy: 
-- with `connect`: (`apt install connect-proxy`)
-    ```shell script
-    Host github.com
-      IdentityFile ~/.ssh/github_rsa
-      ProxyCommand connect -H 127.0.0.1:1080 %h %p
-    ```
-
-for socks5 proxy: (check: https://unix.stackexchange.com/questions/416010/ssh-through-shadowsocks)
-- with `connect`:
-    ```shell script
-    Host github.com
-      IdentityFile ~/.ssh/github_rsa
-      ProxyCommand connect -S 127.0.0.1:1080 %h %p
-    ```
-- or with `nc`:
-    ```shell script
-    Host github.com
-      IdentityFile ~/.ssh/github_rsa
-      ProxyCommand nc -X 5 -x 127.0.0.1:1080 %h %p
-    ```
+git ssh through proxy, check: linux/9-9-proxy-config.md

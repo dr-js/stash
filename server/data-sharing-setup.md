@@ -1,5 +1,7 @@
 # Data sharing host/client setup
 
+> NOTE: this is written for Ubuntu 1804
+
 check this directory on linux-like file system that support symlink
 
 currently user is locked to `root`, and the path is locked to `/root/*` and `/mnt/*`
