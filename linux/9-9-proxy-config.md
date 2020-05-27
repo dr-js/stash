@@ -23,7 +23,7 @@ for socks5 proxy: (check: https://unix.stackexchange.com/questions/416010/ssh-th
       IdentityFile ~/.ssh/github_rsa
       ProxyCommand connect -S 127.0.0.1:00_SOCKS5_PORT_00 %h %p
     ```
-- or with `nc`:
+- or with `nc`: (`pacman -S openbsd-netcat`)
     ```
     Host github.com
       IdentityFile ~/.ssh/github_rsa
@@ -35,6 +35,7 @@ for socks5 proxy: (check: https://unix.stackexchange.com/questions/416010/ssh-th
 
 `nano ~/.gitconfig` add:
 ```
+# this is only for http-based repo, for ssh-based proxy set like above
 [http]
 	proxy = socks5://127.0.0.1:00_SOCKS5_PORT_00
 [https]

@@ -133,3 +133,20 @@ After that:
 - add a normal user with `sudo`: https://wiki.archlinux.org/index.php/General_recommendations#Users_and_groups
 - setup SSH server: https://wiki.archlinux.org/index.php/OpenSSH
 - add `.bashrc` and alias
+
+my main tweak so far:
+```
+# intel driver
+mesa # OpenGL driver, xf86-video-intel is not recommended, check: https://wiki.archlinux.org/index.php/i>
+intel-media-driver # HD Graphics series starting from Broadwell
+
+# X11
+xorg-server xorg-xinit autorandr xterm
+
+# window manager
+i3-wm i3status dmenu feh # feh as "background"
+
+# font
+ttf-symbola # fix JetBarain's emoji
+noto-fonts noto-fonts-cjk noto-fonts-emoji # for browser
+```

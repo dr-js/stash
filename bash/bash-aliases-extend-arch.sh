@@ -5,7 +5,7 @@
 
 # =============================
 # mark version
-alias bash-aliases-extend-arch-version='echo 0.2.0'
+alias bash-aliases-extend-arch-version='echo 0.2.2'
 
 alias BAEAV=bash-aliases-extend-arch-version
 
@@ -14,7 +14,7 @@ alias BAEAV=bash-aliases-extend-arch-version
 alias pacman-list-all='sudo pacman -Q'
 alias pacman-list='sudo pacman -Qe' # explicitly installed
 alias pacman-update='sudo pacman -Syu && sudo pacman -Rns $(pacman -Qtdq)'
-alias pacman-install='sudo pacman -S'
+alias pacman-install='sudo pacman -S --needed'
 alias pacman-remove='sudo pacman -R'
 
 alias PLA=pacman-list-all

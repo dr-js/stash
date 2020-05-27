@@ -5,7 +5,7 @@
 
 # =============================
 # mark version
-alias bash-aliases-extend-version='echo 0.2.0'
+alias bash-aliases-extend-version='echo 0.2.2'
 
 alias BAEV=bash-aliases-extend-version
 
@@ -174,7 +174,6 @@ alias CN=cd-nginx
 
 # =============================
 # proxy alias (PX*)
-# (ALL_PROXY is for git)
 PROXY_SOCKS5="socks5://127.0.0.1:$(node -e "process.exitCode = Number(os.platform() === 'win32')" && echo "1081" || echo "1080")" # win10 SS have auto redirect
 PROXY_HTTP="http://127.0.0.1:1080"
 
@@ -183,21 +182,18 @@ alias proxy-on="export \
   https_proxy=${PROXY_HTTP} \
   HTTP_PROXY=${PROXY_HTTP} \
   HTTPS_PROXY=${PROXY_HTTP} \
-  ALL_PROXY=${PROXY_SOCKS5} \
 "
 alias proxy-off="unset \
   http_proxy \
   https_proxy \
   HTTP_PROXY \
   HTTPS_PROXY \
-  ALL_PROXY \
 "
 alias proxy-once=" \
   http_proxy=${PROXY_HTTP} \
   https_proxy=${PROXY_HTTP} \
   HTTP_PROXY=${PROXY_HTTP} \
   HTTPS_PROXY=${PROXY_HTTP} \
-  ALL_PROXY=${PROXY_SOCKS5} \
 "
 
 alias PXON=proxy-on
