@@ -18,7 +18,7 @@ alias l='ls -CF'
 
 # =============================
 # screen clear aliases, should be supported in xterm/VT100
-alias CLS="clear && printf '\e[3J'"
+alias CLS='clear && printf "\e[3J"'
 
 # =============================
 # cd aliases (c*)
@@ -162,10 +162,10 @@ for path in ${PATH_GIT_ROOT_LIST}; do
   [[ -d "${HOME}/${path}" ]] && PATH_GIT_ROOT="${HOME}/${path}"
 done
 
-alias cd-git="cd ${PATH_GIT_ROOT}"
-alias cd-log="cd /var/log/"
-alias cd-systemd="cd /lib/systemd/system/"
-alias cd-nginx="cd /etc/nginx/"
+alias cd-git='cd "${PATH_GIT_ROOT}"'
+alias cd-log='cd /var/log/'
+alias cd-systemd='cd /lib/systemd/system/'
+alias cd-nginx='cd /etc/nginx/'
 
 alias CG=cd-git
 alias CL=cd-log
@@ -174,27 +174,27 @@ alias CN=cd-nginx
 
 # =============================
 # proxy alias (PX*)
-PROXY_SOCKS5="socks5://127.0.0.1:$(node -e "process.exitCode = Number(os.platform() === 'win32')" && echo "1081" || echo "1080")" # win10 SS have auto redirect
 PROXY_HTTP="http://127.0.0.1:1080"
+PROXY_SOCKS5="socks5://127.0.0.1:$(node -e "process.exitCode = Number(os.platform() === 'win32')" && echo "1081" || echo "1080")" # win10 SS support socks5+http in single port, but not on other platform
 
-alias proxy-on="export \
-  http_proxy=${PROXY_HTTP} \
-  https_proxy=${PROXY_HTTP} \
-  HTTP_PROXY=${PROXY_HTTP} \
-  HTTPS_PROXY=${PROXY_HTTP} \
-"
-alias proxy-off="unset \
+alias proxy-on='export \
+  http_proxy="${PROXY_HTTP}" \
+  https_proxy="${PROXY_HTTP}" \
+  HTTP_PROXY="${PROXY_HTTP}" \
+  HTTPS_PROXY="${PROXY_HTTP}" \
+'
+alias proxy-off='unset \
   http_proxy \
   https_proxy \
   HTTP_PROXY \
   HTTPS_PROXY \
-"
-alias proxy-once=" \
-  http_proxy=${PROXY_HTTP} \
-  https_proxy=${PROXY_HTTP} \
-  HTTP_PROXY=${PROXY_HTTP} \
-  HTTPS_PROXY=${PROXY_HTTP} \
-"
+'
+alias proxy-once=' \
+  http_proxy="${PROXY_HTTP}" \
+  https_proxy="${PROXY_HTTP}" \
+  HTTP_PROXY="${PROXY_HTTP}" \
+  HTTPS_PROXY="${PROXY_HTTP}" \
+'
 
 alias PXON=proxy-on
 alias PXOFF=proxy-off

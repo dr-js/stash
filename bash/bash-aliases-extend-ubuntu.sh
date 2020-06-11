@@ -34,6 +34,6 @@ alias SQR4AM=system-queue-reboot-4am
 
 # =============================
 # quick path alias (C*)
-alias cd-shadowsocks="cd /etc/shadowsocks-libev/"
+alias cd-shadowsocks='cd /etc/shadowsocks-libev/'
 
 alias CSS=cd-shadowsocks

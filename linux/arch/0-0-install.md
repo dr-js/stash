@@ -133,6 +133,7 @@ After that:
 - add a normal user with `sudo`: https://wiki.archlinux.org/index.php/General_recommendations#Users_and_groups
 - setup SSH server: https://wiki.archlinux.org/index.php/OpenSSH
 - add `.bashrc` and alias
+- use `watch grep \"cpu MHz\" /proc/cpuinfo` to check the if cpu frequency is too high
 
 my main tweak so far:
 ```

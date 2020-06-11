@@ -5,7 +5,7 @@
 
 # =============================
 # mark version
-alias bash-aliases-extend-arch-version='echo 0.2.2'
+alias bash-aliases-extend-arch-version='echo 0.2.3'
 
 alias BAEAV=bash-aliases-extend-arch-version
 
@@ -13,7 +13,9 @@ alias BAEAV=bash-aliases-extend-arch-version
 # pacman aliases (P*)
 alias pacman-list-all='sudo pacman -Q'
 alias pacman-list='sudo pacman -Qe' # explicitly installed
-alias pacman-update='sudo pacman -Syu && sudo pacman -Rns $(pacman -Qtdq)'
+alias pacman-update='sudo pacman -S --needed archlinux-keyring \
+  && sudo pacman -Syu \
+  && ( pacman -Qtdq && sudo pacman -Rns $(pacman -Qtdq) || echo "nothing to clear" )'
 alias pacman-install='sudo pacman -S --needed'
 alias pacman-remove='sudo pacman -R'
 
@@ -25,6 +27,6 @@ alias PI=pacman-install
 
 # =============================
 # quick path alias (C*)
-alias cd-shadowsocks="cd /etc/shadowsocks/"
+alias cd-shadowsocks='cd /etc/shadowsocks/'
 
 alias CSS=cd-shadowsocks
