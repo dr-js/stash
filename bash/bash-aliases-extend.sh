@@ -5,7 +5,7 @@
 
 # =============================
 # mark version
-alias bash-aliases-extend-version='echo 0.2.2'
+alias bash-aliases-extend-version='echo 0.3.0'
 
 alias BAEV=bash-aliases-extend-version
 
@@ -39,7 +39,7 @@ alias git-reset-hard='git reset --hard @{upstream}'
 alias git-git-reset-head='git-git-combo && git-reset-hard'
 alias git-branch-delete='git branch -D'
 alias git-branch-checkout='git checkout -B'
-function git-cherry-pack-range { git cherry-pick "$1"^.."$2" ; } # $1=commit-from, $1=commit-to # will include both from/to commit
+function git-cherry-pack-range { git cherry-pick "$1"^.."$2"; } # $1=commit-from, $1=commit-to # will include both from/to commit
 alias git-cherry-pack-abort='git cherry-pick --abort'
 alias git-cherry-pack-continue='git cherry-pick --continue'
 alias git-clear='git remote prune origin && git gc --prune=now'
@@ -140,9 +140,19 @@ alias SL=screen-list
 
 # =============================
 # nano aliases (NN*)
-function nano-reset { (echo "" > "$1") ; nano "$1" ; } # $1=file-to-reset-and-edit
+function nano-reset { echo "" > "$1"; nano "$1"; } # $1=file-to-reset-and-edit
 
 alias NNR=nano-reset
+
+# =============================
+# quick aliases (Q*)
+function quick-dd-random { dd bs=1048576 count="${1:-100}" if=/dev/urandom of="./RANDOM-${1:-100}MiB"; } # $1=size-in-MiB-default-to-100
+alias quick-df='df -h .'
+alias quick-ssh-key-md5-list='ssh-keygen -E md5 -lf ~/.ssh/authorized_keys'
+
+alias QDDR=quick-dd-random
+alias QDF=quick-df
+alias QSKML=quick-ssh-key-md5-list
 
 # =============================
 # @dr-js aliases (D*)
@@ -155,33 +165,35 @@ alias DNIGAD=dr-js-npm-install-global-all-dev
 alias DPR=dr-js-package-reset
 
 # =============================
-# quick path alias (C*)
-PATH_GIT_ROOT_LIST="Git/ GitHub/ Documents/Git/ Documents/GitHub/" # list to search
-PATH_GIT_ROOT=""
-for path in ${PATH_GIT_ROOT_LIST}; do
-  [[ -d "${HOME}/${path}" ]] && PATH_GIT_ROOT="${HOME}/${path}"
+# common path alias (C*)
+__PATH_GIT_ROOT_LIST="Git/ GitHub/ Documents/Git/ Documents/GitHub/" # list to search
+__PATH_GIT_ROOT=""
+for path in ${__PATH_GIT_ROOT_LIST}; do
+  [[ -d "${HOME}/${path}" ]] && __PATH_GIT_ROOT="${HOME}/${path}"
 done
 
-alias cd-git='cd "${PATH_GIT_ROOT}"'
+alias cd-git='cd "${__PATH_GIT_ROOT}"'
 alias cd-log='cd /var/log/'
 alias cd-systemd='cd /lib/systemd/system/'
 alias cd-nginx='cd /etc/nginx/'
+alias cd-shadowsocks='cd /etc/shadowsocks*/' # pacman: /etc/shadowsocks/ | apt: /etc/shadowsocks-libev/
 
 alias CG=cd-git
 alias CL=cd-log
 alias CSD=cd-systemd
 alias CN=cd-nginx
+alias CSS=cd-shadowsocks
 
 # =============================
 # proxy alias (PX*)
-PROXY_HTTP="http://127.0.0.1:1080"
-PROXY_SOCKS5="socks5://127.0.0.1:$(node -e "process.exitCode = Number(os.platform() === 'win32')" && echo "1081" || echo "1080")" # win10 SS support socks5+http in single port, but not on other platform
+__PROXY_HTTP="http://127.0.0.1:1080"
+__PROXY_SOCKS5="socks5://127.0.0.1:$(node -e "process.exitCode = Number(os.platform() === 'win32')" && echo "1081" || echo "1080")" # win10 SS support socks5+http in single port, but not on other platform
 
 alias proxy-on='export \
-  http_proxy="${PROXY_HTTP}" \
-  https_proxy="${PROXY_HTTP}" \
-  HTTP_PROXY="${PROXY_HTTP}" \
-  HTTPS_PROXY="${PROXY_HTTP}" \
+  http_proxy="${__PROXY_HTTP}" \
+  https_proxy="${__PROXY_HTTP}" \
+  HTTP_PROXY="${__PROXY_HTTP}" \
+  HTTPS_PROXY="${__PROXY_HTTP}" \
 '
 alias proxy-off='unset \
   http_proxy \
@@ -190,12 +202,115 @@ alias proxy-off='unset \
   HTTPS_PROXY \
 '
 alias proxy-once=' \
-  http_proxy="${PROXY_HTTP}" \
-  https_proxy="${PROXY_HTTP}" \
-  HTTP_PROXY="${PROXY_HTTP}" \
-  HTTPS_PROXY="${PROXY_HTTP}" \
+  http_proxy="${__PROXY_HTTP}" \
+  https_proxy="${__PROXY_HTTP}" \
+  HTTP_PROXY="${__PROXY_HTTP}" \
+  HTTPS_PROXY="${__PROXY_HTTP}" \
 '
 
 alias PXON=proxy-on
 alias PXOFF=proxy-off
 alias PX1=proxy-once
+
+# =============================
+# =============================
+# linux release dependent alias
+# =============================
+# =============================
+
+## LSB linux: https://serverfault.com/questions/879216/how-to-detect-linux-distribution-and-version/880087#880087
+## termux: https://www.reddit.com/r/termux/comments/co46qw/how_to_detect_in_a_bash_script_that_im_in_termux/ewi3fjj/
+__LINUX_RELEASE_NAME="$(source /etc/os-release 2> /dev/null && echo "$NAME" || echo "non-LSB")"
+[[ "$PREFIX" == *"com.termux"* ]] && __LINUX_RELEASE_NAME="Android (Termux)"
+
+if [[ "${__LINUX_RELEASE_NAME}" == "Arch Linux" ]]; then
+  # =============================
+  # pacman aliases (P*)
+  alias pacman-list-all='sudo pacman -Q'
+  alias pacman-list='sudo pacman -Qe' # explicitly installed
+  alias pacman-update='sudo pacman -Sy --needed archlinux-keyring \
+    && sudo pacman -Syu \
+    && ( pacman -Qtdq && sudo pacman -Rns $(pacman -Qtdq) || echo "nothing to clear" )'
+  alias pacman-remove='sudo pacman -R'
+  alias pacman-install='sudo pacman -S --needed'
+
+  alias PLA=pacman-list-all
+  alias PL=pacman-list
+  alias PU=pacman-update
+  alias PR=pacman-remove
+  alias PI=pacman-install
+
+  # =============================
+  __SYSTEM_PACKAGE_LIST_ALL='pacman-list-all'
+  __SYSTEM_PACKAGE_LIST____='pacman-list'
+  __SYSTEM_PACKAGE_UPDATE__='pacman-update'
+  __SYSTEM_PACKAGE_REMOVE__='pacman-remove'
+  __SYSTEM_PACKAGE_INSTALL_='pacman-install'
+  __SYSTEM_REBOOT_REQUIRED_='node -p "const [ , newV, oldV, dot, msgY, msgN ] = process.argv; const nV = (v) => v.replace(/\\W/g, dot).toLowerCase(); nV(newV) === nV(oldV) ? msgN : msgY" \
+    "$(pacman -Q linux | cut -d " " -f 2)" \
+    "$(uname -r)" \
+    "." \
+    "Reboot Required" \
+    "nope"' ## hacky node version for: https://bbs.archlinux.org/viewtopic.php?id=173508
+fi
+
+if [[ "${__LINUX_RELEASE_NAME}" == "Ubuntu" || "${__LINUX_RELEASE_NAME}" == "Debian GNU/Linux" || "${__LINUX_RELEASE_NAME}" == "Android (Termux)" ]]; then
+  # =============================
+  # apt aliases (A*)
+  alias apt-list-all='sudo apt list --installed'
+  alias apt-list='sudo apt-mark showmanual'
+  alias apt-update='sudo apt update && sudo apt upgrade -y && sudo apt autoremove --purge -y'
+  alias apt-remove='sudo apt autoremove --purge'
+  alias apt-install='sudo apt install'
+
+  alias ALA=apt-list-all
+  alias AL=apt-list
+  alias AU=apt-update
+  alias AR=apt-remove
+  alias AI=apt-install
+
+  # =============================
+  __SYSTEM_PACKAGE_LIST_ALL='apt-list-all'
+  __SYSTEM_PACKAGE_LIST____='apt-list'
+  __SYSTEM_PACKAGE_UPDATE__='apt-update'
+  __SYSTEM_PACKAGE_REMOVE__='apt-remove'
+  __SYSTEM_PACKAGE_INSTALL_='apt-install'
+
+  if [[ "${__LINUX_RELEASE_NAME}" == "Ubuntu" || "${__LINUX_RELEASE_NAME}" == "Debian GNU/Linux" ]]; then
+    # =============================
+    __SYSTEM_REBOOT_REQUIRED_='[[ -f /var/run/reboot-required ]] && echo "Reboot Required" || echo "nope"'
+  fi
+
+  if [[ "${__LINUX_RELEASE_NAME}" == "Android (Termux)" ]]; then
+    # =============================
+    # Already "sudo" for most of the command, do nothing, just patch the command for other script to work
+    # Remove this if the Android is rooted and use the patched su/sudo instead
+    alias sudo='SU=1'
+
+    # =============================
+    # TODO: NOTE: now seems it's not needed
+    # env path fix, check "https://github.com/termux/termux-packages/issues/1192"
+    alias proot-env='proot -b "$(which env):/usr/bin/env"'
+    alias proot-env-link='proot -b "$(which env):/usr/bin/env" --link2symlink'
+
+    alias PE=proot-env
+    alias PEL=proot-env-link
+  fi
+fi
+
+
+# =============================
+# system aliases (S*)
+[[ -n "${__SYSTEM_PACKAGE_LIST_ALL}" ]] && alias system-package-list-all="${__SYSTEM_PACKAGE_LIST_ALL}"
+[[ -n "${__SYSTEM_PACKAGE_LIST____}" ]] && alias system-package-list="${__SYSTEM_PACKAGE_LIST____}"
+[[ -n "${__SYSTEM_PACKAGE_UPDATE__}" ]] && alias system-package-update="${__SYSTEM_PACKAGE_UPDATE__}"
+[[ -n "${__SYSTEM_PACKAGE_REMOVE__}" ]] && alias system-package-remove="${__SYSTEM_PACKAGE_REMOVE__}"
+[[ -n "${__SYSTEM_PACKAGE_INSTALL_}" ]] && alias system-package-install="${__SYSTEM_PACKAGE_INSTALL_}"
+[[ -n "${__SYSTEM_REBOOT_REQUIRED_}" ]] && alias system-reboot-required="${__SYSTEM_REBOOT_REQUIRED_}"
+
+[[ -n "${__SYSTEM_PACKAGE_LIST_ALL}" ]] && alias SPLA=system-package-list-all
+[[ -n "${__SYSTEM_PACKAGE_LIST____}" ]] && alias SPL=system-package-list
+[[ -n "${__SYSTEM_PACKAGE_UPDATE__}" ]] && alias SPU=system-package-update
+[[ -n "${__SYSTEM_PACKAGE_REMOVE__}" ]] && alias SPR=system-package-remove
+[[ -n "${__SYSTEM_PACKAGE_INSTALL_}" ]] && alias SPI=system-package-install
+[[ -n "${__SYSTEM_REBOOT_REQUIRED_}" ]] && alias SRR=system-reboot-required

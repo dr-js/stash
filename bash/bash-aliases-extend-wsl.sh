@@ -22,7 +22,7 @@ function exec-new-terminal {
   echo "PATH: [ $(pwd) ] ARGS: [ $* ]"
   COMMAND="echo EXEC PATH: [ $(pwd) ] ARGS: [ $* ];"
   COMMAND+="cd '$(pwd)';"
-  if [[ $# -ne 0 ]]; then COMMAND+="$*;" ; fi
+  if [[ $# -ne 0 ]]; then COMMAND+="$*;"; fi
   COMMAND+="exec bash;"
   cmd.exe /c start bash -ilc "$COMMAND"
 }
