@@ -5,7 +5,7 @@
 
 # =============================
 # mark version
-alias bash-aliases-extend-version='echo 0.3.0'
+alias bash-aliases-extend-version='echo 0.3.1'
 
 alias BAEV=bash-aliases-extend-version
 
@@ -149,10 +149,12 @@ alias NNR=nano-reset
 function quick-dd-random { dd bs=1048576 count="${1:-100}" if=/dev/urandom of="./RANDOM-${1:-100}MiB"; } # $1=size-in-MiB-default-to-100
 alias quick-df='df -h .'
 alias quick-ssh-key-md5-list='ssh-keygen -E md5 -lf ~/.ssh/authorized_keys'
+alias quick-cpu-freq='watch grep \"cpu MHz\" /proc/cpuinfo'
 
 alias QDDR=quick-dd-random
 alias QDF=quick-df
 alias QSKML=quick-ssh-key-md5-list
+alias QCF=quick-cpu-freq
 
 # =============================
 # @dr-js aliases (D*)

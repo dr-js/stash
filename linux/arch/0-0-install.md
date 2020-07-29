@@ -150,4 +150,7 @@ i3-wm i3status dmenu feh # feh as "background"
 # font
 ttf-symbola # fix JetBarain's emoji
 noto-fonts noto-fonts-cjk noto-fonts-emoji # for browser
+
+# CPU overheat, check: https://wiki.archlinux.org/index.php/CPU_frequency_scaling#thermald
+thermald # need start & enable systemd service
 ```
