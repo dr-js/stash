@@ -88,7 +88,7 @@ check: https://docs.docker.com/network/proxy/#configure-the-docker-client
 and edit `~/.docker/config.json`
 
 
-#### `apt` (ubuntu)
+#### `apt` (debian/ubuntu/raspbian)
 
 `sudo nano /etc/apt/apt.conf.d/70debconf` add:
 ```

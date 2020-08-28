@@ -14,3 +14,9 @@ echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
 sudo swapon --show
 free -h
 ```
+
+to resize existing swapfile:
+```shell script
+sudo swapoff /swapfile
+# redo above steps, without the fstab change
+```

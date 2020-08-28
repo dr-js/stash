@@ -1,16 +1,16 @@
 # `cron`
 
 
-#### `cron` with `~/D/init.sh`
+#### `cron` with `/root/D/init.sh`
 
-create `~/D/init.sh`:
+create `/root/D/init.sh`:
 ```shell script
-mkdir -p ~/D/
-touch ~/D/init.sh
-chmod +x ~/D/*.sh
+sudo mkdir -p /root/D/
+sudo touch /root/D/init.sh
+sudo chmod +x /root/D/*.sh
 ```
 
-edit `nano ~/D/init.sh` add:
+edit `sudo nano /root/D/init.sh` add:
 
 ```shell script
 #!/usr/bin/env bash

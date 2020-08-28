@@ -5,7 +5,7 @@
 
 # =============================
 # mark version
-alias bash-aliases-extend-version='echo 0.3.1'
+alias bash-aliases-extend-version='echo 0.3.2'
 
 alias BAEV=bash-aliases-extend-version
 
@@ -147,14 +147,22 @@ alias NNR=nano-reset
 # =============================
 # quick aliases (Q*)
 function quick-dd-random { dd bs=1048576 count="${1:-100}" if=/dev/urandom of="./RANDOM-${1:-100}MiB"; } # $1=size-in-MiB-default-to-100
+alias quick-shutdown='sudo shutdown 0'
+alias quick-reboot='sudo reboot'
 alias quick-df='df -h .'
 alias quick-ssh-key-md5-list='ssh-keygen -E md5 -lf ~/.ssh/authorized_keys'
-alias quick-cpu-freq='watch grep \"cpu MHz\" /proc/cpuinfo'
+if [[ -d /sys/class/thermal/thermal_zone0 ]]; then
+  alias quick-system-watch='watch --no-title "echo == cpufreq ==; cat /sys/devices/system/cpu/cpufreq/policy*/scaling_cur_freq; echo == thermal ==; cat /sys/class/thermal/thermal_zone*/temp;"'
+else # if grep -q "cpu MHz" /proc/cpuinfo; then
+  alias quick-system-watch='watch --no-title grep \"cpu MHz\" /proc/cpuinfo'
+fi
 
 alias QDDR=quick-dd-random
+alias QSHUTDOWN=quick-shutdown
+alias QREBOOT=quick-reboot
 alias QDF=quick-df
 alias QSKML=quick-ssh-key-md5-list
-alias QCF=quick-cpu-freq
+alias QSW=quick-system-watch
 
 # =============================
 # @dr-js aliases (D*)
@@ -225,7 +233,11 @@ alias PX1=proxy-once
 __LINUX_RELEASE_NAME="$(source /etc/os-release 2> /dev/null && echo "$NAME" || echo "non-LSB")"
 [[ "$PREFIX" == *"com.termux"* ]] && __LINUX_RELEASE_NAME="Android (Termux)"
 
-if [[ "${__LINUX_RELEASE_NAME}" == "Arch Linux" ]]; then
+__LINUX_PACKAGE_MANAGER="unknown"
+[[ "${__LINUX_RELEASE_NAME}" == "Arch Linux" ]] && __LINUX_PACKAGE_MANAGER="pacman"
+[[ "${__LINUX_RELEASE_NAME}" == "Ubuntu" || "${__LINUX_RELEASE_NAME}" == "Debian GNU/Linux" || "${__LINUX_RELEASE_NAME}" == "Raspbian GNU/Linux" || "${__LINUX_RELEASE_NAME}" == "Android (Termux)" ]] && __LINUX_PACKAGE_MANAGER="apt"
+
+if [[ "${__LINUX_PACKAGE_MANAGER}" == "pacman" ]]; then
   # =============================
   # pacman aliases (P*)
   alias pacman-list-all='sudo pacman -Q'
@@ -256,7 +268,7 @@ if [[ "${__LINUX_RELEASE_NAME}" == "Arch Linux" ]]; then
     "nope"' ## hacky node version for: https://bbs.archlinux.org/viewtopic.php?id=173508
 fi
 
-if [[ "${__LINUX_RELEASE_NAME}" == "Ubuntu" || "${__LINUX_RELEASE_NAME}" == "Debian GNU/Linux" || "${__LINUX_RELEASE_NAME}" == "Android (Termux)" ]]; then
+if [[ "${__LINUX_PACKAGE_MANAGER}" == "apt" ]]; then
   # =============================
   # apt aliases (A*)
   alias apt-list-all='sudo apt list --installed'
@@ -277,29 +289,8 @@ if [[ "${__LINUX_RELEASE_NAME}" == "Ubuntu" || "${__LINUX_RELEASE_NAME}" == "Deb
   __SYSTEM_PACKAGE_UPDATE__='apt-update'
   __SYSTEM_PACKAGE_REMOVE__='apt-remove'
   __SYSTEM_PACKAGE_INSTALL_='apt-install'
-
-  if [[ "${__LINUX_RELEASE_NAME}" == "Ubuntu" || "${__LINUX_RELEASE_NAME}" == "Debian GNU/Linux" ]]; then
-    # =============================
-    __SYSTEM_REBOOT_REQUIRED_='[[ -f /var/run/reboot-required ]] && echo "Reboot Required" || echo "nope"'
-  fi
-
-  if [[ "${__LINUX_RELEASE_NAME}" == "Android (Termux)" ]]; then
-    # =============================
-    # Already "sudo" for most of the command, do nothing, just patch the command for other script to work
-    # Remove this if the Android is rooted and use the patched su/sudo instead
-    alias sudo='SU=1'
-
-    # =============================
-    # TODO: NOTE: now seems it's not needed
-    # env path fix, check "https://github.com/termux/termux-packages/issues/1192"
-    alias proot-env='proot -b "$(which env):/usr/bin/env"'
-    alias proot-env-link='proot -b "$(which env):/usr/bin/env" --link2symlink'
-
-    alias PE=proot-env
-    alias PEL=proot-env-link
-  fi
+  __SYSTEM_REBOOT_REQUIRED_='[[ -f /var/run/reboot-required ]] && echo "Reboot Required" || echo "nope"'
 fi
-
 
 # =============================
 # system aliases (S*)
@@ -316,3 +307,18 @@ fi
 [[ -n "${__SYSTEM_PACKAGE_REMOVE__}" ]] && alias SPR=system-package-remove
 [[ -n "${__SYSTEM_PACKAGE_INSTALL_}" ]] && alias SPI=system-package-install
 [[ -n "${__SYSTEM_REBOOT_REQUIRED_}" ]] && alias SRR=system-reboot-required
+
+if [[ "${__LINUX_RELEASE_NAME}" == "Android (Termux)" ]]; then
+  # =============================
+  # Already "sudo" for most of the command, do nothing, just patch the command for other script to work
+  # Remove this if the Android is rooted and use the patched su/sudo instead
+  alias sudo='SU=1'
+
+  # =============================
+  # TODO: NOTE: now seems it's not needed
+  # env path fix, check "https://github.com/termux/termux-packages/issues/1192"
+  alias proot-env='proot -b "$(which env):/usr/bin/env"'
+  alias proot-env-link='proot -b "$(which env):/usr/bin/env" --link2symlink'
+  alias PE=proot-env
+  alias PEL=proot-env-link
+fi

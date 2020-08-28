@@ -4,7 +4,7 @@
 should be pre-installed, check for command `ssh` and `sshd`, or install with:
 ```shell script
 sudo pacman -S openssh --noconfirm # arch
-sudo apt install openssh-client openssh-server -y # ubuntu
+sudo apt install openssh-client openssh-server -y # debian/ubuntu
 ```
 
 

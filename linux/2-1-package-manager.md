@@ -1,9 +1,9 @@
-# `apt`
+# package manager
 
 
-#### apt clean up
+#### apt ubuntu clean up
 
-default useless package:
+default useless package from ubuntu:
 ```shell script
 sudo apt autoremove --purge \
   snapd $(: "will also remove amazon-ssm-agent; most for GUI package, not used in server: https://askubuntu.com/questions/1035915/how-to-remove-snap-store-from-ubuntu") \
@@ -26,15 +26,28 @@ sudo apt autoremove --purge \
 ```
 
 
-#### apt common tool
+#### common tool
+
+change pacman mirror `sudo nano /etc/pacman.d/mirrorlist`:
+- check: https://wiki.archlinux.org/index.php/Pacman#Repositories_and_mirrors
+- check: https://mirrors.tuna.tsinghua.edu.cn/help/archlinux/
 
 change apt mirror `sudo nano /etc/apt/sources.list` to a closer server:
 - check: https://wiki.ubuntu.com/Mirrors
 - check mirror list: https://launchpad.net/ubuntu/+archivemirrors
-- setup apt proxy, check: linux/9-9-proxy-config.md
-
+- check: https://mirrors.tuna.tsinghua.edu.cn/help/raspbian/
+- setup apt proxy, check: `./8-9-proxy-config.md`
 
 ```shell script
+# arch
+sudo pacman -S --needed \
+  nano less screen curl wget openssh $(: "essential tool, sanity check") \
+  tar gzip p7zip $(: "compress tool") \
+  htop $(: "process stat") \
+  vnstat nethogs $(: "net stat") \
+  git $(: "develop tool")
+
+# debian/ubuntu
 sudo apt update
 sudo apt install \
   nano less screen curl wget openssh-client openssh-server $(: "essential tool, sanity check") \
