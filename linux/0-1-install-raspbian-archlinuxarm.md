@@ -22,3 +22,8 @@ before first boot, check `./1-0-wpa_supplicant.md` for headless WiFi setup
 with no extra USB device connected, 5V2A charger is enough for the basic server need
 
 consider attach fan or heatsink to reduce SPU temperature (~55°C with heatsink, ~53°C after `/boot/config.txt` tweak)
+
+
+# install ArchLinuxARM (ALARM)
+
+https://archlinuxarm.org/platforms/armv8/broadcom/raspberry-pi-4

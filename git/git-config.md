@@ -32,4 +32,4 @@ lighter git config: (`repo/.git/config`)
 ...
 ```
 
-git ssh through proxy, check: linux/9-9-proxy-config.md
+git ssh through proxy, check: `./8-9-proxy-config.md`

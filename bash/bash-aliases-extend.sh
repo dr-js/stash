@@ -234,7 +234,7 @@ __LINUX_RELEASE_NAME="$(source /etc/os-release 2> /dev/null && echo "$NAME" || e
 [[ "$PREFIX" == *"com.termux"* ]] && __LINUX_RELEASE_NAME="Android (Termux)"
 
 __LINUX_PACKAGE_MANAGER="unknown"
-[[ "${__LINUX_RELEASE_NAME}" == "Arch Linux" ]] && __LINUX_PACKAGE_MANAGER="pacman"
+[[ "${__LINUX_RELEASE_NAME}" == "Arch Linux" || "${__LINUX_RELEASE_NAME}" == "Arch Linux ARM" ]] && __LINUX_PACKAGE_MANAGER="pacman"
 [[ "${__LINUX_RELEASE_NAME}" == "Ubuntu" || "${__LINUX_RELEASE_NAME}" == "Debian GNU/Linux" || "${__LINUX_RELEASE_NAME}" == "Raspbian GNU/Linux" || "${__LINUX_RELEASE_NAME}" == "Android (Termux)" ]] && __LINUX_PACKAGE_MANAGER="apt"
 
 if [[ "${__LINUX_PACKAGE_MANAGER}" == "pacman" ]]; then

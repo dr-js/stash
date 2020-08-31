@@ -30,7 +30,7 @@ sudo apt autoremove --purge \
 
 change pacman mirror `sudo nano /etc/pacman.d/mirrorlist`:
 - check: https://wiki.archlinux.org/index.php/Pacman#Repositories_and_mirrors
-- check: https://mirrors.tuna.tsinghua.edu.cn/help/archlinux/
+- check: https://mirrors.tuna.tsinghua.edu.cn/help/archlinux/ (for ALARM: `Server = http://mirrors.tuna.tsinghua.edu.cn/archlinuxarm/$arch/$repo`)
 
 change apt mirror `sudo nano /etc/apt/sources.list` to a closer server:
 - check: https://wiki.ubuntu.com/Mirrors
@@ -45,7 +45,9 @@ sudo pacman -S --needed \
   tar gzip p7zip $(: "compress tool") \
   htop $(: "process stat") \
   vnstat nethogs $(: "net stat") \
-  git $(: "develop tool")
+  git $(: "develop tool") \
+  man bash-completion $(: "arch CLI basic") \
+  --noconfirm $(: "skip confirm")
 
 # debian/ubuntu
 sudo apt update
