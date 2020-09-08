@@ -151,6 +151,9 @@ i3-wm i3status dmenu feh # feh as "background"
 ttf-symbola # fix JetBarain's emoji
 noto-fonts noto-fonts-cjk noto-fonts-emoji # for browser
 
-# CPU overheat, check: https://wiki.archlinux.org/index.php/CPU_frequency_scaling#thermald
-thermald # need start & enable systemd service
+# prevent CPU overheat, check: https://wiki.archlinux.org/index.php/CPU_frequency_scaling#thermald
+thermald # need enable & start systemd service
+
+# reduce CPU power draw, check: https://wiki.archlinux.org/index.php/Undervolting_CPU#Configuration_and_usage
+intel-undervolt # need tweak (all -50 for me) & enable & start systemd service
 ```
