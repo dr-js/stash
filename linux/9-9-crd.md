@@ -3,7 +3,10 @@
 
 useful for remote access machine with 4+GiB memory,
   can detect and use LAN p2p so local connect is low latency.
-  alternative can test `xpra` HTML5 (quite early stage in 2019)
+
+This currently not support arm linux,
+  alternative can use SSH + X11 forwarding (check `9-4-x11.md` for comparison),
+  or test `xpra` HTML5 (quite early stage in 2019)
 
 
 #### apt install

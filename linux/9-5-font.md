@@ -4,6 +4,47 @@ list font: `fc-list | sort | less`
 
 reload font cache: `fc-cache -vf`
 
+
+#### add custom default
+
+with `sudo nano /etc/fonts/local.conf` and add config like:
+```xml
+<?xml version="1.0"?>
+<!DOCTYPE fontconfig SYSTEM "fonts.dtd">
+<fontconfig>
+ <alias>
+   <family>sans-serif</family>
+   <prefer>
+     <family>Noto Sans</family>
+     <family>Noto Color Emoji</family>
+     <family>Noto Emoji</family>
+   </prefer> 
+ </alias>
+
+ <alias>
+   <family>serif</family>
+   <prefer>
+     <family>Noto Serif</family>
+     <family>Noto Color Emoji</family>
+     <family>Noto Emoji</family>
+   </prefer>
+ </alias>
+
+ <alias>
+  <family>monospace</family>
+  <prefer>
+    <family>Consolas</family>
+    <family>Noto Color Emoji</family>
+    <family>Noto Emoji</family>
+   </prefer>
+ </alias>
+</fontconfig>
+```
+
+NOTE: for `Consolas` the file need to be copied from a win32 machine at `C:\Windows\Fonts\Consolas`,
+  and put under path like `/usr/share/fonts/TTF/` then reload font cache.
+
+
 #### related consideration
 
 unluckily currently font `Inconsolata@3.000` + `Xft` (for `xterm`, `dmenu`)

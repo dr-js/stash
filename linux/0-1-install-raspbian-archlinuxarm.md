@@ -26,4 +26,21 @@ consider attach fan or heatsink to reduce SPU temperature (~55°C with heatsink,
 
 # install ArchLinuxARM (ALARM)
 
-https://archlinuxarm.org/platforms/armv8/broadcom/raspberry-pi-4
+Just follow the official guide: https://archlinuxarm.org/platforms/armv8/broadcom/raspberry-pi-4
+
+
+# opinion
+
+The System on Chip(SoC) package is quite stable,
+  a slightly weaker CPU true,
+  lack of a proper builtin storage also true,
+  but this kind of SoC can run 10h with a small battery pack.
+
+But not all I needed is there, yet: (2020)
+- WebStorm sort of works, it is responsive and usable,
+    but it bundled x86 version of JRE, 
+    some missing native lib causing file watch being slow,
+    and some x86-only [lib](https://github.com/JetBrains/pty4j/issues/82) causing failed to open internal terminal
+- puppeteer will pull the wrong x86 linux chrome, and later failed to run
+- Chrome Remote Desktop do not support arm yet,
+    but SSH with X11 forwarding works well enough

@@ -148,12 +148,12 @@ xorg-server xorg-xinit autorandr xterm
 i3-wm i3status dmenu feh # feh as "background"
 
 # font
-ttf-symbola # fix JetBarain's emoji
 noto-fonts noto-fonts-cjk noto-fonts-emoji # for browser
+ttf-symbola # [AUR] fix JetBarain's emoji # TODO: test fix with `ttf-freefont ttf-liberation ttf-droid` from: https://bbs.archlinux.org/viewtopic.php?id=239313
 
-# prevent CPU overheat, check: https://wiki.archlinux.org/index.php/CPU_frequency_scaling#thermald
+# prevent Intel CPU overheat, check: https://wiki.archlinux.org/index.php/CPU_frequency_scaling#thermald
 thermald # need enable & start systemd service
 
-# reduce CPU power draw, check: https://wiki.archlinux.org/index.php/Undervolting_CPU#Configuration_and_usage
+# reduce Intel CPU power draw, check: https://wiki.archlinux.org/index.php/Undervolting_CPU#Configuration_and_usage
 intel-undervolt # need tweak (all -50 for me) & enable & start systemd service
 ```
