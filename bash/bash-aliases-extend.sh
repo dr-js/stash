@@ -1,13 +1,15 @@
-# setup with:
+# setup with: (or use below alias command `bash-aliases-extend-update`)
 #   (echo "" > ~/.bash_aliases_extend) && nano ~/.bash_aliases_extend # reset the file and open for edit
 # then add to `~/.bashrc`
 #   [[ -f ~/.bash_aliases_extend ]] && . ~/.bash_aliases_extend
 
 # =============================
 # mark version
-alias bash-aliases-extend-version='echo 0.3.2'
+alias bash-aliases-extend-version='echo 0.3.6'
+alias bash-aliases-extend-update='dr-js -f "https://raw.githubusercontent.com/dr-js/stash/master/bash/bash-aliases-extend.sh" -O ~/.bash_aliases_extend'
 
 alias BAEV=bash-aliases-extend-version
+alias BAEU=bash-aliases-extend-update
 
 # =============================
 # ls aliases (l*)
@@ -26,6 +28,7 @@ alias cb='cd ../'
 alias cbb='cd ../../'
 alias cbbb='cd ../../../'
 alias cbbbb='cd ../../../../'
+alias cbbbbb='cd ../../../../../'
 
 # =============================
 # git aliases (G*)
@@ -43,6 +46,8 @@ function git-cherry-pack-range { git cherry-pick "$1"^.."$2"; } # $1=commit-from
 alias git-cherry-pack-abort='git cherry-pick --abort'
 alias git-cherry-pack-continue='git cherry-pick --continue'
 alias git-clear='git remote prune origin && git gc --prune=now'
+alias git-commit='git commit'
+alias git-commit-amend='git commit --amend'
 alias git-tag-clear-local='git tag -d $(git tag -l)'
 alias git-ls-files-stage='git ls-files --stage'
 alias git-update-644='git update-index --chmod=-x'
@@ -69,6 +74,8 @@ alias GCPR=git-cherry-pack-range
 alias GCPA=git-cherry-pack-abort
 alias GCPC=git-cherry-pack-continue
 alias GC=git-clear
+alias GCM=git-commit
+alias GCMA=git-commit-amend
 alias GTCL=git-tag-clear-local
 alias GLS=git-ls-files-stage
 alias G644=git-update-644
@@ -260,12 +267,14 @@ if [[ "${__LINUX_PACKAGE_MANAGER}" == "pacman" ]]; then
   __SYSTEM_PACKAGE_UPDATE__='pacman-update'
   __SYSTEM_PACKAGE_REMOVE__='pacman-remove'
   __SYSTEM_PACKAGE_INSTALL_='pacman-install'
-  __SYSTEM_REBOOT_REQUIRED_='node -p "const [ , newV, oldV, dot, msgY, msgN ] = process.argv; const nV = (v) => v.replace(/\\W/g, dot).toLowerCase(); nV(newV) === nV(oldV) ? msgN : msgY" \
+  ## hacky node version for: https://bbs.archlinux.org/viewtopic.php?id=173508
+  ## NOTE: for ArchLinuxARM `uname -r` will print extra `-ARCH`
+  __SYSTEM_REBOOT_REQUIRED_='node -p "const [ , newV, oldV, dot, msgY, msgN ] = process.argv; const nV = (v) => v.replace(/\\W/g, dot).toLowerCase(); nV(oldV).startsWith(nV(newV)) ? msgN : msgY" \
     "$(pacman -Q linux | cut -d " " -f 2)" \
     "$(uname -r)" \
     "." \
     "Reboot Required" \
-    "nope"' ## hacky node version for: https://bbs.archlinux.org/viewtopic.php?id=173508
+    "nope"'
 fi
 
 if [[ "${__LINUX_PACKAGE_MANAGER}" == "apt" ]]; then

@@ -1,13 +1,15 @@
-# setup with:
+# setup with: (or use below alias command `bash-aliases-extend-wsl-update`)
 #   (echo "" > ~/.bash_aliases_extend_wsl) && nano ~/.bash_aliases_extend_wsl # reset the file and open for edit
 # then add to `~/.bashrc`: (default ubuntu `.bashrc` may be found at `/etc/skel/.bashrc`)
 #   [[ -f ~/.bash_aliases_extend_wsl ]] && . ~/.bash_aliases_extend_wsl
 
 # =============================
 # mark version
-alias bash-aliases-extend-wsl-version='echo 0.1.4'
+alias bash-aliases-extend-wsl-version='echo 0.3.6'
+alias bash-aliases-extend-wsl-update='dr-js -f "https://raw.githubusercontent.com/dr-js/stash/master/bash/bash-aliases-extend-wsl.sh" -O ~/.bash_aliases_extend_wsl'
 
 alias BAEWV=bash-aliases-extend-wsl-version
+alias BAEWU=bash-aliases-extend-wsl-update
 
 # =============================
 # TODO: NOTE: this will break for input with spaces
