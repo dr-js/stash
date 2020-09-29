@@ -5,7 +5,7 @@
 
 # =============================
 # mark version
-alias bash-aliases-extend-version='echo 0.3.6'
+alias bash-aliases-extend-version='echo 0.3.7'
 alias bash-aliases-extend-update='dr-js -f "https://raw.githubusercontent.com/dr-js/stash/master/bash/bash-aliases-extend.sh" -O ~/.bash_aliases_extend'
 
 alias BAEV=bash-aliases-extend-version
@@ -58,7 +58,7 @@ alias git-log-oneline='git log --date=short --pretty=format:"%C(auto,yellow)%h %
 alias git-log-oneline-16='git-log-oneline -16'
 alias git-log-graph='git log --graph --oneline'
 alias git-log-graph-16='git-log-graph -16'
-alias git-trace='GIT_TRACE=1'
+# alias git-trace='GIT_TRACE=1'
 
 alias G=git-fetch
 alias GG=git-git-combo
@@ -86,7 +86,7 @@ alias GLO=git-log-oneline
 alias GLO16=git-log-oneline-16
 alias GLG=git-log-graph
 alias GLG16=git-log-graph-16
-alias GT=git-trace
+# alias GT=git-trace
 
 # =============================
 # systemd aliases (SD*)
@@ -158,6 +158,7 @@ alias quick-shutdown='sudo shutdown 0'
 alias quick-reboot='sudo reboot'
 alias quick-df='df -h .'
 alias quick-ssh-key-md5-list='ssh-keygen -E md5 -lf ~/.ssh/authorized_keys'
+alias quick-list-listen-socket='ss -tulnp' # command from `iproute2`
 if [[ -d /sys/class/thermal/thermal_zone0 ]]; then
   alias quick-system-watch='watch --no-title "echo == cpufreq ==; cat /sys/devices/system/cpu/cpufreq/policy*/scaling_cur_freq; echo == thermal ==; cat /sys/class/thermal/thermal_zone*/temp;"'
 else # if grep -q "cpu MHz" /proc/cpuinfo; then
@@ -169,6 +170,7 @@ alias QSHUTDOWN=quick-shutdown
 alias QREBOOT=quick-reboot
 alias QDF=quick-df
 alias QSKML=quick-ssh-key-md5-list
+alias QLLS=quick-list-listen-socket
 alias QSW=quick-system-watch
 
 # =============================
@@ -193,7 +195,7 @@ alias cd-git='cd "${__PATH_GIT_ROOT}"'
 alias cd-log='cd /var/log/'
 alias cd-systemd='cd /lib/systemd/system/'
 alias cd-nginx='cd /etc/nginx/'
-alias cd-shadowsocks='cd /etc/shadowsocks*/' # pacman: /etc/shadowsocks/ | apt: /etc/shadowsocks-libev/
+alias cd-shadowsocks='cd /etc/shadowsocks-libev/' # pacman should create soft link /etc/shadowsocks-libev/ to  /etc/shadowsocks/
 
 alias CG=cd-git
 alias CL=cd-log
@@ -240,6 +242,8 @@ alias PX1=proxy-once
 __LINUX_RELEASE_NAME="$(source /etc/os-release 2> /dev/null && echo "$NAME" || echo "non-LSB")"
 [[ "$PREFIX" == *"com.termux"* ]] && __LINUX_RELEASE_NAME="Android (Termux)"
 
+__LINUX_CPU_ARCHITECTURE="$(uname --machine)" # mostly `x86_64`, and `aarch64` or `armv7l` for android/rpi4 check: https://en.wikipedia.org/wiki/Uname#Examples
+
 __LINUX_PACKAGE_MANAGER="unknown"
 [[ "${__LINUX_RELEASE_NAME}" == "Arch Linux" || "${__LINUX_RELEASE_NAME}" == "Arch Linux ARM" ]] && __LINUX_PACKAGE_MANAGER="pacman"
 [[ "${__LINUX_RELEASE_NAME}" == "Ubuntu" || "${__LINUX_RELEASE_NAME}" == "Debian GNU/Linux" || "${__LINUX_RELEASE_NAME}" == "Raspbian GNU/Linux" || "${__LINUX_RELEASE_NAME}" == "Android (Termux)" ]] && __LINUX_PACKAGE_MANAGER="apt"
@@ -254,22 +258,25 @@ if [[ "${__LINUX_PACKAGE_MANAGER}" == "pacman" ]]; then
     && ( pacman -Qtdq && sudo pacman -Rns $(pacman -Qtdq) || echo "nothing to clear" )'
   alias pacman-remove='sudo pacman -R'
   alias pacman-install='sudo pacman -S --needed'
+  function pacman-provide-bin { sudo pacman -F "$(command -v "$1")"; } # $1=bin-name-or-full-path # https://unix.stackexchange.com/questions/14858/in-arch-linux-how-can-i-find-out-which-package-to-install-that-will-contain-file
 
   alias PLA=pacman-list-all
   alias PL=pacman-list
   alias PU=pacman-update
   alias PR=pacman-remove
   alias PI=pacman-install
+  alias PPB=pacman-provide-bin
 
   # =============================
-  __SYSTEM_PACKAGE_LIST_ALL='pacman-list-all'
-  __SYSTEM_PACKAGE_LIST____='pacman-list'
-  __SYSTEM_PACKAGE_UPDATE__='pacman-update'
-  __SYSTEM_PACKAGE_REMOVE__='pacman-remove'
-  __SYSTEM_PACKAGE_INSTALL_='pacman-install'
+  __SYSTEM_PACKAGE_LIST_ALL___='pacman-list-all'
+  __SYSTEM_PACKAGE_LIST_______='pacman-list'
+  __SYSTEM_PACKAGE_UPDATE_____='pacman-update'
+  __SYSTEM_PACKAGE_REMOVE_____='pacman-remove'
+  __SYSTEM_PACKAGE_INSTALL____='pacman-install'
+  __SYSTEM_PACKAGE_PROVIDE_BIN='pacman-provide-bin'
   ## hacky node version for: https://bbs.archlinux.org/viewtopic.php?id=173508
   ## NOTE: for ArchLinuxARM `uname -r` will print extra `-ARCH`
-  __SYSTEM_REBOOT_REQUIRED_='node -p "const [ , newV, oldV, dot, msgY, msgN ] = process.argv; const nV = (v) => v.replace(/\\W/g, dot).toLowerCase(); nV(oldV).startsWith(nV(newV)) ? msgN : msgY" \
+  __SYSTEM_REBOOT_REQUIRED____='node -p "const [ , newV, oldV, dot, msgY, msgN ] = process.argv; const nV = (v) => v.replace(/\\W/g, dot).toLowerCase(); nV(oldV).startsWith(nV(newV)) ? msgN : msgY" \
     "$(pacman -Q linux | cut -d " " -f 2)" \
     "$(uname -r)" \
     "." \
@@ -285,37 +292,42 @@ if [[ "${__LINUX_PACKAGE_MANAGER}" == "apt" ]]; then
   alias apt-update='sudo apt update && sudo apt upgrade -y && sudo apt autoremove --purge -y'
   alias apt-remove='sudo apt autoremove --purge'
   alias apt-install='sudo apt install'
+  function apt-provide-bin { sudo dpkg -S "$(command -v "$1")"; } # $1=bin-name-or-full-path # https://serverfault.com/questions/30737/how-do-i-find-the-package-that-contains-a-given-program-on-ubuntu
 
   alias ALA=apt-list-all
   alias AL=apt-list
   alias AU=apt-update
   alias AR=apt-remove
   alias AI=apt-install
+  alias APB=apt-provide-bin
 
   # =============================
-  __SYSTEM_PACKAGE_LIST_ALL='apt-list-all'
-  __SYSTEM_PACKAGE_LIST____='apt-list'
-  __SYSTEM_PACKAGE_UPDATE__='apt-update'
-  __SYSTEM_PACKAGE_REMOVE__='apt-remove'
-  __SYSTEM_PACKAGE_INSTALL_='apt-install'
-  __SYSTEM_REBOOT_REQUIRED_='[[ -f /var/run/reboot-required ]] && echo "Reboot Required" || echo "nope"'
+  __SYSTEM_PACKAGE_LIST_ALL___='apt-list-all'
+  __SYSTEM_PACKAGE_LIST_______='apt-list'
+  __SYSTEM_PACKAGE_UPDATE_____='apt-update'
+  __SYSTEM_PACKAGE_REMOVE_____='apt-remove'
+  __SYSTEM_PACKAGE_INSTALL____='apt-install'
+  __SYSTEM_PACKAGE_PROVIDE_BIN='apt-provide-bin'
+  __SYSTEM_REBOOT_REQUIRED____='[[ -f /var/run/reboot-required ]] && echo "Reboot Required" || echo "nope"'
 fi
 
 # =============================
 # system aliases (S*)
-[[ -n "${__SYSTEM_PACKAGE_LIST_ALL}" ]] && alias system-package-list-all="${__SYSTEM_PACKAGE_LIST_ALL}"
-[[ -n "${__SYSTEM_PACKAGE_LIST____}" ]] && alias system-package-list="${__SYSTEM_PACKAGE_LIST____}"
-[[ -n "${__SYSTEM_PACKAGE_UPDATE__}" ]] && alias system-package-update="${__SYSTEM_PACKAGE_UPDATE__}"
-[[ -n "${__SYSTEM_PACKAGE_REMOVE__}" ]] && alias system-package-remove="${__SYSTEM_PACKAGE_REMOVE__}"
-[[ -n "${__SYSTEM_PACKAGE_INSTALL_}" ]] && alias system-package-install="${__SYSTEM_PACKAGE_INSTALL_}"
-[[ -n "${__SYSTEM_REBOOT_REQUIRED_}" ]] && alias system-reboot-required="${__SYSTEM_REBOOT_REQUIRED_}"
+[[ -n "${__SYSTEM_PACKAGE_LIST_ALL___}" ]] && alias system-package-list-all="${__SYSTEM_PACKAGE_LIST_ALL___}"
+[[ -n "${__SYSTEM_PACKAGE_LIST_______}" ]] && alias system-package-list="${__SYSTEM_PACKAGE_LIST_______}"
+[[ -n "${__SYSTEM_PACKAGE_UPDATE_____}" ]] && alias system-package-update="${__SYSTEM_PACKAGE_UPDATE_____}"
+[[ -n "${__SYSTEM_PACKAGE_REMOVE_____}" ]] && alias system-package-remove="${__SYSTEM_PACKAGE_REMOVE_____}"
+[[ -n "${__SYSTEM_PACKAGE_INSTALL____}" ]] && alias system-package-install="${__SYSTEM_PACKAGE_INSTALL____}"
+[[ -n "${__SYSTEM_PACKAGE_PROVIDE_BIN}" ]] && alias system-package-provide-bin="${__SYSTEM_PACKAGE_PROVIDE_BIN}"
+[[ -n "${__SYSTEM_REBOOT_REQUIRED____}" ]] && alias system-reboot-required="${__SYSTEM_REBOOT_REQUIRED____}"
 
-[[ -n "${__SYSTEM_PACKAGE_LIST_ALL}" ]] && alias SPLA=system-package-list-all
-[[ -n "${__SYSTEM_PACKAGE_LIST____}" ]] && alias SPL=system-package-list
-[[ -n "${__SYSTEM_PACKAGE_UPDATE__}" ]] && alias SPU=system-package-update
-[[ -n "${__SYSTEM_PACKAGE_REMOVE__}" ]] && alias SPR=system-package-remove
-[[ -n "${__SYSTEM_PACKAGE_INSTALL_}" ]] && alias SPI=system-package-install
-[[ -n "${__SYSTEM_REBOOT_REQUIRED_}" ]] && alias SRR=system-reboot-required
+[[ -n "${__SYSTEM_PACKAGE_LIST_ALL___}" ]] && alias SPLA=system-package-list-all
+[[ -n "${__SYSTEM_PACKAGE_LIST_______}" ]] && alias SPL=system-package-list
+[[ -n "${__SYSTEM_PACKAGE_UPDATE_____}" ]] && alias SPU=system-package-update
+[[ -n "${__SYSTEM_PACKAGE_REMOVE_____}" ]] && alias SPR=system-package-remove
+[[ -n "${__SYSTEM_PACKAGE_INSTALL____}" ]] && alias SPI=system-package-install
+[[ -n "${__SYSTEM_PACKAGE_PROVIDE_BIN}" ]] && alias SPPB=system-package-provide-bin
+[[ -n "${__SYSTEM_REBOOT_REQUIRED____}" ]] && alias SRR=system-reboot-required
 
 if [[ "${__LINUX_RELEASE_NAME}" == "Android (Termux)" ]]; then
   # =============================
@@ -326,8 +338,14 @@ if [[ "${__LINUX_RELEASE_NAME}" == "Android (Termux)" ]]; then
   # =============================
   # TODO: NOTE: now seems it's not needed
   # env path fix, check "https://github.com/termux/termux-packages/issues/1192"
-  alias proot-env='proot -b "$(which env):/usr/bin/env"'
-  alias proot-env-link='proot -b "$(which env):/usr/bin/env" --link2symlink'
+  alias proot-env='proot -b "$(command -v env):/usr/bin/env"'
+  alias proot-env-link='proot -b "$(command -v env):/usr/bin/env" --link2symlink'
   alias PE=proot-env
   alias PEL=proot-env-link
 fi
+
+# =============================
+# export to sub process env (test with `env` or `node -p process.env`)
+export __LINUX_RELEASE_NAME
+export __LINUX_CPU_ARCHITECTURE
+export __LINUX_PACKAGE_MANAGER

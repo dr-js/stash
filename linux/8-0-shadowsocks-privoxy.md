@@ -5,7 +5,12 @@
 
 install `shadowsocks-libev`:
 ```shell script
-sudo pacman -S shadowsocks-libev --noconfirm # arch
+( # arch
+  sudo pacman -S shadowsocks-libev --noconfirm
+  sudo mkdir -p /etc/shadowsocks/
+  sudo ln -sfT /etc/shadowsocks /etc/shadowsocks-libev # patch naming
+  sudo ln -sfT shadowsocks-libev@.service /lib/systemd/system/shadowsocks-libev-local@.service # patch naming
+)
 
 ( # ubuntu, old but easy version (for new and hacky version check: server/data-host/51-shadowsocks/setup.sh)
   # for Debian 8 or higher / Ubuntu 16.10 or higher, check: https://github.com/shadowsocks/shadowsocks-libev#debian--ubuntu
@@ -14,14 +19,12 @@ sudo pacman -S shadowsocks-libev --noconfirm # arch
 )
 ```
 
-check manual for config: `man shadowsocks-libev`
+check manual for config file: `man shadowsocks-libev`
 
 
 #### `shadowsocks` server
 
-config `sudo mkdir -p /etc/shadowsocks/ && sudo nano /etc/shadowsocks/config.json` (arch)
-or `sudo nano /etc/shadowsocks-libev/config.json` (ubuntu)
-and add:
+config `sudo nano /etc/shadowsocks-libev/config.json` and add:
 ```json
 {
   "server": [ "::", "0.0.0.0" ],
@@ -36,25 +39,15 @@ and add:
 
 enable server service:
 ```shell script
-( # arch
-  sudo systemctl enable shadowsocks-libev-server@config.service # enable server
-  sudo systemctl restart shadowsocks-libev-server@config.service # apply config
-  sudo systemctl status shadowsocks-libev-server@config.service # check status
-)
-
-( # ubuntu
-  sudo systemctl enable shadowsocks-libev.service # enable server
-  sudo systemctl restart shadowsocks-libev.service # apply config
-  sudo systemctl status shadowsocks-libev.service # check status
-)
+sudo systemctl enable shadowsocks-libev-server@config.service # enable server
+sudo systemctl restart shadowsocks-libev-server@config.service # apply config
+sudo systemctl status shadowsocks-libev-server@config.service # check status
 ```
 
 
 #### `shadowsocks` local
 
-config `sudo mkdir -p /etc/shadowsocks/ && sudo nano /etc/shadowsocks/local-config.json` (arch)
-or `sudo nano /etc/shadowsocks-libev/local-config.json` (ubuntu)
-add:
+config `sudo nano /etc/shadowsocks-libev/local-config.json` add:
 ```json
 {
   "local_address": "127.0.0.1",
@@ -71,17 +64,9 @@ add:
 
 enable server service: 
 ```shell script
-( # arch
-  sudo systemctl enable shadowsocks-libev@local-config.service # enable server
-  sudo systemctl restart shadowsocks-libev@local-config.service # apply config
-  sudo systemctl status shadowsocks-libev@local-config.service # check status
-)
-
-( # ubuntu
-  sudo systemctl enable shadowsocks-libev-local@local-config.service # enable server
-  sudo systemctl restart shadowsocks-libev-local@local-config.service # apply config
-  sudo systemctl status shadowsocks-libev-local@local-config.service # check status
-)
+sudo systemctl enable shadowsocks-libev-local@local-config.service # enable server
+sudo systemctl restart shadowsocks-libev-local@local-config.service # apply config
+sudo systemctl status shadowsocks-libev-local@local-config.service # check status
 ```
 
 
