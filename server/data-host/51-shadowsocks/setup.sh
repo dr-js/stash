@@ -8,14 +8,14 @@ mkdir -p ~/SHADOWSOCKS_DEBIAN/ # borrow newer version from debian backport
 ( cd ~/SHADOWSOCKS_DEBIAN/
   wget http://ftp.debian.org/debian/pool/main/i/init-system-helpers/init-system-helpers_1.56~bpo9+1_all.deb
   wget http://ftp.debian.org/debian/pool/main/m/mbedtls/libmbedcrypto0_2.4.2-1+deb9u3_amd64.deb
-  wget http://ftp.debian.org/debian/pool/main/s/shadowsocks-libev/shadowsocks-libev_3.3.4+ds-3~bpo9+1_amd64.deb
+  wget http://ftp.debian.org/debian/pool/main/s/shadowsocks-libev/shadowsocks-libev_3.3.4+ds-5_amd64.deb
   echo "69d8f3bca9c78db834faf7022e3871b2e45dfc61d69854813325e3225afc6a20  init-system-helpers_1.56~bpo9+1_all.deb" > ./SHADOWSOCKS_DEB_SHA256SUM
   echo "87a4196bed3d184b6713b9bdcceb8540478c595490398e23ba7d90a4eacf4334  libmbedcrypto0_2.4.2-1+deb9u3_amd64.deb" >> ./SHADOWSOCKS_DEB_SHA256SUM
-  echo "7d4d0cedea2b584c3cbff085005ada56d721f78dfc1f350f7429ac7e58b2b489  shadowsocks-libev_3.3.4+ds-3~bpo9+1_amd64.deb" >> ./SHADOWSOCKS_DEB_SHA256SUM
+  echo "3faceab09a4ce0bc9f4394a4b19baeb8bc707a80e46405c8bd07e8aebee48ea7  shadowsocks-libev_3.3.4+ds-5_amd64.deb" >> ./SHADOWSOCKS_DEB_SHA256SUM
   sha256sum -c ./SHADOWSOCKS_DEB_SHA256SUM
   sudo dpkg -i init-system-helpers_1.56~bpo9+1_all.deb
   sudo dpkg -i libmbedcrypto0_2.4.2-1+deb9u3_amd64.deb
-  sudo dpkg -i shadowsocks-libev_3.3.4+ds-3~bpo9+1_amd64.deb || sudo apt install -f -y # fix missing dependencies
+  sudo dpkg -i shadowsocks-libev_3.3.4+ds-5_amd64.deb || sudo apt install -f -y # fix missing dependencies
 )
 rm -rf ~/SHADOWSOCKS_DEBIAN/
 
