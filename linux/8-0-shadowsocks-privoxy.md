@@ -12,8 +12,9 @@ install `shadowsocks-libev`:
   sudo ln -sfT shadowsocks-libev@.service /lib/systemd/system/shadowsocks-libev-local@.service # patch naming
 )
 
-( # ubuntu, old but easy version (for new and hacky version check: server/data-host/51-shadowsocks/setup.sh)
-  # for Debian 8 or higher / Ubuntu 16.10 or higher, check: https://github.com/shadowsocks/shadowsocks-libev#debian--ubuntu
+( # debian can use backport to get newer version
+  # ubuntu, old but easy version (for new and hacky version check: server/data-host/51-shadowsocks/setup.sh)
+  # also check: https://github.com/shadowsocks/shadowsocks-libev#debian--ubuntu
   sudo apt update
   sudo apt install shadowsocks-libev -y
 )

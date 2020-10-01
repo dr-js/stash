@@ -38,6 +38,11 @@ change apt mirror `sudo nano /etc/apt/sources.list` to a closer server:
 - check: https://mirrors.tuna.tsinghua.edu.cn/help/raspbian/
 - setup apt proxy, check: `./8-9-proxy-config.md`
 
+add debian backport to get newer package:
+- check: https://backports.debian.org/
+- check: https://mirrors.tuna.tsinghua.edu.cn/help/debian/
+- to make apt install backport by default check: https://unix.stackexchange.com/questions/310222/how-to-tell-apt-to-use-the-latest-package-by-default/310259#310259
+
 ```shell script
 # arch
 sudo pacman -S --needed \
