@@ -5,7 +5,7 @@
 
 # =============================
 # mark version
-alias bash-aliases-extend-version='echo 0.3.7'
+alias bash-aliases-extend-version='echo 0.3.9'
 alias bash-aliases-extend-update='dr-js -f "https://raw.githubusercontent.com/dr-js/stash/master/bash/bash-aliases-extend.sh" -O ~/.bash_aliases_extend'
 
 alias BAEV=bash-aliases-extend-version
@@ -29,6 +29,7 @@ alias cbb='cd ../../'
 alias cbbb='cd ../../../'
 alias cbbbb='cd ../../../../'
 alias cbbbbb='cd ../../../../../'
+function ccd { mkdir -p "$1"; cd "$1"; } # $1=path to create and cd to
 
 # =============================
 # git aliases (G*)
@@ -160,10 +161,11 @@ alias quick-df='df -h .'
 alias quick-ssh-key-md5-list='ssh-keygen -E md5 -lf ~/.ssh/authorized_keys'
 alias quick-list-listen-socket='ss -tulnp' # command from `iproute2`
 if [[ -d /sys/class/thermal/thermal_zone0 ]]; then
-  alias quick-system-watch='watch --no-title "echo == cpufreq ==; cat /sys/devices/system/cpu/cpufreq/policy*/scaling_cur_freq; echo == thermal ==; cat /sys/class/thermal/thermal_zone*/temp;"'
+  __QUICK_SYSTEM_WATCH='watch --no-title "echo == cpufreq ==; cat /sys/devices/system/cpu/cpufreq/policy*/scaling_cur_freq; echo == thermal ==; cat /sys/class/thermal/thermal_zone*/temp;"'
 else # if grep -q "cpu MHz" /proc/cpuinfo; then
-  alias quick-system-watch='watch --no-title grep \"cpu MHz\" /proc/cpuinfo'
+  __QUICK_SYSTEM_WATCH='watch --no-title grep \"cpu MHz\" /proc/cpuinfo'
 fi
+alias quick-system-watch="${__QUICK_SYSTEM_WATCH}"
 
 alias QDDR=quick-dd-random
 alias QSHUTDOWN=quick-shutdown

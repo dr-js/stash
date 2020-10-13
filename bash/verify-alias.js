@@ -1,7 +1,7 @@
 const { resolve } = require('path')
 const { promises: fsAsync } = require('fs')
 
-// to prevent alias overwrite
+// parse and check to prevent alias overwrite
 
 const main = async () => {
   const bashScriptNameList = await loadBashScriptNameList()
@@ -13,8 +13,8 @@ const main = async () => {
     const content = String(await fsAsync.readFile(resolve(__dirname, bashScriptName)))
 
     let result
-    while (result = REGEXP_ALIAS.exec(content)) {
-      const [ , aliasName ] = result
+    while (result = REGEXP_ALIAS_FUNCTION.exec(content)) {
+      const [ , name0, name1, aliasName = name0 || name1 ] = result
       console.log('  [aliasName]', aliasName)
       if (aliasMap.has(aliasName)) throw new Error(`duplicate aliasName "${aliasName}" from: "${aliasMap.get(aliasName)}" and "${bashScriptName}"`)
       aliasMap.set(aliasName, bashScriptName)
@@ -26,7 +26,7 @@ const main = async () => {
 const loadBashScriptNameList = async () => (await fsAsync.readdir(__dirname))
   .filter((name) => name.endsWith('.sh'))
 
-const REGEXP_ALIAS = /alias ([\w]+)=/g
+const REGEXP_ALIAS_FUNCTION = /(?:alias ([\w-]+)=|function ([\w-]+) \{)/g
 
 main().then(
   () => console.log('done'),
