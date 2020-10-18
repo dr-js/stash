@@ -3,7 +3,7 @@ set -euo pipefail
 
 cat <<- 'EOM'
 MANUAL DATA CLEAR WITH:
-  # clinet server
+  # client server
   sudo umount "/mnt/data-link"
   sudo rmdir "/mnt/data-link"
   sudo rm -rf "/root/data-local/"

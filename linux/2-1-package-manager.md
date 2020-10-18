@@ -33,15 +33,22 @@ change pacman mirror `sudo nano /etc/pacman.d/mirrorlist`:
 - check: https://mirrors.tuna.tsinghua.edu.cn/help/archlinux/ (for ALARM: `Server = http://mirrors.tuna.tsinghua.edu.cn/archlinuxarm/$arch/$repo`)
 
 change apt mirror `sudo nano /etc/apt/sources.list` to a closer server:
+- setup apt proxy, check: `./8-9-proxy-config.md`
+- check: https://mirrors.tuna.tsinghua.edu.cn/help/debian/
+- check: https://mirrors.tuna.tsinghua.edu.cn/help/raspbian/
 - check: https://wiki.ubuntu.com/Mirrors
 - check mirror list: https://launchpad.net/ubuntu/+archivemirrors
-- check: https://mirrors.tuna.tsinghua.edu.cn/help/raspbian/
-- setup apt proxy, check: `./8-9-proxy-config.md`
 
 add debian backport to get newer package:
 - check: https://backports.debian.org/
 - check: https://mirrors.tuna.tsinghua.edu.cn/help/debian/
 - to make apt install backport by default check: https://unix.stackexchange.com/questions/310222/how-to-tell-apt-to-use-the-latest-package-by-default/310259#310259
+    `sudo nano /etc/apt/preferences.d/backports`
+    ```
+    Package: *
+    Pin: release a=buster-backports
+    Pin-Priority: 800
+    ```
 
 ```shell script
 # arch

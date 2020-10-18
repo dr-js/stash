@@ -5,7 +5,7 @@ SCRIPT_PATH="$(dirname "$(realpath "${BASH_SOURCE[0]}")")" # Absolute directory 
 
 # setup
 (source "${SCRIPT_PATH}/../[server-https]common.sh")
-sudo npm i -g "@dr-js/run@0.2"
+sudo npm i -g "@dr-js/run@0.3.0-dev.1"
 
 # local
 sudo mkdir -p "/root/data-local/server/dr-run/log/"

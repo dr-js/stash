@@ -22,12 +22,14 @@ install `nodejs` and `npm`:
   rm -rf ~/DIY_NPM/
 )
 
-( # ubuntu, check: https://github.com/nodesource/distributions/blob/master/README.md#debinstall
+( # debian/ubuntu, check: https://github.com/nodesource/distributions/blob/master/README.md#debinstall
   curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash - # common node.js install
   sudo apt install nodejs -y
 )
 
-npm config set update-notifier false # stop npm spawn many un-finishing update checking process
+# stop npm spawn many un-finishing update checking process
+sudo npm config set update-notifier false # for `sudo npm i -g`
+npm config set update-notifier false # for normal `npm i`
 ```
 
 optionally setup `npm` proxy through `shadowsocks + privoxy`, check: `./8-9-proxy-config.md`

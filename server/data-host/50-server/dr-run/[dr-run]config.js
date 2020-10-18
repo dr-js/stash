@@ -3,11 +3,9 @@ module.exports = {
   logPath: '/root/data-local/server/dr-run/log/',
   logFilePrefix: '[dr-run]',
 
-  authFile: '/mnt/data-link/private/server/DATA_HOST.key',
-
   rootPath: '/mnt/data-link/private/server/dr-run/',
-  tempPath: '/root/data-local/server/dr-run/temp/',
-
+  authFile: '/mnt/data-link/private/server/DATA_HOST.key',
+  fileUploadMergePath: '/root/data-local/server/dr-run/temp/',
   // websocketTunnelHost: '127.0.0.1:1080',
 
   host: '0.0.0.0:443',

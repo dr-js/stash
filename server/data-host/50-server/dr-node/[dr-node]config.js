@@ -9,10 +9,9 @@ module.exports = {
   // authFileGroupDefaultTag: 'DATA_HOST',
   permissionType: 'allow',
   // permissionFile: './permission.config.js',
-
-  explorerRootPath: '/mnt/data-link/private/server/dr-node/',
-  explorerUploadMergePath: '/root/data-local/server/dr-node/temp/',
-
+  fileRootPath: '/mnt/data-link/private/server/dr-node/',
+  fileUploadMergePath: '/root/data-local/server/dr-node/temp/',
+  explorer: true,
   // websocketTunnelHost: '127.0.0.1:1080',
 
   host: '0.0.0.0:443',

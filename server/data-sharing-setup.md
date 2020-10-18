@@ -17,30 +17,30 @@ $ tar -xf sample.tar
 $ tree sample-gitignore/
 sample-gitignore/
 ├── client-server
-│   ├── mnt
-│   │   ├── data-link -> ../../host-server/root/data-host
-│   │   └── NOTE here the symlink represents a remote-mount
-│   └── root
-│       └── data-local
-│           ├── private
-│           │   └── public
-│           │       └── share
-│           ├── public -> private/public
-│           └── share -> private/public/share
+│   ├── mnt
+│   │   ├── data-link -> ../../host-server/root/data-host
+│   │   └── NOTE here the symlink represents a remote-mount
+│   └── root
+│       └── data-local
+│           ├── private
+│           │   └── public
+│           │       └── share
+│           ├── public -> private/public
+│           └── share -> private/public/share
 └── host-server
   ├── mnt
-  │   └── data-link -> ../root/data-host
+  │   └── data-link -> ../root/data-host
   └── root
       ├── data-host
-      │   ├── private
-      │   │   └── public
-      │   │       └── share
-      │   ├── public -> private/public
-      │   └── share -> private/public/share
+      │   ├── private
+      │   │   └── public
+      │   │       └── share
+      │   ├── public -> private/public
+      │   └── share -> private/public/share
       └── data-local
           ├── private
-          │   └── public
-          │       └── share
+          │   └── public
+          │       └── share
           ├── public -> private/public
           └── share -> private/public/share
 ```
@@ -156,8 +156,8 @@ the result structure:
 $ tree
 .
 ├── private
-│   └── public
-│       └── share
+│   └── public
+│       └── share
 ├── public -> private/public
 └── share -> private/public/share
 ```
