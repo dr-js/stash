@@ -28,7 +28,7 @@ HOST_PORT="$(cd "${SCRIPT_PATH}" && node -p "require('./client-config.json')['cl
 NAME_DATA_LINK="data-link-$(node -p "new Date().toISOString().replace(/\\W/g, '-')")"
 sudo ssh-keygen -t rsa -b 4096 -N "" \
   -f "/root/.ssh/${NAME_DATA_LINK}.pri" \
-  -C "${NAME_DATA_LINK}#${HOSTNAME}"
+  -C "${NAME_DATA_LINK}#${HOST_HOSTNAME}"
 sudo mv "/root/.ssh/${NAME_DATA_LINK}.pri.pub" "/root/.ssh/${NAME_DATA_LINK}.pub" # fix naming
 sudo tee -a "/root/.ssh/config" <<- EOM
 # data-host
