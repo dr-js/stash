@@ -9,8 +9,7 @@ sudo modprobe tcp_bbr
 echo "tcp_bbr" >> /etc/modules-load.d/modules.conf
 ```
 
-then `sudo nano /etc/sysctl.d/99-sysctl.conf` (arch)
-or `sudo nano /etc/sysctl.conf` (ubuntu)
+then `sudo nano /etc/sysctl.conf`
 and add:
 
 ```shell script
@@ -104,8 +103,7 @@ net.ipv4.tcp_slow_start_after_idle = 0
 net.ipv4.tcp_fastopen = 3
 ```
 
-apply change with `sudo sysctl -p /etc/sysctl.d/99-sysctl.conf` (arch)
-or `sudo sysctl -p` (ubuntu)
+apply change with `sudo sysctl -p`
 
 check result with:
 ```shell script

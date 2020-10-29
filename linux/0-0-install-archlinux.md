@@ -3,7 +3,9 @@
 Mainly follow the guide: https://wiki.archlinux.org/index.php/Installation_guide
 Better keep another device available to search deeper on each step.
 
-The installation is to an Intel Compute Stick [STK2m364CC](https://ark.intel.com/content/www/us/en/ark/products/91981/intel-compute-stick-stk2m364cc.html)
+The installation is both to
+  an Intel Compute Stick [STK2m364CC](https://ark.intel.com/content/www/us/en/ark/products/91981/intel-compute-stick-stk2m364cc.html)
+  and later a Thinkpad X1 Tablet Gen3.
 
 With a USB stick as install media, and only configured working SSH though Wi-Fi, and not proceed further to install GUI.
 
@@ -97,7 +99,7 @@ When reaching the `Connect to the internet` section,
 while following: https://wiki.archlinux.org/index.php/Network_configuration/Wireless,
 some extra help:
 - for me to setup a working WI-FI, `ip link set interface up` is needed, but `iw dev interface set type ibss` is not
-- [guide] recommended lazy `wpa_supplicant + systemd-networkd` combo: https://bbs.archlinux.org/viewtopic.php?pid=1393759#p1393759
+- [guide|recommended] lazy `wpa_supplicant + systemd-networkd` combo: https://bbs.archlinux.org/viewtopic.php?pid=1393759#p1393759
 - [guide] step by step with `wpa_supplicant + dhclient`: https://linuxcommando.blogspot.com/2013/10/how-to-connect-to-wpawpa2-wifi-network.html
 
 Then for the `Partition the disks` section,
@@ -111,9 +113,9 @@ make sure to pull 2~4 of the nearest mirror up from the list,
 so later the pacman package download will be faster.
 
 Next in the `Install essential packages` section,
-I use `pacstrap /mnt base linux linux-firmware networkmanager sudo htop wget`,
+I use `pacstrap /mnt base linux linux-firmware sudo htop wget nano networkmanager iw`,
 since `networkmanager` includes the lazy `wpa_supplicant + systemd-networkd` WI-FI combo.
-Later you can still `pacman -S` all the package ypu need after setting up the Wi-Fi.
+Later you can still `pacman -S` all the package you need after setting up the Wi-Fi.
 
 Last in the `Boot loader` section,
 I just follow https://wiki.archlinux.org/index.php/GRUB#Installation_2 with `/efi/` as the `esp` mount point,
@@ -124,9 +126,14 @@ Finally, the clear up and reboot.
 
 #### initial boot up
 
-First boot into the installed Arch,
+Be patient when first boot into the installed Arch,
 I got a stuck on a text screen for about 1 minute,
-this may be some initial configuration, and not happen again.
+this may be some initial configuration, and will not happen again.
+
+For me the network previously setup do not work,
+  so I did the `wpa_supplicant + systemd-networkd` again, noticed the `wlan0` changed to `wlp2s0` or `wlp4s0`,
+  also need to start the `systemd-resolved`,
+  use `ip address` to check the connection, a reboot may be needed
 
 After that:
 - `pacman -S bash-completion man-db which screen openssh git p7zip ...`

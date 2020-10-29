@@ -52,3 +52,5 @@ sudo systemctrl enable wpa_supplicant@wlan0.service
 sudo ln -sfT /usr/lib/systemd/system/wpa_supplicant@.service \
   /etc/systemd/system/multi-user.target.wants/wpa_supplicant@wlan0.service
 ```
+
+also check `systemd-networkd` and `systemd-resolved`

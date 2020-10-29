@@ -41,9 +41,10 @@ alias git-status='git status'
 alias git-push='git push'
 alias git-reset-hard='git reset --hard @{upstream}'
 alias git-git-reset-head='git-git-combo && git-reset-hard'
+alias git-branch-list='git branch --all --list' # local and remote
 alias git-branch-delete='git branch -D'
-alias git-branch-checkout='git checkout -B'
-function git-cherry-pack-range { git cherry-pick "$1"^.."$2"; } # $1=commit-from, $1=commit-to # will include both from/to commit
+alias git-checkout-branch-remote='git checkout --track' # $1=remove-branch-name # create and switch to a local branch tracking the remote
+function git-cherry-pack-range { git cherry-pick "$1"^.."$2"; } # $1=commit-from, $2=commit-to # will include both from/to commit
 alias git-cherry-pack-abort='git cherry-pick --abort'
 alias git-cherry-pack-continue='git cherry-pick --continue'
 alias git-clear='git remote prune origin && git gc --prune=now'
@@ -69,8 +70,9 @@ alias GS=git-status
 alias GP=git-push
 alias GRH=git-reset-hard
 alias GGRH=git-git-reset-head
+alias GBL=git-branch-list
 alias GBD=git-branch-delete
-alias GBC=git-branch-checkout
+alias GCBR=git-checkout-branch-remote
 alias GCPR=git-cherry-pack-range
 alias GCPA=git-cherry-pack-abort
 alias GCPC=git-cherry-pack-continue
@@ -158,6 +160,7 @@ function quick-dd-random { dd bs=1048576 count="${1:-100}" if=/dev/urandom of=".
 alias quick-shutdown='sudo shutdown 0'
 alias quick-reboot='sudo reboot'
 alias quick-df='df -h .'
+alias quick-du='du -hd1'
 alias quick-ssh-key-md5-list='ssh-keygen -E md5 -lf ~/.ssh/authorized_keys'
 alias quick-list-listen-socket='ss -tulnp' # command from `iproute2`
 if [[ -d /sys/class/thermal/thermal_zone0 ]]; then
@@ -171,6 +174,7 @@ alias QDDR=quick-dd-random
 alias QSHUTDOWN=quick-shutdown
 alias QREBOOT=quick-reboot
 alias QDF=quick-df
+alias QDU=quick-du
 alias QSKML=quick-ssh-key-md5-list
 alias QLLS=quick-list-listen-socket
 alias QSW=quick-system-watch
