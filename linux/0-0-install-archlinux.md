@@ -3,7 +3,7 @@
 Mainly follow the guide: https://wiki.archlinux.org/index.php/Installation_guide
 Better keep another device available to search deeper on each step.
 
-The installation is both to
+The installation procedure is mainly for
   an Intel Compute Stick [STK2m364CC](https://ark.intel.com/content/www/us/en/ark/products/91981/intel-compute-stick-stk2m364cc.html)
   and later a Thinkpad X1 Tablet Gen3.
 
@@ -164,3 +164,12 @@ thermald # need enable & start systemd service
 # reduce Intel CPU power draw, check: https://wiki.archlinux.org/index.php/Undervolting_CPU#Configuration_and_usage
 intel-undervolt # need tweak (all -50 for me) & enable & start systemd service
 ```
+
+
+#### notes
+
+- for laptop battery status, use `acpi`.
+- if dual boot with win10, setting finger print there may cause some devices got locked out of linux,
+    most notable is the lost of network connection,
+    reset the `Security Chip`/`TPM` in `BIOS` will restore the linux access,
+    but also lost all you saved finger prints for win10.
