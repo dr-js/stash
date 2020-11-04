@@ -5,7 +5,7 @@
 
 # =============================
 # mark version
-alias bash-aliases-extend-version='echo 0.3.9'
+alias bash-aliases-extend-version='echo 0.3.14'
 alias bash-aliases-extend-update='dr-js -f "https://raw.githubusercontent.com/dr-js/stash/master/bash/bash-aliases-extend.sh" -O ~/.bash_aliases_extend'
 
 alias BAEV=bash-aliases-extend-version
@@ -50,6 +50,9 @@ alias git-cherry-pack-continue='git cherry-pick --continue'
 alias git-clear='git remote prune origin && git gc --prune=now'
 alias git-commit='git commit'
 alias git-commit-amend='git commit --amend'
+alias git-clone='git clone'
+alias git-clone-minimal='git clone --depth 1 --no-tags --config remote.origin.fetch=+refs/heads/master:refs/remotes/origin/master'
+function git-tag-combo { git tag --force "$1"; git push origin "$1"; }
 alias git-tag-clear-local='git tag -d $(git tag -l)'
 alias git-ls-files-stage='git ls-files --stage'
 alias git-update-644='git update-index --chmod=-x'
@@ -79,6 +82,9 @@ alias GCPC=git-cherry-pack-continue
 alias GC=git-clear
 alias GCM=git-commit
 alias GCMA=git-commit-amend
+alias GCLO=git-clone
+alias GCLOM=git-clone-minimal
+alias GTC=git-tag-combo
 alias GTCL=git-tag-clear-local
 alias GLS=git-ls-files-stage
 alias G644=git-update-644
@@ -92,7 +98,7 @@ alias GLG16=git-log-graph-16
 # alias GT=git-trace
 
 # =============================
-# systemd aliases (SD*)
+# systemd aliases (SD*,SR*)
 alias systemd-list-active='sudo systemctl list-units --type=service --state=active'
 alias systemd-list-enabled='sudo systemctl list-unit-files --type=service --state=enabled,generated'
 alias systemd-list-timers='sudo systemctl list-timers'
@@ -118,6 +124,14 @@ alias SDD=systemd-disable
 alias SDRS=systemd-restart
 alias SDRL=systemd-reload
 
+alias systemd-resolve-flush-caches='systemd-resolve --flush-caches'
+alias systemd-resolve-statistics='systemd-resolve --statistics'
+alias systemd-resolvectl-status='resolvectl status'
+
+alias SRFC=systemd-resolve-flush-caches
+alias SRS=systemd-resolve-statistics
+alias SRCS=systemd-resolvectl-status
+
 # =============================
 # npm aliases (N*)
 alias npm-list-global='npm ls -g --depth=0'
@@ -139,6 +153,58 @@ alias NO=npm-outdated
 alias NDI=npm-dedup-install
 alias NA=npm-audit
 alias NAF=npm-audit-fix
+
+# =============================
+# docker aliases (DC*,DI*)
+
+alias docker-container-run='sudo docker container run'
+function docker-container-run-bash { sudo docker container run --interactive --tty "$1" "/bin/bash"; } # $1=container name or id
+alias docker-container-exec='sudo docker container exec'
+function docker-container-exec-bash { sudo docker container exec --interactive --tty "$1" "/bin/bash"; } # $1=container name or id
+alias docker-container-attach='sudo docker container attach'
+alias docker-container-ls='sudo docker container ls'
+alias docker-container-rm='sudo docker container rm'
+alias docker-container-kill='sudo docker container kill'
+alias docker-container-stop='sudo docker container stop'
+alias docker-container-prune='sudo docker container prune'
+alias docker-container-stats='sudo docker container stats --no-stream --no-trunc'
+alias docker-container-inspect='sudo docker container inspect'
+
+alias DCR=docker-container-run
+alias DCRB=docker-container-run-bash
+alias DCE=docker-container-exec
+alias DCEB=docker-container-exec-bash
+alias DCA=docker-container-attach
+alias DCLS=docker-container-ls
+alias DCRM=docker-container-rm
+alias DCKILL=docker-container-kill
+alias DCSTOP=docker-container-stop
+alias DCS=docker-container-stats
+alias DCI=docker-container-inspect
+
+alias docker-image-build='sudo docker image build'
+alias docker-image-push='sudo docker image push'
+alias docker-image-pull='sudo docker image pull'
+alias docker-image-save='sudo docker image save'
+alias docker-image-load='sudo docker image import' # TODO: why the non-paired naming?
+alias docker-image-import='sudo docker image import'
+alias docker-image-ls='sudo docker image ls'
+alias docker-image-rm='sudo docker image rm'
+alias docker-image-prune='sudo docker image prune'
+alias docker-image-history='sudo docker image history'
+alias docker-image-inspect='sudo docker image inspect'
+
+alias DIB=docker-image-build
+alias DIPUSH=docker-image-push
+alias DIPULL=docker-image-pull
+alias DISAVE=docker-image-save
+alias DILOAD=docker-image-load
+alias DIIMPORT=docker-image-import
+alias DILS=docker-image-ls
+alias DIRM=docker-image-rm
+alias DIP=docker-image-prune
+alias DIH=docker-image-history
+alias DII=docker-image-inspect
 
 # =============================
 # screen aliases (S*)
