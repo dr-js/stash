@@ -5,7 +5,7 @@
 
 # =============================
 # mark version
-alias bash-aliases-extend-version='echo 0.3.14'
+alias bash-aliases-extend-version='echo 0.3.15'
 alias bash-aliases-extend-update='dr-js -f "https://raw.githubusercontent.com/dr-js/stash/master/bash/bash-aliases-extend.sh" -O ~/.bash_aliases_extend'
 
 alias BAEV=bash-aliases-extend-version
@@ -163,10 +163,11 @@ alias docker-container-exec='sudo docker container exec'
 function docker-container-exec-bash { sudo docker container exec --interactive --tty "$1" "/bin/bash"; } # $1=container name or id
 alias docker-container-attach='sudo docker container attach'
 alias docker-container-ls='sudo docker container ls'
+alias docker-container-ls-all='sudo docker container ls --all'
 alias docker-container-rm='sudo docker container rm'
+alias docker-container-prune='sudo docker container prune'
 alias docker-container-kill='sudo docker container kill'
 alias docker-container-stop='sudo docker container stop'
-alias docker-container-prune='sudo docker container prune'
 alias docker-container-stats='sudo docker container stats --no-stream --no-trunc'
 alias docker-container-inspect='sudo docker container inspect'
 
@@ -176,7 +177,9 @@ alias DCE=docker-container-exec
 alias DCEB=docker-container-exec-bash
 alias DCA=docker-container-attach
 alias DCLS=docker-container-ls
+alias DCLA=docker-container-ls-all
 alias DCRM=docker-container-rm
+alias DCP=docker-container-prune
 alias DCKILL=docker-container-kill
 alias DCSTOP=docker-container-stop
 alias DCS=docker-container-stats
@@ -189,6 +192,7 @@ alias docker-image-save='sudo docker image save'
 alias docker-image-load='sudo docker image import' # TODO: why the non-paired naming?
 alias docker-image-import='sudo docker image import'
 alias docker-image-ls='sudo docker image ls'
+alias docker-image-ls-all='sudo docker image ls --all'
 alias docker-image-rm='sudo docker image rm'
 alias docker-image-prune='sudo docker image prune'
 alias docker-image-history='sudo docker image history'
@@ -201,6 +205,7 @@ alias DISAVE=docker-image-save
 alias DILOAD=docker-image-load
 alias DIIMPORT=docker-image-import
 alias DILS=docker-image-ls
+alias DILA=docker-image-ls-all
 alias DIRM=docker-image-rm
 alias DIP=docker-image-prune
 alias DIH=docker-image-history
@@ -235,6 +240,7 @@ else # if grep -q "cpu MHz" /proc/cpuinfo; then
   __QUICK_SYSTEM_WATCH='watch --no-title grep \"cpu MHz\" /proc/cpuinfo'
 fi
 alias quick-system-watch="${__QUICK_SYSTEM_WATCH}"
+function quick-run-background { "$@" &>/dev/null & }
 
 alias QDDR=quick-dd-random
 alias QSHUTDOWN=quick-shutdown
@@ -244,16 +250,21 @@ alias QDU=quick-du
 alias QSKML=quick-ssh-key-md5-list
 alias QLLS=quick-list-listen-socket
 alias QSW=quick-system-watch
+alias QRBG=quick-run-background
 
 # =============================
 # @dr-js aliases (D*)
 alias dr-js-npm-install-global-all='sudo npm i -g @dr-js/core @dr-js/node @dr-js/dev'
 alias dr-js-npm-install-global-all-dev='sudo npm i -g @dr-js/core@dev @dr-js/node@dev @dr-js/dev@dev'
-alias dr-js-package-reset='dr-js --rm package-lock.json node_modules'
+alias dr-js-rm='dr-js --rm'
+alias dr-js-package-reset='dr-js-rm package-lock.json node_modules'
+alias dr-js-package-reset-combo='dr-js-package-reset && npm-install'
 
 alias DNIGA=dr-js-npm-install-global-all
 alias DNIGAD=dr-js-npm-install-global-all-dev
+alias DRM=dr-js-rm
 alias DPR=dr-js-package-reset
+alias DPRC=dr-js-package-reset-combo
 
 # =============================
 # common path alias (C*)

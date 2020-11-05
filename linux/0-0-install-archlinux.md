@@ -173,3 +173,12 @@ intel-undervolt # need tweak (all -50 for me) & enable & start systemd service
     most notable is the lost of network connection,
     reset the `Security Chip`/`TPM` in `BIOS` will restore the linux access,
     but also lost all you saved finger prints for win10.
+- to disable suspend when acpi detect lid closed, check: https://wiki.archlinux.org/index.php/Power_management#ACPI_events,
+    and set `HandleLidSwitch|HandleLidSwitchDocked|HandleLidSwitchExternalPower` all to `ignore` and reboot,
+    for discover the reason, with `sudo journalctl | grep systemd-logind | tail -32` I got logs like:
+    ```
+    Nov 04 13:38:17 DrX1 systemd-logind[309]: Lid closed.
+    Nov 04 13:38:17 DrX1 systemd-logind[309]: Suspending...
+    Nov 04 13:38:37 DrX1 systemd-logind[309]: Lid opened.
+    Nov 04 13:38:37 DrX1 systemd-logind[309]: Operation 'sleep' finished.
+    ```
