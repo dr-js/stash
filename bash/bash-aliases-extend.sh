@@ -5,7 +5,7 @@
 
 # =============================
 # mark version
-alias bash-aliases-extend-version='echo 0.3.15'
+alias bash-aliases-extend-version='echo 0.3.16'
 alias bash-aliases-extend-update='dr-js -f "https://raw.githubusercontent.com/dr-js/stash/master/bash/bash-aliases-extend.sh" -O ~/.bash_aliases_extend'
 
 alias BAEV=bash-aliases-extend-version
@@ -188,9 +188,9 @@ alias DCI=docker-container-inspect
 alias docker-image-build='sudo docker image build'
 alias docker-image-push='sudo docker image push'
 alias docker-image-pull='sudo docker image pull'
-alias docker-image-save='sudo docker image save'
-alias docker-image-load='sudo docker image import' # TODO: why the non-paired naming?
 alias docker-image-import='sudo docker image import'
+alias docker-image-load='docker-image-import' # TODO: why the non-paired naming?
+alias docker-image-save='sudo docker image save'
 alias docker-image-ls='sudo docker image ls'
 alias docker-image-ls-all='sudo docker image ls --all'
 alias docker-image-rm='sudo docker image rm'
@@ -201,9 +201,9 @@ alias docker-image-inspect='sudo docker image inspect'
 alias DIB=docker-image-build
 alias DIPUSH=docker-image-push
 alias DIPULL=docker-image-pull
-alias DISAVE=docker-image-save
-alias DILOAD=docker-image-load
 alias DIIMPORT=docker-image-import
+alias DILOAD=docker-image-load
+alias DISAVE=docker-image-save
 alias DILS=docker-image-ls
 alias DILA=docker-image-ls-all
 alias DIRM=docker-image-rm
@@ -288,14 +288,18 @@ alias CSS=cd-shadowsocks
 
 # =============================
 # proxy alias (PX*)
-__PROXY_HTTP="http://127.0.0.1:1080"
-__PROXY_SOCKS5="socks5://127.0.0.1:$(node -e "process.exitCode = Number(os.platform() === 'win32')" && echo "1081" || echo "1080")" # win10 SS support socks5+http in single port, but not on other platform
+__IS_WSL2="$([[ -d "/run/WSL" ]] && echo "1" || echo "")" # https://github.com/microsoft/WSL/issues/4555#issuecomment-647561393
+__PROXY_HTTP_PORT="$([[ "$__IS_WSL2" == "1" ]] && echo "21080" || echo "1080")" # use 21080 for WSL2 `privoxy`
+__PROXY_SOCKS5_PORT="$([[ "$__IS_WSL2" == "1" ]] && echo "21081" || node -e "process.exitCode = Number(os.platform() !== 'win32')" && echo "1080" || echo "1081")" # use 210801 for WSL2 `ss-local`, win10 SS support socks5+http in single port, but not on other platform
+__PROXY_HTTP="http://127.0.0.1:${__PROXY_HTTP_PORT}"
+__PROXY_HTTPS="http://127.0.0.1:${__PROXY_HTTP_PORT}" # most proxy support both
+__PROXY_SOCKS5="socks5://127.0.0.1:${__PROXY_SOCKS5_PORT}"
 
 alias proxy-on='export \
   http_proxy="${__PROXY_HTTP}" \
-  https_proxy="${__PROXY_HTTP}" \
+  https_proxy="${__PROXY_HTTPS}" \
   HTTP_PROXY="${__PROXY_HTTP}" \
-  HTTPS_PROXY="${__PROXY_HTTP}" \
+  HTTPS_PROXY="${__PROXY_HTTPS}" \
 '
 alias proxy-off='unset \
   http_proxy \
@@ -305,9 +309,9 @@ alias proxy-off='unset \
 '
 alias proxy-once=' \
   http_proxy="${__PROXY_HTTP}" \
-  https_proxy="${__PROXY_HTTP}" \
+  https_proxy="${__PROXY_HTTPS}" \
   HTTP_PROXY="${__PROXY_HTTP}" \
-  HTTPS_PROXY="${__PROXY_HTTP}" \
+  HTTPS_PROXY="${__PROXY_HTTPS}" \
 '
 
 alias PXON=proxy-on
@@ -429,6 +433,10 @@ fi
 
 # =============================
 # export to sub process env (test with `env` or `node -p process.env`)
+export __IS_WSL2
+export __PROXY_HTTP
+export __PROXY_HTTPS
+export __PROXY_SOCKS5
 export __LINUX_RELEASE_NAME
 export __LINUX_CPU_ARCHITECTURE
 export __LINUX_PACKAGE_MANAGER

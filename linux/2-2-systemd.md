@@ -36,3 +36,31 @@ ExecStop="/optional/absolute/path/to/script/file.sh"
 [Install]
 WantedBy=multi-user.target
 ```
+
+
+#### WSL2
+
+for WSL2 Debian there's no `systemd`, so instead run daemon with something like this:
+```shell script
+# init for WSL2 Debian
+
+sudo bash <<"EOF"
+
+# all should run as root
+shopt -s expand_aliases # allow alias
+source ~/.bash_aliases_extend # load alias
+
+# sshd
+mkdir -p "/run/sshd"
+screen -ls sshd || screen -S sshd -dm "$(which sshd)" -D
+
+# ss-local(shadowsocks-libev) + privoxy
+screen -ls ss-local || screen -S ss-local -dm "$(which ss-local)" -c /etc/shadowsocks-libev/local-config.json
+screen -ls privoxy || screen -S privoxy -dm "$(which privoxy)" --no-daemon /etc/privoxy/config
+
+# dockerd(+proxy) & containerd
+screen -ls containerd || screen -S containerd -dm "$(which containerd)"
+screen -ls dockerd || PX1 screen -S dockerd -dm "$(which dockerd)"
+
+EOF
+```

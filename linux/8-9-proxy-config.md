@@ -9,7 +9,7 @@ here assume we have: (replace with actual port)
 
 `nano ~/.ssh/config` add for each ssh host:
 for http proxy: 
-- with `connect`: (`apt install connect-proxy` and bundled with win32 git bash)
+- with `connect`: (`apt install connect-proxy` and bundled with win32 `git-bash`)
     ```
     Host github.com
       IdentityFile ~/.ssh/github_rsa
@@ -23,7 +23,7 @@ for socks5 proxy: (check: https://unix.stackexchange.com/questions/416010/ssh-th
       IdentityFile ~/.ssh/github_rsa
       ProxyCommand connect -S 127.0.0.1:00_SOCKS5_PORT_00 %h %p
     ```
-- or with `nc`: (`pacman -S openbsd-netcat`)
+- or with `nc`: (`pacman -S openbsd-netcat` or `apt i netcat-openbsd`)
     ```
     Host github.com
       IdentityFile ~/.ssh/github_rsa
@@ -76,6 +76,7 @@ and add:
 # check: https://docs.docker.com/config/daemon/systemd/#httphttps-proxy
 [Service]
 Environment="HTTP_PROXY=http://127.0.0.1:00_HTTP_PORT_00"
+Environment="NO_PROXY=localhost,127.0.0.1,docker-registry.example.com,.corp"
 ```
 then to apply:
 ```shell script

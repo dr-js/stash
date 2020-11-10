@@ -1,4 +1,7 @@
-# install Raspbian (Raspberry Pi OS)
+# install ARM Linux
+
+
+## install Raspbian (Raspberry Pi OS)
 
 Mainly follow the guide: https://projects.raspberrypi.org/en/projects/raspberry-pi-setting-up
 
@@ -24,12 +27,12 @@ with no extra USB device connected, 5V2A charger is enough for the basic server 
 consider attach fan or heatsink to reduce SPU temperature (~55°C with heatsink, ~53°C after `/boot/config.txt` tweak)
 
 
-# install ArchLinuxARM (ALARM)
+## install ArchLinuxARM (ALARM)
 
 Just follow the official guide: https://archlinuxarm.org/platforms/armv8/broadcom/raspberry-pi-4
 
 
-# opinion
+## opinion
 
 The System on Chip(SoC) package is quite stable,
   a slightly weaker CPU true,
