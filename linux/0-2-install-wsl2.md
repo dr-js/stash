@@ -23,6 +23,10 @@ This is a funny one:
 So result is the Linux in WSL2 will eat-up all host memory, and those cache cannot be freed from host.
 The solution is to limit the max memory for WSL, with: https://docs.microsoft.com/en-us/windows/wsl/wsl-config#wsl-2-settings
 
+Also a temp fix is sudo run: `sync; echo 1 > /proc/sys/vm/drop_caches` to clear most of the file cache in memory,
+  check: https://www.tecmint.com/clear-ram-memory-cache-buffer-and-swap-space-on-linux/
+  and: https://unix.stackexchange.com/questions/17936/setting-proc-sys-vm-drop-caches-to-clear-cache
+
 #### Fast systemd replacement script
 
 The WSL version of linux do not run systemd, and that's why it's fast.

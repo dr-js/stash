@@ -32,4 +32,5 @@ sudo npm config set update-notifier false # for `sudo npm i -g`
 npm config set update-notifier false # for normal `npm i`
 ```
 
+cn mirror: https://mirrors.tuna.tsinghua.edu.cn/help/nodesource/
 optionally setup `npm` proxy through `shadowsocks + privoxy`, check: `./8-9-proxy-config.md`
