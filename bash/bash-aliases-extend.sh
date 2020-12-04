@@ -5,8 +5,8 @@
 
 # =============================
 # mark version
-alias bash-aliases-extend-version='echo 0.3.16'
-alias bash-aliases-extend-update='dr-js -f "https://raw.githubusercontent.com/dr-js/stash/master/bash/bash-aliases-extend.sh" -O ~/.bash_aliases_extend'
+alias bash-aliases-extend-version='echo 0.3.18'
+alias bash-aliases-extend-update='dr-js -f "https://raw.githubusercontent.com/dr-js/stash/master/bash/bash-aliases-extend.sh" -O ~/.bash_aliases_extend && source ~/.bash_aliases_extend'
 
 alias BAEV=bash-aliases-extend-version
 alias BAEU=bash-aliases-extend-update
@@ -54,6 +54,9 @@ alias git-clone='git clone'
 alias git-clone-minimal='git clone --depth 1 --no-tags --config remote.origin.fetch=+refs/heads/master:refs/remotes/origin/master'
 function git-tag-combo { git tag --force "$1"; git push origin "$1"; }
 alias git-tag-clear-local='git tag -d $(git tag -l)'
+alias git-tag-push-origin='git push origin'
+alias git-tag-push-force-origin='git push --force origin'
+alias git-tag-delete-origin='git push --delete origin'
 alias git-ls-files-stage='git ls-files --stage'
 alias git-update-644='git update-index --chmod=-x'
 alias git-update-755='git update-index --chmod=+x'
@@ -86,6 +89,9 @@ alias GCLO=git-clone
 alias GCLOM=git-clone-minimal
 alias GTC=git-tag-combo
 alias GTCL=git-tag-clear-local
+alias GTPO=git-tag-push-origin
+alias GTPFO=git-tag-push-force-origin
+alias GTDO=git-tag-delete-origin
 alias GLS=git-ls-files-stage
 alias G644=git-update-644
 alias G755=git-update-755
@@ -158,7 +164,7 @@ alias NAF=npm-audit-fix
 # docker aliases (DC*,DI*)
 
 alias docker-container-run='sudo docker container run'
-function docker-container-run-bash { sudo docker container run --interactive --tty "$1" "/bin/bash"; } # $1=container name or id
+alias docker-container-run-bash='sudo docker container run --interactive --tty --entrypoint "/bin/bash"'
 alias docker-container-exec='sudo docker container exec'
 function docker-container-exec-bash { sudo docker container exec --interactive --tty "$1" "/bin/bash"; } # $1=container name or id
 alias docker-container-attach='sudo docker container attach'
@@ -170,6 +176,7 @@ alias docker-container-kill='sudo docker container kill'
 alias docker-container-stop='sudo docker container stop'
 alias docker-container-stats='sudo docker container stats --no-stream --no-trunc'
 alias docker-container-inspect='sudo docker container inspect'
+alias docker-container-commit='sudo docker container commit'
 
 alias DCR=docker-container-run
 alias DCRB=docker-container-run-bash
@@ -184,6 +191,7 @@ alias DCKILL=docker-container-kill
 alias DCSTOP=docker-container-stop
 alias DCS=docker-container-stats
 alias DCI=docker-container-inspect
+alias DCC=docker-container-commit
 
 alias docker-image-build='sudo docker image build'
 alias docker-image-push='sudo docker image push'
@@ -230,7 +238,8 @@ alias NNR=nano-reset
 function quick-dd-random { dd bs=1048576 count="${1:-100}" if=/dev/urandom of="./RANDOM-${1:-100}MiB"; } # $1=size-in-MiB-default-to-100
 alias quick-shutdown='sudo shutdown 0'
 alias quick-reboot='sudo reboot'
-alias quick-df='df -h .'
+alias quick-df='df -h'
+alias quick-df-current='df -h .'
 alias quick-du='du -hd1'
 alias quick-ssh-key-md5-list='ssh-keygen -E md5 -lf ~/.ssh/authorized_keys'
 alias quick-list-listen-socket='ss -tulnp' # command from `iproute2`
@@ -241,16 +250,21 @@ else # if grep -q "cpu MHz" /proc/cpuinfo; then
 fi
 alias quick-system-watch="${__QUICK_SYSTEM_WATCH}"
 function quick-run-background { "$@" &>/dev/null & }
+alias quick-drop-caches='sync; sudo bash -c "echo 1 > /proc/sys/vm/drop_caches"'
+alias quick-sudo-bash='sudo bash'
 
 alias QDDR=quick-dd-random
 alias QSHUTDOWN=quick-shutdown
 alias QREBOOT=quick-reboot
 alias QDF=quick-df
+alias QDFC=quick-df-current
 alias QDU=quick-du
 alias QSKML=quick-ssh-key-md5-list
 alias QLLS=quick-list-listen-socket
 alias QSW=quick-system-watch
 alias QRBG=quick-run-background
+alias QDC=quick-drop-caches
+alias QSB=quick-sudo-bash
 
 # =============================
 # @dr-js aliases (D*)
