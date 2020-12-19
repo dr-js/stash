@@ -5,8 +5,8 @@
 
 # =============================
 # mark version
-alias bash-aliases-extend-version='echo 0.3.18'
-alias bash-aliases-extend-update='dr-js -f "https://raw.githubusercontent.com/dr-js/stash/master/bash/bash-aliases-extend.sh" -O ~/.bash_aliases_extend && source ~/.bash_aliases_extend'
+alias bash-aliases-extend-version='echo 0.3.19'
+alias bash-aliases-extend-update='dr-node -f "https://raw.githubusercontent.com/dr-js/stash/master/bash/bash-aliases-extend.sh" -O ~/.bash_aliases_extend && source ~/.bash_aliases_extend'
 
 alias BAEV=bash-aliases-extend-version
 alias BAEU=bash-aliases-extend-update
@@ -273,12 +273,14 @@ alias dr-js-npm-install-global-all-dev='sudo npm i -g @dr-js/core@dev @dr-js/nod
 alias dr-js-rm='dr-js --rm'
 alias dr-js-package-reset='dr-js-rm package-lock.json node_modules'
 alias dr-js-package-reset-combo='dr-js-package-reset && npm-install'
+alias dr-js-package-reset-combo-combo='dr-js-package-reset && npm-install-prefer-offline'
 
 alias DNIGA=dr-js-npm-install-global-all
 alias DNIGAD=dr-js-npm-install-global-all-dev
 alias DRM=dr-js-rm
 alias DPR=dr-js-package-reset
 alias DPRC=dr-js-package-reset-combo
+alias DPRCC=dr-js-package-reset-combo-combo
 
 # =============================
 # common path alias (C*)

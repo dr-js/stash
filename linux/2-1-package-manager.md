@@ -58,7 +58,7 @@ sudo pacman -S --needed \
   htop $(: "process stat") \
   vnstat nethogs $(: "net stat") \
   git $(: "develop tool") \
-  man bash-completion exfat-utils $(: "arch CLI basic") \
+  man bash-completion $(: "CLI basic") \
   --noconfirm $(: "skip confirm")
 
 # debian/ubuntu
@@ -69,6 +69,11 @@ sudo apt install \
   htop $(: "process stat") \
   vnstat nethogs $(: "net stat") \
   git $(: "develop tool") \
-  man bash-completion exfat-utils $(: "arch CLI basic") \
+  man bash-completion $(: "CLI basic") \
   -y $(: "skip confirm")
+
+# extra optional
+SPI \
+  rsync \
+  exfat-utils
 ```
