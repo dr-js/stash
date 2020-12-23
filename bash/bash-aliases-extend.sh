@@ -5,7 +5,7 @@
 
 # =============================
 # mark version
-alias bash-aliases-extend-version='echo 0.3.19'
+alias bash-aliases-extend-version='echo 0.3.20'
 alias bash-aliases-extend-update='dr-node -f "https://raw.githubusercontent.com/dr-js/stash/master/bash/bash-aliases-extend.sh" -O ~/.bash_aliases_extend && source ~/.bash_aliases_extend'
 
 alias BAEV=bash-aliases-extend-version
@@ -242,7 +242,7 @@ alias quick-df='df -h'
 alias quick-df-current='df -h .'
 alias quick-du='du -hd1'
 alias quick-ssh-key-md5-list='ssh-keygen -E md5 -lf ~/.ssh/authorized_keys'
-alias quick-list-listen-socket='ss -tulnp' # command from `iproute2`
+alias quick-list-listen-socket='sudo ss -tulnp' # command from `iproute2`, use `sudo` to get full pid info
 if [[ -d /sys/class/thermal/thermal_zone0 ]]; then
   __QUICK_SYSTEM_WATCH='watch --no-title "echo == cpufreq ==; cat /sys/devices/system/cpu/cpufreq/policy*/scaling_cur_freq; echo == thermal ==; cat /sys/class/thermal/thermal_zone*/temp;"'
 else # if grep -q "cpu MHz" /proc/cpuinfo; then
@@ -252,6 +252,8 @@ alias quick-system-watch="${__QUICK_SYSTEM_WATCH}"
 function quick-run-background { "$@" &>/dev/null & }
 alias quick-drop-caches='sync; sudo bash -c "echo 1 > /proc/sys/vm/drop_caches"'
 alias quick-sudo-bash='sudo bash'
+function quick-tag-push { TAG="$(node -p "'v'+require('./package.json').version")" && git tag "$TAG" && git push origin "$TAG"; }
+function quick-tag-push-force { TAG="$(node -p "'v'+require('./package.json').version")" && git tag --force "$TAG" && git push origin --force "$TAG"; }
 
 alias QDDR=quick-dd-random
 alias QSHUTDOWN=quick-shutdown
@@ -265,6 +267,8 @@ alias QSW=quick-system-watch
 alias QRBG=quick-run-background
 alias QDC=quick-drop-caches
 alias QSB=quick-sudo-bash
+alias QTP=quick-tag-push
+alias QTPF=quick-tag-push-force
 
 # =============================
 # @dr-js aliases (D*)
