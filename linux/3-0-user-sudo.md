@@ -32,6 +32,11 @@ sudo passwd --delete "${USER_NAME}"
 
 to allow user skip password for sudo: (check: https://askubuntu.com/questions/334318/sudoers-file-enable-nopasswd-for-user-all-commands)
 ```shell script
+USER_NAME="dr"
+
+echo "${USER_NAME} ALL=(ALL) NOPASSWD:ALL" | EDITOR='tee -a' visudo # lazy way to allow sudo without password # https://stackoverflow.com/questions/323957/how-do-i-edit-etc-sudoers-from-a-script/28382838#28382838
+
+# or manually
 sudo visudo # will open a temp sudoer list in editor, append at the end of the file
 ## USER_NAME    ALL=(ALL) NOPASSWD: ALL # For a single user
 ## %GROUP_NAME  ALL=(ALL) NOPASSWD: ALL # For a group

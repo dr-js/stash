@@ -5,7 +5,7 @@
 
 # =============================
 # mark version
-alias bash-aliases-extend-version='echo 0.3.20'
+alias bash-aliases-extend-version='echo 0.3.21'
 alias bash-aliases-extend-update='dr-node -f "https://raw.githubusercontent.com/dr-js/stash/master/bash/bash-aliases-extend.sh" -O ~/.bash_aliases_extend && source ~/.bash_aliases_extend'
 
 alias BAEV=bash-aliases-extend-version
@@ -54,9 +54,9 @@ alias git-clone='git clone'
 alias git-clone-minimal='git clone --depth 1 --no-tags --config remote.origin.fetch=+refs/heads/master:refs/remotes/origin/master'
 function git-tag-combo { git tag --force "$1"; git push origin "$1"; }
 alias git-tag-clear-local='git tag -d $(git tag -l)'
-alias git-tag-push-origin='git push origin'
-alias git-tag-push-force-origin='git push --force origin'
-alias git-tag-delete-origin='git push --delete origin'
+alias git-tag-push-origin='git push origin' # append the tag name
+alias git-tag-push-force-origin='git push --force origin' # append the tag name
+alias git-tag-delete-origin='git push --delete origin' # append the tag name
 alias git-ls-files-stage='git ls-files --stage'
 alias git-update-644='git update-index --chmod=-x'
 alias git-update-755='git update-index --chmod=+x'
@@ -170,8 +170,11 @@ function docker-container-exec-bash { sudo docker container exec --interactive -
 alias docker-container-attach='sudo docker container attach'
 alias docker-container-ls='sudo docker container ls'
 alias docker-container-ls-all='sudo docker container ls --all'
+alias docker-container-ps='sudo docker container ps'
+alias docker-container-top='sudo docker container top'
 alias docker-container-rm='sudo docker container rm'
 alias docker-container-prune='sudo docker container prune'
+alias docker-container-prune-force='sudo docker container prune --force'
 alias docker-container-kill='sudo docker container kill'
 alias docker-container-stop='sudo docker container stop'
 alias docker-container-stats='sudo docker container stats --no-stream --no-trunc'
@@ -185,8 +188,11 @@ alias DCEB=docker-container-exec-bash
 alias DCA=docker-container-attach
 alias DCLS=docker-container-ls
 alias DCLA=docker-container-ls-all
+alias DCPS=docker-container-ps
+alias DCTOP=docker-container-top
 alias DCRM=docker-container-rm
 alias DCP=docker-container-prune
+alias DCPF=docker-container-prune-force
 alias DCKILL=docker-container-kill
 alias DCSTOP=docker-container-stop
 alias DCS=docker-container-stats
@@ -203,6 +209,7 @@ alias docker-image-ls='sudo docker image ls'
 alias docker-image-ls-all='sudo docker image ls --all'
 alias docker-image-rm='sudo docker image rm'
 alias docker-image-prune='sudo docker image prune'
+alias docker-image-prune-force='sudo docker image prune --force'
 alias docker-image-history='sudo docker image history'
 alias docker-image-inspect='sudo docker image inspect'
 
@@ -216,6 +223,7 @@ alias DILS=docker-image-ls
 alias DILA=docker-image-ls-all
 alias DIRM=docker-image-rm
 alias DIP=docker-image-prune
+alias DIPF=docker-image-prune-force
 alias DIH=docker-image-history
 alias DII=docker-image-inspect
 
@@ -254,6 +262,7 @@ alias quick-drop-caches='sync; sudo bash -c "echo 1 > /proc/sys/vm/drop_caches"'
 alias quick-sudo-bash='sudo bash'
 function quick-tag-push { TAG="$(node -p "'v'+require('./package.json').version")" && git tag "$TAG" && git push origin "$TAG"; }
 function quick-tag-push-force { TAG="$(node -p "'v'+require('./package.json').version")" && git tag --force "$TAG" && git push origin --force "$TAG"; }
+alias quick-git-diff='git diff --no-index --' # $1=old $2=new
 
 alias QDDR=quick-dd-random
 alias QSHUTDOWN=quick-shutdown
@@ -269,6 +278,7 @@ alias QDC=quick-drop-caches
 alias QSB=quick-sudo-bash
 alias QTP=quick-tag-push
 alias QTPF=quick-tag-push-force
+alias QGD=quick-git-diff
 
 # =============================
 # @dr-js aliases (D*)
@@ -366,6 +376,7 @@ if [[ "${__LINUX_PACKAGE_MANAGER}" == "pacman" ]]; then
   alias pacman-remove='sudo pacman -R'
   alias pacman-install='sudo pacman -S --needed'
   function pacman-provide-bin { sudo pacman -F "$(command -v "$1")"; } # $1=bin-name-or-full-path # https://unix.stackexchange.com/questions/14858/in-arch-linux-how-can-i-find-out-which-package-to-install-that-will-contain-file
+  alias pacman-why='sudo pacman -Qi' # check the `Required By` row
 
   alias PLA=pacman-list-all
   alias PL=pacman-list
@@ -373,6 +384,7 @@ if [[ "${__LINUX_PACKAGE_MANAGER}" == "pacman" ]]; then
   alias PR=pacman-remove
   alias PI=pacman-install
   alias PPB=pacman-provide-bin
+  alias PWHY=pacman-why
 
   # =============================
   __SYSTEM_PACKAGE_LIST_ALL___='pacman-list-all'
@@ -381,6 +393,7 @@ if [[ "${__LINUX_PACKAGE_MANAGER}" == "pacman" ]]; then
   __SYSTEM_PACKAGE_REMOVE_____='pacman-remove'
   __SYSTEM_PACKAGE_INSTALL____='pacman-install'
   __SYSTEM_PACKAGE_PROVIDE_BIN='pacman-provide-bin'
+  __SYSTEM_PACKAGE_WHY________='pacman-why'
   ## hacky node version for: https://bbs.archlinux.org/viewtopic.php?id=173508
   ## NOTE: for ArchLinuxARM `uname -r` will print extra `-ARCH`
   __SYSTEM_REBOOT_REQUIRED____='node -p "const [ , newV, oldV, dot, msgY, msgN ] = process.argv; const nV = (v) => v.replace(/\\W/g, dot).toLowerCase(); nV(oldV).startsWith(nV(newV)) ? msgN : msgY" \
@@ -400,6 +413,7 @@ if [[ "${__LINUX_PACKAGE_MANAGER}" == "apt" ]]; then
   alias apt-remove='sudo apt autoremove --purge'
   alias apt-install='sudo apt install'
   function apt-provide-bin { sudo dpkg -S "$(command -v "$1")"; } # $1=bin-name-or-full-path # https://serverfault.com/questions/30737/how-do-i-find-the-package-that-contains-a-given-program-on-ubuntu
+  alias apt-why='sudo apt-cache rdepends --no-suggests --no-conflicts --no-breaks --no-replaces --no-enhances --installed --recurse' # https://askubuntu.com/questions/5636/can-i-see-why-a-package-is-installed#comment505140_5637
 
   alias ALA=apt-list-all
   alias AL=apt-list
@@ -407,6 +421,7 @@ if [[ "${__LINUX_PACKAGE_MANAGER}" == "apt" ]]; then
   alias AR=apt-remove
   alias AI=apt-install
   alias APB=apt-provide-bin
+  alias AWHY=apt-why
 
   # =============================
   __SYSTEM_PACKAGE_LIST_ALL___='apt-list-all'
@@ -415,6 +430,7 @@ if [[ "${__LINUX_PACKAGE_MANAGER}" == "apt" ]]; then
   __SYSTEM_PACKAGE_REMOVE_____='apt-remove'
   __SYSTEM_PACKAGE_INSTALL____='apt-install'
   __SYSTEM_PACKAGE_PROVIDE_BIN='apt-provide-bin'
+  __SYSTEM_PACKAGE_WHY________='apt-why'
   __SYSTEM_REBOOT_REQUIRED____='[[ -f /var/run/reboot-required ]] && echo "Reboot Required" || echo "nope"'
 fi
 
@@ -426,6 +442,7 @@ fi
 [[ -n "${__SYSTEM_PACKAGE_REMOVE_____}" ]] && alias system-package-remove="${__SYSTEM_PACKAGE_REMOVE_____}"
 [[ -n "${__SYSTEM_PACKAGE_INSTALL____}" ]] && alias system-package-install="${__SYSTEM_PACKAGE_INSTALL____}"
 [[ -n "${__SYSTEM_PACKAGE_PROVIDE_BIN}" ]] && alias system-package-provide-bin="${__SYSTEM_PACKAGE_PROVIDE_BIN}"
+[[ -n "${__SYSTEM_PACKAGE_WHY________}" ]] && alias system-package-why="${__SYSTEM_PACKAGE_WHY________}"
 [[ -n "${__SYSTEM_REBOOT_REQUIRED____}" ]] && alias system-reboot-required="${__SYSTEM_REBOOT_REQUIRED____}"
 
 [[ -n "${__SYSTEM_PACKAGE_LIST_ALL___}" ]] && alias SPLA=system-package-list-all
@@ -434,6 +451,7 @@ fi
 [[ -n "${__SYSTEM_PACKAGE_REMOVE_____}" ]] && alias SPR=system-package-remove
 [[ -n "${__SYSTEM_PACKAGE_INSTALL____}" ]] && alias SPI=system-package-install
 [[ -n "${__SYSTEM_PACKAGE_PROVIDE_BIN}" ]] && alias SPPB=system-package-provide-bin
+[[ -n "${__SYSTEM_PACKAGE_WHY________}" ]] && alias SPW=system-package-why
 [[ -n "${__SYSTEM_REBOOT_REQUIRED____}" ]] && alias SRR=system-reboot-required
 
 if [[ "${__LINUX_RELEASE_NAME}" == "Android (Termux)" ]]; then
