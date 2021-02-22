@@ -114,8 +114,10 @@ sysctl net.ipv4.tcp_congestion_control
 increase process max open file with: `sudo nano /etc/security/limits.conf`
 and add:
 ```shell script
-*   soft    nproc     65535
-*   hard    nproc     65535
-*   soft    nofile    65535
-*   hard    nofile    65535
+*   soft    nproc     4096
+*   hard    nproc     4096
+*   soft    nofile    65536
+*   hard    nofile    65536
 ```
+
+test `nofile` with `ulimit -n`

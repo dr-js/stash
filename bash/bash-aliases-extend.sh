@@ -5,8 +5,8 @@
 
 # =============================
 # mark version
-alias bash-aliases-extend-version='echo 0.3.21'
-alias bash-aliases-extend-update='dr-node -f "https://raw.githubusercontent.com/dr-js/stash/master/bash/bash-aliases-extend.sh" -O ~/.bash_aliases_extend && source ~/.bash_aliases_extend'
+alias bash-aliases-extend-version='echo 0.3.22'
+alias bash-aliases-extend-update='dr-dev -f "https://raw.githubusercontent.com/dr-js/stash/master/bash/bash-aliases-extend.sh" -O ~/.bash_aliases_extend && source ~/.bash_aliases_extend'
 
 alias BAEV=bash-aliases-extend-version
 alias BAEU=bash-aliases-extend-update
@@ -39,6 +39,7 @@ alias git-git-git-combo='git fetch --prune && git gc --auto'
 alias git-git-git-git-combo='git fetch --prune && git gc --prune=now'
 alias git-status='git status'
 alias git-push='git push'
+alias git-push-force='git push --force'
 alias git-reset-hard='git reset --hard @{upstream}'
 alias git-git-reset-head='git-git-combo && git-reset-hard'
 alias git-branch-list='git branch --all --list' # local and remote
@@ -74,6 +75,7 @@ alias GGG=git-git-git-combo
 alias GGGG=git-git-git-git-combo
 alias GS=git-status
 alias GP=git-push
+alias GPF=git-push-force
 alias GRH=git-reset-hard
 alias GGRH=git-git-reset-head
 alias GBL=git-branch-list
@@ -260,9 +262,11 @@ alias quick-system-watch="${__QUICK_SYSTEM_WATCH}"
 function quick-run-background { "$@" &>/dev/null & }
 alias quick-drop-caches='sync; sudo bash -c "echo 1 > /proc/sys/vm/drop_caches"'
 alias quick-sudo-bash='sudo bash'
-function quick-tag-push { TAG="$(node -p "'v'+require('./package.json').version")" && git tag "$TAG" && git push origin "$TAG"; }
-function quick-tag-push-force { TAG="$(node -p "'v'+require('./package.json').version")" && git tag --force "$TAG" && git push origin --force "$TAG"; }
 alias quick-git-diff='git diff --no-index --' # $1=old $2=new
+function quick-git-tag-push { TAG="$(node -p "'v'+require('./package.json').version")" && git tag "$TAG" && git push origin "$TAG"; }
+function quick-git-tag-push-force { TAG="$(node -p "'v'+require('./package.json').version")" && git tag --force "$TAG" && git push origin --force "$TAG"; }
+alias quick-git-push-combo='git-push && quick-git-tag-push'
+alias quick-git-push-combo-force='git-push-force && quick-git-tag-push-force'
 
 alias QDDR=quick-dd-random
 alias QSHUTDOWN=quick-shutdown
@@ -276,9 +280,11 @@ alias QSW=quick-system-watch
 alias QRBG=quick-run-background
 alias QDC=quick-drop-caches
 alias QSB=quick-sudo-bash
-alias QTP=quick-tag-push
-alias QTPF=quick-tag-push-force
 alias QGD=quick-git-diff
+alias QGTP=quick-git-tag-push
+alias QGTPF=quick-git-tag-push-force
+alias QGPC=quick-git-push-combo
+alias QGPCF=quick-git-push-combo-force
 
 # =============================
 # @dr-js aliases (D*)

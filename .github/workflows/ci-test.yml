@@ -28,4 +28,4 @@ jobs:
           echo "npm: $(npm -v)"
 
       - name: Verify Alias
-        run: node bash/verify-alias.js
+        run: npx @dr-js/dev@0.4 -eI bash/verify-alias.js
