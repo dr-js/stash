@@ -5,7 +5,7 @@
 
 # =============================
 # mark version
-alias bash-aliases-extend-version='echo 0.3.22'
+alias bash-aliases-extend-version='echo 0.3.23'
 alias bash-aliases-extend-update='dr-dev -f "https://raw.githubusercontent.com/dr-js/stash/master/bash/bash-aliases-extend.sh" -O ~/.bash_aliases_extend && source ~/.bash_aliases_extend'
 
 alias BAEV=bash-aliases-extend-version
@@ -132,13 +132,15 @@ alias SDD=systemd-disable
 alias SDRS=systemd-restart
 alias SDRL=systemd-reload
 
-alias systemd-resolve-flush-caches='systemd-resolve --flush-caches'
-alias systemd-resolve-statistics='systemd-resolve --statistics'
-alias systemd-resolvectl-status='resolvectl status'
+alias systemd-resolve-flush-caches='sudo systemd-resolve --flush-caches'
+alias systemd-resolve-statistics='sudo systemd-resolve --statistics'
+alias systemd-resolvectl-status='sudo resolvectl status'
+alias systemd-journalctl-vacuum='sudo journalctl --flush --rotate && sudo journalctl --vacuum-size=500M'
 
 alias SRFC=systemd-resolve-flush-caches
 alias SRS=systemd-resolve-statistics
 alias SRCS=systemd-resolvectl-status
+alias SJV=systemd-journalctl-vacuum
 
 # =============================
 # npm aliases (N*)

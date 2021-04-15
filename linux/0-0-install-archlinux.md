@@ -27,12 +27,12 @@ The resulting system looks like:
   ```
   dr@Dr-Arch:~$ htop
     1  [||                                                                                1.1%]   Tasks: 17; 1 running
-    2  [                                                                                  0.0%]   Load average: 0.53 0.21 0.08 
+    2  [                                                                                  0.0%]   Load average: 0.53 0.21 0.08
     3  [                                                                                  0.0%]   Uptime: 00:00:59
     4  [                                                                                  0.0%]
     Mem[||||||                                                                      101M/3.74G]
     Swp[                                                                                 0K/0K]
-  
+
       PID USER      PRI  NI  VIRT   RES   SHR S CPU% MEM%   TIME+  Command
         1 root       20   0 26932 10896  8528 S  0.0  0.3  0:01.36 /sbin/init
       426 dr         20   0 18988  9716  8208 S  0.0  0.2  0:00.05 ├─ /usr/lib/systemd/systemd --user
@@ -62,6 +62,9 @@ Get ISO from:
 
 Then make a USB install media with `rufus`(win10) or `dd`(*nix).
 
+To make later install easier,
+  we can copy SSH pub-key and other install related file like shell scripts to the USB,
+  the files will be available under `/run/archiso/bootmnt/`.
 
 #### the state of the Intel Compute Stick before install
 
@@ -92,45 +95,61 @@ Already having a working Linux before the re-install helps, giving you a good sa
 The guide: https://wiki.archlinux.org/index.php/Installation_guide
 
 Boot the USB into the live shell,
-follow the guide and play around in the smart `zsh` for a bit,
-because soon you may miss that auto TAB feeling.
+  follow the guide and play around in the smart `zsh` for a bit,
+  because soon you may miss that auto TAB feeling.
 
 When reaching the `Connect to the internet` section,
-while following: https://wiki.archlinux.org/index.php/Network_configuration/Wireless,
-some extra help:
+  while following: https://wiki.archlinux.org/index.php/Network_configuration/Wireless,
+  some extra help:
 - for me to setup a working WI-FI, `ip link set interface up` is needed, but `iw dev interface set type ibss` is not
-- [guide|recommended] lazy `wpa_supplicant + systemd-networkd` combo: https://bbs.archlinux.org/viewtopic.php?pid=1393759#p1393759
+- [guide|recommended] laziest `iwd + systemd-networkd` combo: https://wiki.archlinux.org/index.php/Iwd#Connect_to_a_network
+    note, need setup in chroot: https://wiki.archlinux.org/index.php/Iwd#Enable_built-in_network_configuration
+    and copy the `/etc/systemd/network/20-ethernet.network` to get eth DHCP.
+- [guide] lazy `wpa_supplicant + systemd-networkd` combo: https://bbs.archlinux.org/viewtopic.php?pid=1393759#p1393759
 - [guide] step by step with `wpa_supplicant + dhclient`: https://linuxcommando.blogspot.com/2013/10/how-to-connect-to-wpawpa2-wifi-network.html
 
+
 Then for the `Partition the disks` section,
-I choose to reuse the existing disk partition and boot to `grub`:
+  I choose to reuse the existing disk partition and boot to `grub`:
 - `/mnt` - `/dev/mmcblk0p2`: install root
 - `/mnt/efi` - `/dev/mmcblk0p1`: EFI system partition
 - `swap` will be added after install as a swapfile
 
 For the `Select the mirrors` section,
-make sure to pull 2~4 of the nearest mirror up from the list,
-so later the pacman package download will be faster.
+  make sure to pull 2~4 of the nearest mirror up from the list,
+  so later the pacman package download will be faster.
+Get mirror by country from: https://archlinux.org/mirrorlist/?country=CN&country=JP&protocol=https&use_mirror_status=on
 
 Next in the `Install essential packages` section,
-I use `pacstrap /mnt base linux linux-firmware sudo htop wget nano networkmanager iw`,
-since `networkmanager` includes the lazy `wpa_supplicant + systemd-networkd` WI-FI combo.
-Later you can still `pacman -S` all the package you need after setting up the Wi-Fi.
+  I use `pacstrap /mnt base linux linux-firmware sudo htop wget nano openssh iwd`.
+  Later you can still `pacman -S --needed {name}` all the package you need after setting up the Wi-Fi.
 
 Last in the `Boot loader` section,
-I just follow https://wiki.archlinux.org/index.php/GRUB#Installation_2 with `/efi/` as the `esp` mount point,
-and as for processor microcode install the `intel-ucode` package https://wiki.archlinux.org/index.php/Microcode#Installation
+  I just follow https://wiki.archlinux.org/index.php/GRUB#Installation_2 with `/efi/` as the `esp` mount point,
+  and as for processor microcode install the `intel-ucode` package https://wiki.archlinux.org/index.php/Microcode#Installation
 
-Finally, the clear up and reboot.
+Add ssh for root:
+- setup `/root/.ssh/authorized_keys`
+- `systemctl enable sshd`
+
+To make Wi-Fi work after reboot, we should setup some related service:
+- `systemctl enable systemd-networkd systemd-resolved`
+- `systemctl enable iwd`
+
+Also recommend: `systemctl enable sshd systemd-timesyncd`
+
+Set a root password to allow later WiFi & ssh fix.
+
+Finally, the clear up, exit chroot and reboot.
 
 
 #### initial boot up
 
 Be patient when first boot into the installed Arch,
-I got a stuck on a text screen for about 1 minute,
-this may be some initial configuration, and will not happen again.
+  I got a stuck on a text screen for about 1 minute,
+  this may be some initial configuration, and will not happen again.
 
-For me the network previously setup do not work,
+Previously, for me the network previously setup do not work,
   so I did the `wpa_supplicant + systemd-networkd` again, noticed the `wlan0` changed to `wlp2s0` or `wlp4s0`,
   also need to start the `systemd-resolved`,
   use `ip address` to check the connection, a reboot may be needed

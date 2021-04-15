@@ -120,4 +120,4 @@ and add:
 *   hard    nofile    65536
 ```
 
-test `nofile` with `ulimit -n`
+test `nofile` with `ulimit -n` or check `/proc/self/limits` (may need reboot)

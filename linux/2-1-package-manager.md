@@ -55,7 +55,7 @@ add debian backport to get newer package:
 sudo pacman -S --needed \
   nano less screen curl wget openssh $(: "essential tool, sanity check") \
   tar gzip p7zip $(: "compress tool") \
-  htop $(: "process stat") \
+  htop lsof $(: "process stat") \
   vnstat nethogs $(: "net stat") \
   git $(: "develop tool") \
   man bash-completion $(: "CLI basic") \
@@ -66,7 +66,7 @@ sudo apt update
 sudo apt install \
   nano less screen curl wget openssh-client openssh-server $(: "essential tool, sanity check") \
   tar gzip p7zip-full $(: "compress tool") \
-  htop $(: "process stat") \
+  htop lsof $(: "process stat") \
   vnstat nethogs $(: "net stat") \
   git $(: "develop tool") \
   man bash-completion $(: "CLI basic") \

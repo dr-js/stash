@@ -6,13 +6,17 @@ USER_ID=17522
 USER_NAME="dr"
 USER_FULL_NAME="Dr 0x4472"
 
+# add group with same name & id
+sudo groupadd \
+  --gid "${USER_ID}" \
+  "${USER_NAME}"
 sudo useradd \
   --password "" $(: "The default is to disable the password.") \
   --expiredate "" $(: "The date on which the user account will be disabled. An empty string (no expiry) by default.") \
   --inactive -1 $(: "The number of days after a password expires until the account is permanently disabled. A value of -1 disables the feature.") \
   --shell "/bin/bash" $(: "The name of the user's login shell.") \
   --uid "${USER_ID}" $(: "The numerical value of the user's ID. This value must be unique.") \
-  --user-group $(: "Create a group with the same name as the user, and add the user to this group.") \
+  --gid "${USER_ID}" $(: "Join above group.") \
   --comment "${USER_FULL_NAME}" $(: "GECOS field of the new account") \
   --create-home $(: "Create the user's home directory if it does not exist.") \
   "${USER_NAME}" $(: "User login name, should be all lowercase.")
@@ -34,7 +38,8 @@ to allow user skip password for sudo: (check: https://askubuntu.com/questions/33
 ```shell script
 USER_NAME="dr"
 
-echo "${USER_NAME} ALL=(ALL) NOPASSWD:ALL" | EDITOR='tee -a' visudo # lazy way to allow sudo without password # https://stackoverflow.com/questions/323957/how-do-i-edit-etc-sudoers-from-a-script/28382838#28382838
+# lazy way to allow sudo without password: https://stackoverflow.com/questions/323957/how-do-i-edit-etc-sudoers-from-a-script/28382838#28382838
+echo "${USER_NAME} ALL=(ALL) NOPASSWD:ALL" | sudo EDITOR='tee -a' visudo
 
 # or manually
 sudo visudo # will open a temp sudoer list in editor, append at the end of the file
@@ -46,8 +51,8 @@ to delete existing user&group: (still keep user home directory)
 ```shell script
 USER_NAME="dr"
 
-userdel "${USER_NAME}"
-groupdel "${USER_NAME}" # should been removed in last command
+sudo userdel "${USER_NAME}"
+sudo groupdel "${USER_NAME}" # should been removed in last command
 ```
 
 to change existing user&group: (need at least flush gid)
@@ -66,17 +71,17 @@ USER_NAME="dr"
 NEW_UID=17522
 OLD_UID=1000
 
-chown -Rhc --from="${OLD_UID}:${OLD_UID}" "${NEW_UID}:${NEW_UID}" "/home/${USER_NAME}" # change uid/gid, this may miss some uid/gid only files
+sudo chown -Rhc --from="${OLD_UID}:${OLD_UID}" "${NEW_UID}:${NEW_UID}" "/home/${USER_NAME}" # change uid/gid, this may miss some uid/gid only files
 
 # for some tougher situations:
-chown -Rhc --from="${OLD_UID}" "${NEW_UID}" "/home/${USER_NAME}" # change uid
-chown -Rhc --from=":${OLD_UID}" ":${NEW_UID}" "/home/${USER_NAME}" # change gid
+sudo chown -Rhc --from="${OLD_UID}" "${NEW_UID}" "/home/${USER_NAME}" # change uid
+sudo chown -Rhc --from=":${OLD_UID}" ":${NEW_UID}" "/home/${USER_NAME}" # change gid
 ```
 
 to find possibly missed files:
 ```shell script
 OLD_UID=1000
 
-find / -uid "${OLD_UID}"
-find / -gid "${OLD_UID}"
+sudo find / -uid "${OLD_UID}"
+sudo find / -gid "${OLD_UID}"
 ```

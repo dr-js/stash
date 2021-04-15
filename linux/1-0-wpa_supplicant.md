@@ -1,5 +1,7 @@
 # `wpa_supplicant`
 
+NOTE: now `iwd` seem more simple to config
+
 `wpa_supplicant` is a cross-platform supplicant with support for WEP, WPA and WPA2.
 In other words for connecting to most Wi-Fi with password.
 
@@ -33,7 +35,7 @@ cat /etc/wpa_supplicant/wpa_supplicant*.conf
 ## 	psk=ddcbf7bc2471580f02d4d6dc72caffd06939b4b2dbabdcee01cd10b2ed6b14b8
 ## 	priority=80
 ## }
-## 
+##
 ## network={
 ## 	ssid="ACCESS-POINT-SSID-BACKUP"
 ## 	#psk="THE-PASSWORD-BACKUP"
