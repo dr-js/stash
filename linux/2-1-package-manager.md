@@ -42,13 +42,15 @@ change apt mirror `sudo nano /etc/apt/sources.list` to a closer server:
 add debian backport to get newer package:
 - check: https://backports.debian.org/
 - check: https://mirrors.tuna.tsinghua.edu.cn/help/debian/
-- to make apt install backport by default check: https://unix.stackexchange.com/questions/310222/how-to-tell-apt-to-use-the-latest-package-by-default/310259#310259
-    `sudo nano /etc/apt/preferences.d/backports`
-    ```
-    Package: *
-    Pin: release a=buster-backports
-    Pin-Priority: 800
-    ```
+to make apt install backport by default,
+check: https://unix.stackexchange.com/questions/310222/how-to-tell-apt-to-use-the-latest-package-by-default/310259#310259
+```
+sudo tee /etc/apt/preferences.d/backports <<- EOM
+Package: *
+Pin: release a=buster-backports
+Pin-Priority: 800
+EOM
+```
 
 ```shell script
 # arch

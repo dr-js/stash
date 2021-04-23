@@ -2,7 +2,7 @@
 
 add a user named `USER_NAME` and uid/gid set to `USER_ID` with: (it's better to lock uid/gid early when later mount remote disk)
 ```shell script
-USER_ID=17522
+USER_ID=17522 # node -p "('D'.charCodeAt() << 8) + 'r'.charCodeAt()"
 USER_NAME="dr"
 USER_FULL_NAME="Dr 0x4472"
 
@@ -82,6 +82,6 @@ to find possibly missed files:
 ```shell script
 OLD_UID=1000
 
-sudo find / -uid "${OLD_UID}"
-sudo find / -gid "${OLD_UID}"
+sudo find / -user "${OLD_UID}"
+sudo find / -group "${OLD_UID}"
 ```

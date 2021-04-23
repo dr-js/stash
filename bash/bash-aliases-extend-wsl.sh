@@ -42,7 +42,7 @@ alias ENT=exec-new-terminal
 # https://devblogs.microsoft.com/commandline/chmod-chown-wsl-improvements/
 # https://www.turek.dev/post/fix-wsl-file-permissions/
 # https://docs.microsoft.com/en-us/windows/wsl/wsl-config
-#### sudo tee > /etc/wsl.conf <<- 'EOM'
+#### sudo tee /etc/wsl.conf <<- 'EOM'
 #### [automount]
 #### enabled = true
 #### root = /mnt/

@@ -11,7 +11,7 @@ check: https://certbot.eff.org/
   sudo apt install software-properties-common -y
   sudo add-apt-repository ppa:certbot/certbot
   sudo apt update
-  # do not want the auto renew timer, this may cause multi-write to break remote shared cert folder
+  # do not want the auto renew timer, this may cause multi-write to break remote shared cert folder, and 80 port is taken
   sudo apt install certbot -y \
     -o Dpkg::Options::="--path-exclude=/etc/cron*/*" \
     -o Dpkg::Options::="--path-exclude=/lib/systemd/system/*"

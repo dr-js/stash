@@ -29,6 +29,8 @@ sudo chown -R root:root ~/data # reset owner to root
 test mount with:
 ```shell script
 sudo sshfs -o allow_other,IdentityFile=/path/to/ssh/KEY.pri USER@HOSTNAME_OR_IP:/home/USER/data/ /mnt/SSHFS_SOURCE/
+# or just:
+sudo sshfs -o allow_other SSH_CONFIG_HOST:/home/USER/data/ /mnt/SSHFS_SOURCE/
 ```
 
 basic setup, edited from: https://www.digitalocean.com/community/tutorials/how-to-use-sshfs-to-mount-remote-file-systems-over-ssh

@@ -6,7 +6,9 @@ check TCP bbr:
 sudo lsmod | grep bbr
 # if output no bbr then:
 sudo modprobe tcp_bbr
-echo "tcp_bbr" >> /etc/modules-load.d/modules.conf
+sudo tee -a /etc/modules-load.d/modules.conf <<- EOM
+tcp_bbr
+EOM
 ```
 
 then `sudo nano /etc/sysctl.conf`
@@ -111,13 +113,14 @@ sysctl net.ipv4.tcp_available_congestion_control
 sysctl net.ipv4.tcp_congestion_control
 ```
 
-increase process max open file with: `sudo nano /etc/security/limits.conf`
-and add:
+increase process max open file with:
 ```shell script
+sudo tee -a /etc/security/limits.conf <<- EOM
 *   soft    nproc     4096
 *   hard    nproc     4096
 *   soft    nofile    65536
 *   hard    nofile    65536
+EOM
 ```
 
 test `nofile` with `ulimit -n` or check `/proc/self/limits` (may need reboot)

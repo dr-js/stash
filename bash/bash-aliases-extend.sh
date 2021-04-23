@@ -5,7 +5,7 @@
 
 # =============================
 # mark version
-alias bash-aliases-extend-version='echo 0.3.23'
+alias bash-aliases-extend-version='echo 0.3.24'
 alias bash-aliases-extend-update='dr-dev -f "https://raw.githubusercontent.com/dr-js/stash/master/bash/bash-aliases-extend.sh" -O ~/.bash_aliases_extend && source ~/.bash_aliases_extend'
 
 alias BAEV=bash-aliases-extend-version
@@ -165,10 +165,10 @@ alias NA=npm-audit
 alias NAF=npm-audit-fix
 
 # =============================
-# docker aliases (DC*,DI*)
+# docker aliases (DC*,DI*,DV*)
 
 alias docker-container-run='sudo docker container run'
-alias docker-container-run-bash='sudo docker container run --interactive --tty --entrypoint "/bin/bash"'
+alias docker-container-run-bash='sudo docker container run --interactive --tty --rm --entrypoint "/bin/bash"'
 alias docker-container-exec='sudo docker container exec'
 function docker-container-exec-bash { sudo docker container exec --interactive --tty "$1" "/bin/bash"; } # $1=container name or id
 alias docker-container-attach='sudo docker container attach'
@@ -230,6 +230,16 @@ alias DIP=docker-image-prune
 alias DIPF=docker-image-prune-force
 alias DIH=docker-image-history
 alias DII=docker-image-inspect
+
+alias docker-volume-ls='sudo docker volume ls'
+alias docker-volume-rm='sudo docker volume rm'
+alias docker-volume-create='sudo docker volume create'
+alias docker-volume-inspect='sudo docker volume inspect'
+
+alias DVLS=docker-volume-ls
+alias DVRM=docker-volume-rm
+alias DVC=docker-volume-create
+alias DVI=docker-volume-inspect
 
 # =============================
 # screen aliases (S*)
