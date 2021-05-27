@@ -5,7 +5,7 @@
 
 # =============================
 # mark version
-alias bash-aliases-extend-version='echo 0.3.24'
+alias bash-aliases-extend-version='echo 0.3.25'
 alias bash-aliases-extend-update='dr-dev -f "https://raw.githubusercontent.com/dr-js/stash/master/bash/bash-aliases-extend.sh" -O ~/.bash_aliases_extend && source ~/.bash_aliases_extend'
 
 alias BAEV=bash-aliases-extend-version
@@ -135,7 +135,7 @@ alias SDRL=systemd-reload
 alias systemd-resolve-flush-caches='sudo systemd-resolve --flush-caches'
 alias systemd-resolve-statistics='sudo systemd-resolve --statistics'
 alias systemd-resolvectl-status='sudo resolvectl status'
-alias systemd-journalctl-vacuum='sudo journalctl --flush --rotate && sudo journalctl --vacuum-size=500M'
+alias systemd-journalctl-vacuum='sudo journalctl --flush --rotate && sudo journalctl --vacuum-size=0.5G'
 
 alias SRFC=systemd-resolve-flush-caches
 alias SRS=systemd-resolve-statistics
@@ -174,7 +174,9 @@ function docker-container-exec-bash { sudo docker container exec --interactive -
 alias docker-container-attach='sudo docker container attach'
 alias docker-container-ls='sudo docker container ls'
 alias docker-container-ls-all='sudo docker container ls --all'
-alias docker-container-ps='sudo docker container ps'
+alias docker-container-ls-minimal='sudo docker container ls --format="table {{.ID}}\t{{.Names}}\t{{.Image}}\t{{.State}}"'
+alias docker-container-logs='sudo docker container logs'
+alias docker-container-logs-tail='sudo docker container logs --follow --tail=10'
 alias docker-container-top='sudo docker container top'
 alias docker-container-rm='sudo docker container rm'
 alias docker-container-prune='sudo docker container prune'
@@ -192,7 +194,9 @@ alias DCEB=docker-container-exec-bash
 alias DCA=docker-container-attach
 alias DCLS=docker-container-ls
 alias DCLA=docker-container-ls-all
-alias DCPS=docker-container-ps
+alias DCLM=docker-container-ls-minimal
+alias DCLOG=docker-container-logs
+alias DCLOGT=docker-container-logs-tail
 alias DCTOP=docker-container-top
 alias DCRM=docker-container-rm
 alias DCP=docker-container-prune
@@ -211,6 +215,7 @@ alias docker-image-load='docker-image-import' # TODO: why the non-paired naming?
 alias docker-image-save='sudo docker image save'
 alias docker-image-ls='sudo docker image ls'
 alias docker-image-ls-all='sudo docker image ls --all'
+alias docker-image-ls-tag='sudo docker image ls --format="{{.Repository}}:{{.Tag}}"'
 alias docker-image-rm='sudo docker image rm'
 alias docker-image-prune='sudo docker image prune'
 alias docker-image-prune-force='sudo docker image prune --force'
@@ -225,6 +230,7 @@ alias DILOAD=docker-image-load
 alias DISAVE=docker-image-save
 alias DILS=docker-image-ls
 alias DILA=docker-image-ls-all
+alias DILT=docker-image-ls-tag
 alias DIRM=docker-image-rm
 alias DIP=docker-image-prune
 alias DIPF=docker-image-prune-force

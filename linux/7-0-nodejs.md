@@ -23,8 +23,8 @@ install `nodejs` and `npm`:
 )
 
 ( # debian/ubuntu, check: https://github.com/nodesource/distributions/blob/master/README.md#debinstall
-  curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash - # common node.js install
-  sudo apt install nodejs -y
+  curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash - # common node.js install
+  sudo apt-get install nodejs -y
 )
 
 # stop npm spawn many un-finishing update checking process
