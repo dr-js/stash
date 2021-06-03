@@ -1,25 +1,15 @@
 name: ci-test
 
-on: [ push ]
+on:
+  push: { branches: [ "**" ] }
 
 jobs:
   build:
-    strategy:
-      fail-fast: false # allow all test to run to the end
-      matrix:
-        os: [ ubuntu-latest ] # [ ubuntu-latest, windows-latest, macos-latest ]
-        node-version: [ 14.x ]
-
-    runs-on: ${{ matrix.os }}
-
+    runs-on: ubuntu-latest
     steps:
-      - name: Setup Git repo
-        uses: actions/checkout@v2 # https://github.com/actions/checkout
-
-      - name: Setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1 # https://github.com/actions/setup-node
-        with:
-          node-version: ${{ matrix.node-version }}
+      - uses: actions/checkout@v2 # https://github.com/actions/checkout
+      - uses: actions/setup-node@v1 # https://github.com/actions/setup-node
+        with: { node-version: "14.x" }
 
       - name: Log CI info
         run: |
@@ -27,5 +17,4 @@ jobs:
           echo "node: $(node -v)"
           echo "npm: $(npm -v)"
 
-      - name: Verify Alias
-        run: npx @dr-js/dev@0.4 -eI bash/verify-alias.js
+      - run: npx @dr-js/dev@0.4 -eI bash/verify-alias.js

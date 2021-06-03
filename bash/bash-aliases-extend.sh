@@ -5,7 +5,7 @@
 
 # =============================
 # mark version
-alias bash-aliases-extend-version='echo 0.3.25'
+alias bash-aliases-extend-version='echo 0.3.26'
 alias bash-aliases-extend-update='dr-dev -f "https://raw.githubusercontent.com/dr-js/stash/master/bash/bash-aliases-extend.sh" -O ~/.bash_aliases_extend && source ~/.bash_aliases_extend'
 
 alias BAEV=bash-aliases-extend-version
@@ -34,6 +34,7 @@ function ccd { mkdir -p "$1"; cd "$1"; } # $1=path to create and cd to
 # =============================
 # git aliases (G*)
 alias git-fetch='git fetch'
+alias git-fetch-all='git fetch --all --tags'
 alias git-git-combo='git fetch --prune' # no `--prune-tags`
 alias git-git-git-combo='git fetch --prune && git gc --auto'
 alias git-git-git-git-combo='git fetch --prune && git gc --prune=now'
@@ -54,10 +55,10 @@ alias git-commit-amend='git commit --amend'
 alias git-clone='git clone'
 alias git-clone-minimal='git clone --depth 1 --no-tags --config remote.origin.fetch=+refs/heads/master:refs/remotes/origin/master'
 function git-tag-combo { git tag --force "$1"; git push origin "$1"; }
-alias git-tag-clear-local='git tag -d $(git tag -l)'
+alias git-tag-clear-local='git tag --delete $(git tag -l)'
 alias git-tag-push-origin='git push origin' # append the tag name
 alias git-tag-push-force-origin='git push --force origin' # append the tag name
-alias git-tag-delete-origin='git push --delete origin' # append the tag name
+alias git-tag-delete-origin='git push --delete origin' # append the tag name (or full name like `refs/tags/v0.4.2`)
 alias git-ls-files-stage='git ls-files --stage'
 alias git-update-644='git update-index --chmod=-x'
 alias git-update-755='git update-index --chmod=+x'
@@ -69,7 +70,8 @@ alias git-log-graph='git log --graph --oneline'
 alias git-log-graph-16='git-log-graph -16'
 # alias git-trace='GIT_TRACE=1'
 
-alias G=git-fetch
+alias GF=git-fetch
+alias GFA=git-fetch-all
 alias GG=git-git-combo
 alias GGG=git-git-git-combo
 alias GGGG=git-git-git-git-combo
@@ -144,15 +146,16 @@ alias SJV=systemd-journalctl-vacuum
 
 # =============================
 # npm aliases (N*)
-alias npm-list-global='npm ls -g --depth=0'
-alias npm-install='npm i'
-alias npm-install-global='sudo npm i -g'
-alias npm-install-prefer-offline='npm i --prefer-offline'
-alias npm-install-package-lock-only='npm i --package-lock-only'
-alias npm-outdated='npm out'
-alias npm-dedup-install='npm ddp && npm i --prefer-offline'
+alias npm-list-global='npm ls --global --depth=0'
+alias npm-install='npm install'
+alias npm-install-global='sudo npm install --global'
+alias npm-install-prefer-offline='npm install --prefer-offline'
+alias npm-install-package-lock-only='npm install --package-lock-only'
+alias npm-outdated='npm outdated'
+alias npm-dedup-install='npm ddp && npm install --prefer-offline'
 alias npm-audit='npm audit'
 alias npm-audit-fix='npm audit fix'
+alias npm-run='npm run'
 
 alias NLSG=npm-list-global
 alias NI=npm-install
@@ -163,6 +166,7 @@ alias NO=npm-outdated
 alias NDI=npm-dedup-install
 alias NA=npm-audit
 alias NAF=npm-audit-fix
+alias NR=npm-run
 
 # =============================
 # docker aliases (DC*,DI*,DV*)
@@ -270,6 +274,14 @@ alias quick-df='df -h'
 alias quick-df-current='df -h .'
 alias quick-du='du -hd1'
 alias quick-ssh-key-md5-list='ssh-keygen -E md5 -lf ~/.ssh/authorized_keys'
+function quick-ssh-keygen { # $1=KEY_NAME, $2=HOST_HOSTNAME
+  KEY_NAME="${1:-"KEY_$(TZ=UTC0 date +%Y%m%d)_4096"}"
+  HOST_HOSTNAME="${2:-"$(node -p "os.hostname() || 'unknown-host'")"}"
+  sudo ssh-keygen -t rsa -b 4096 -N "" \
+  -f "./${KEY_NAME}.pri" \
+  -C "${KEY_NAME}@${HOST_HOSTNAME}"
+  sudo mv "./${KEY_NAME}.pri.pub" "./${KEY_NAME}.pub" # fix naming
+}
 alias quick-list-listen-socket='sudo ss -tulnp' # command from `iproute2`, use `sudo` to get full pid info
 if [[ -d /sys/class/thermal/thermal_zone0 ]]; then
   __QUICK_SYSTEM_WATCH='watch --no-title "echo == cpufreq ==; cat /sys/devices/system/cpu/cpufreq/policy*/scaling_cur_freq; echo == thermal ==; cat /sys/class/thermal/thermal_zone*/temp;"'
@@ -293,6 +305,7 @@ alias QDF=quick-df
 alias QDFC=quick-df-current
 alias QDU=quick-du
 alias QSKML=quick-ssh-key-md5-list
+alias QSKG=quick-ssh-keygen
 alias QLLS=quick-list-listen-socket
 alias QSW=quick-system-watch
 alias QRBG=quick-run-background
