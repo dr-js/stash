@@ -38,6 +38,8 @@ StrictModes yes
 LoginGraceTime 8 # in seconds, default: 2m
 MaxAuthTries 2
 
+ClientAliveInterval 30      # drop inactive client
+
 PubkeyAuthentication yes    # for ssh key login
 PasswordAuthentication no   # no password login
 PermitEmptyPasswords no

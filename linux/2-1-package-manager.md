@@ -55,7 +55,7 @@ EOM
 ```shell script
 # arch
 sudo pacman -S --needed \
-  nano less screen curl wget openssh $(: "essential tool, sanity check") \
+  which nano less screen curl wget openssh $(: "essential tool, sanity check") \
   tar gzip p7zip $(: "compress tool") \
   htop lsof $(: "process stat") \
   vnstat nethogs $(: "net stat") \

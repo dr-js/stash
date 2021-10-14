@@ -5,7 +5,7 @@
 
 # =============================
 # mark version
-alias bash-aliases-extend-version='echo 0.3.26'
+alias bash-aliases-extend-version='echo 0.3.27'
 alias bash-aliases-extend-update='dr-dev -f "https://raw.githubusercontent.com/dr-js/stash/master/bash/bash-aliases-extend.sh" -O ~/.bash_aliases_extend && source ~/.bash_aliases_extend'
 
 alias BAEV=bash-aliases-extend-version
@@ -19,9 +19,8 @@ alias la='ls -A'
 alias l='ls -CF'
 
 # =============================
-# screen clear aliases, should be supported in xterm/VT100
-alias CLS='clear && printf "\e[3J"'
-
+# screen clear aliases, should be supported in xterm/VT100 # https://apple.stackexchange.com/questions/31872/how-do-i-reset-the-scrollback-in-the-terminal-via-a-shell-command/318217#318217
+alias CLS='printf "\e[2J\e[3J\e[H"'
 # =============================
 # cd aliases (c*)
 alias cb='cd ../'
@@ -43,8 +42,9 @@ alias git-push='git push'
 alias git-push-force='git push --force'
 alias git-reset-hard='git reset --hard @{upstream}'
 alias git-git-reset-head='git-git-combo && git-reset-hard'
-alias git-branch-list='git branch --all --list' # local and remote
-alias git-branch-delete='git branch -D'
+alias git-branch-list='git branch --list' # local
+alias git-branch-list-all='git branch --list --all' # local and remote
+alias git-branch-delete='git branch --delete --force'
 alias git-checkout-branch-remote='git checkout --track' # $1=remove-branch-name # create and switch to a local branch tracking the remote
 function git-cherry-pack-range { git cherry-pick "$1"^.."$2"; } # $1=commit-from, $2=commit-to # will include both from/to commit
 alias git-cherry-pack-abort='git cherry-pick --abort'
@@ -66,6 +66,8 @@ alias git-log='git log'
 alias git-log-16='git-log -16'
 alias git-log-oneline='git log --date=short --pretty=format:"%C(auto,yellow)%h %C(auto,blue)%>(12,trunc)%ad %C(auto,green)%<(7,trunc)%aN%C(auto,reset)%s%C(auto,red)% gD% D"'
 alias git-log-oneline-16='git-log-oneline -16'
+alias git-log-brief='git log --pretty=format:"- %s"'
+alias git-log-brief-16='git-log-brief -16'
 alias git-log-graph='git log --graph --oneline'
 alias git-log-graph-16='git-log-graph -16'
 # alias git-trace='GIT_TRACE=1'
@@ -81,6 +83,7 @@ alias GPF=git-push-force
 alias GRH=git-reset-hard
 alias GGRH=git-git-reset-head
 alias GBL=git-branch-list
+alias GBLA=git-branch-list-all
 alias GBD=git-branch-delete
 alias GCBR=git-checkout-branch-remote
 alias GCPR=git-cherry-pack-range
@@ -103,6 +106,8 @@ alias GL=git-log
 alias GL16=git-log-16
 alias GLO=git-log-oneline
 alias GLO16=git-log-oneline-16
+alias GLB=git-log-brief
+alias GLB16=git-log-brief-16
 alias GLG=git-log-graph
 alias GLG16=git-log-graph-16
 # alias GT=git-trace
@@ -113,6 +118,7 @@ alias systemd-list-active='sudo systemctl list-units --type=service --state=acti
 alias systemd-list-enabled='sudo systemctl list-unit-files --type=service --state=enabled,generated'
 alias systemd-list-timers='sudo systemctl list-timers'
 alias systemd-daemon-reload='sudo systemctl daemon-reload'
+alias systemd-reset-failed='sudo systemctl reset-failed' # https://serverfault.com/questions/606520/how-to-remove-missing-systemd-units
 alias systemd-start='sudo systemctl start'
 alias systemd-stop='sudo systemctl stop'
 alias systemd-status='sudo systemctl status'
@@ -120,12 +126,12 @@ alias systemd-enable='sudo systemctl enable'
 alias systemd-disable='sudo systemctl disable'
 alias systemd-restart='sudo systemctl restart'
 alias systemd-reload='sudo systemctl reload'
-# TODO: add reset failed from: https://serverfault.com/questions/606520/how-to-remove-missing-systemd-units
 
 alias SDLA=systemd-list-active
 alias SDLE=systemd-list-enabled
 alias SDLT=systemd-list-timers
 alias SDDR=systemd-daemon-reload
+alias SDRF=systemd-reset-failed
 alias SDON=systemd-start
 alias SDOFF=systemd-stop
 alias SDS=systemd-status
@@ -214,8 +220,7 @@ alias DCC=docker-container-commit
 alias docker-image-build='sudo docker image build'
 alias docker-image-push='sudo docker image push'
 alias docker-image-pull='sudo docker image pull'
-alias docker-image-import='sudo docker image import'
-alias docker-image-load='docker-image-import' # TODO: why the non-paired naming?
+alias docker-image-load='sudo docker image load'
 alias docker-image-save='sudo docker image save'
 alias docker-image-ls='sudo docker image ls'
 alias docker-image-ls-all='sudo docker image ls --all'
@@ -229,7 +234,6 @@ alias docker-image-inspect='sudo docker image inspect'
 alias DIB=docker-image-build
 alias DIPUSH=docker-image-push
 alias DIPULL=docker-image-pull
-alias DIIMPORT=docker-image-import
 alias DILOAD=docker-image-load
 alias DISAVE=docker-image-save
 alias DILS=docker-image-ls
@@ -399,7 +403,7 @@ __LINUX_RELEASE_NAME="$(source /etc/os-release 2> /dev/null && echo "$NAME" || e
 __LINUX_CPU_ARCHITECTURE="$(uname --machine)" # mostly `x86_64`, and `aarch64` or `armv7l` for android/rpi4 check: https://en.wikipedia.org/wiki/Uname#Examples
 
 __LINUX_PACKAGE_MANAGER="unknown"
-[[ "${__LINUX_RELEASE_NAME}" == "Arch Linux" || "${__LINUX_RELEASE_NAME}" == "Arch Linux ARM" ]] && __LINUX_PACKAGE_MANAGER="pacman"
+[[ "${__LINUX_RELEASE_NAME}" == "Arch Linux" || "${__LINUX_RELEASE_NAME}" == "Arch Linux ARM" || "${__LINUX_RELEASE_NAME}" == "Manjaro Linux" || "${__LINUX_RELEASE_NAME}" == "Manjaro-ARM" ]] && __LINUX_PACKAGE_MANAGER="pacman"
 [[ "${__LINUX_RELEASE_NAME}" == "Ubuntu" || "${__LINUX_RELEASE_NAME}" == "Debian GNU/Linux" || "${__LINUX_RELEASE_NAME}" == "Raspbian GNU/Linux" || "${__LINUX_RELEASE_NAME}" == "Android (Termux)" ]] && __LINUX_PACKAGE_MANAGER="apt"
 
 if [[ "${__LINUX_PACKAGE_MANAGER}" == "pacman" ]]; then

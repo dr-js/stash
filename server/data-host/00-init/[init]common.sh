@@ -7,5 +7,4 @@ sudo apt install nodejs -y
 sudo npm i -g npm # update npm
 
 # stop npm spawn many un-finishing update checking process
-sudo npm config set update-notifier false # for `sudo npm i -g`
-npm config set update-notifier false # for normal `npm i`
+sudo npm config set --global update-notifier false # for `sudo npm i -g`

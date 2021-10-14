@@ -51,6 +51,11 @@ some bonus:
 
 #### `npm`
 
+```
+sudo npm config set --global noproxy=127.0.0.1,localhost # exclude localhost
+sudo npm config set --global proxy=http://127.0.0.1:1080 # for http
+sudo npm config set --global https-proxy=http://127.0.0.1:1080 # for https
+```
 `nano ~/.npmrc` add:
 ```
 noproxy=127.0.0.1,localhost # exclude localhost
