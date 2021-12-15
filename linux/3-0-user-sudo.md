@@ -39,7 +39,7 @@ to allow user skip password for sudo: (check: https://askubuntu.com/questions/33
 USER_NAME="dr"
 
 # lazy way to allow sudo without password: https://stackoverflow.com/questions/323957/how-do-i-edit-etc-sudoers-from-a-script/28382838#28382838
-echo "${USER_NAME} ALL=(ALL) NOPASSWD:ALL" | sudo EDITOR='tee -a' visudo
+echo "${USER_NAME} ALL=(ALL) NOPASSWD:ALL" | sudo SUDO_EDITOR='tee -a' visudo
 
 # or manually
 sudo visudo # will open a temp sudoer list in editor, append at the end of the file

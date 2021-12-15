@@ -47,7 +47,7 @@ check: https://unix.stackexchange.com/questions/310222/how-to-tell-apt-to-use-th
 ```
 sudo tee /etc/apt/preferences.d/backports <<- EOM
 Package: *
-Pin: release a=buster-backports
+Pin: release a=bullseye-backports
 Pin-Priority: 800
 EOM
 ```
@@ -55,10 +55,10 @@ EOM
 ```shell script
 # arch
 sudo pacman -S --needed \
-  which nano less screen curl wget openssh $(: "essential tool, sanity check") \
+  which nano less screen curl wget openssh rsync $(: "essential tool, sanity check") \
   tar gzip p7zip $(: "compress tool") \
   htop lsof $(: "process stat") \
-  vnstat nethogs $(: "net stat") \
+  vnstat $(: "net stat") \
   git $(: "develop tool") \
   man bash-completion $(: "CLI basic") \
   --noconfirm $(: "skip confirm")
@@ -66,16 +66,15 @@ sudo pacman -S --needed \
 # debian/ubuntu
 sudo apt update
 sudo apt install \
-  nano less screen curl wget openssh-client openssh-server $(: "essential tool, sanity check") \
+  nano less screen curl wget openssh-client openssh-server rsync $(: "essential tool, sanity check") \
   tar gzip p7zip-full $(: "compress tool") \
   htop lsof $(: "process stat") \
-  vnstat nethogs $(: "net stat") \
+  vnstat $(: "net stat") \
   git $(: "develop tool") \
   man bash-completion $(: "CLI basic") \
   -y $(: "skip confirm")
 
 # extra optional
 SPI \
-  rsync \
   exfat-utils
 ```

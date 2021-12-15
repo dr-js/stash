@@ -21,3 +21,6 @@ to resize existing swapfile:
 sudo swapoff /swapfile
 # redo above steps, without the fstab change
 ```
+
+TODO: mention zram
+arch use: https://github.com/systemd/zram-generator
