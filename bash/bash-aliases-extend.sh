@@ -5,7 +5,7 @@
 
 # =============================
 # mark version
-alias bash-aliases-extend-version='echo 0.3.27'
+alias bash-aliases-extend-version='echo 0.3.28'
 alias bash-aliases-extend-update='dr-dev -f "https://raw.githubusercontent.com/dr-js/stash/master/bash/bash-aliases-extend.sh" -O ~/.bash_aliases_extend && source ~/.bash_aliases_extend'
 
 alias BAEV=bash-aliases-extend-version
@@ -184,7 +184,7 @@ function docker-container-exec-bash { sudo docker container exec --interactive -
 alias docker-container-attach='sudo docker container attach'
 alias docker-container-ls='sudo docker container ls'
 alias docker-container-ls-all='sudo docker container ls --all'
-alias docker-container-ls-minimal='sudo docker container ls --format="table {{.ID}}\t{{.Names}}\t{{.Image}}\t{{.State}}"'
+alias docker-container-ls-minimal='sudo docker container ls --format="table {{.ID}}\t{{.Names}}\t{{.Status}}\t{{.Image}}"'
 alias docker-container-logs='sudo docker container logs'
 alias docker-container-logs-tail='sudo docker container logs --follow --tail=10'
 alias docker-container-top='sudo docker container top'
@@ -413,7 +413,7 @@ if [[ "${__LINUX_PACKAGE_MANAGER}" == "pacman" ]]; then
   alias pacman-list='sudo pacman -Qe' # explicitly installed
   alias pacman-update='sudo pacman -Sy --needed archlinux-keyring \
     && sudo pacman -Syu \
-    && ( pacman -Qtdq && sudo pacman -Rns $(pacman -Qtdq) || echo "nothing to clear" )'
+    && ( pacman -Qtdq && sudo pacman -Rns $(pacman -Qtdq) || echo "nothing to clear" && sudo pacman -Sc --noconfirm )'
   alias pacman-remove='sudo pacman -R'
   alias pacman-install='sudo pacman -S --needed'
   function pacman-provide-bin { sudo pacman -F "$(command -v "$1")"; } # $1=bin-name-or-full-path # https://unix.stackexchange.com/questions/14858/in-arch-linux-how-can-i-find-out-which-package-to-install-that-will-contain-file
