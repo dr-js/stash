@@ -5,7 +5,7 @@
 
 # =============================
 # mark version
-alias bash-aliases-extend-version='echo 0.3.28'
+alias bash-aliases-extend-version='echo 0.3.29'
 alias bash-aliases-extend-update='dr-dev -f "https://raw.githubusercontent.com/dr-js/stash/master/bash/bash-aliases-extend.sh" -O ~/.bash_aliases_extend && source ~/.bash_aliases_extend'
 
 alias BAEV=bash-aliases-extend-version
@@ -175,6 +175,30 @@ alias NAF=npm-audit-fix
 alias NR=npm-run
 
 # =============================
+# npm8 aliases (n*) (from `@min-pack/npm`)
+alias npm8-list-global='npm8 ls --global --depth=0'
+alias npm8-install='npm8 install'
+alias npm8-install-global='sudo npm8 install --global'
+alias npm8-install-prefer-offline='npm8 install --prefer-offline'
+alias npm8-install-package-lock-only='npm8 install --package-lock-only'
+alias npm8-outdated='npm8 outdated'
+alias npm8-dedup-install='npm8 ddp && npm8 install --prefer-offline'
+alias npm8-audit='npm8 audit'
+alias npm8-audit-fix='npm8 audit fix'
+alias npm8-run='npm8 run'
+
+alias NNLSG=npm8-list-global
+alias NNI=npm8-install
+alias NNIG=npm8-install-global
+alias NNIO=npm8-install-prefer-offline
+alias NNIPLO=npm8-install-package-lock-only
+alias NNO=npm8-outdated
+alias NNDI=npm8-dedup-install
+alias NNA=npm8-audit
+alias NNAF=npm8-audit-fix
+alias NNR=npm8-run
+
+# =============================
 # docker aliases (DC*,DI*,DV*)
 
 alias docker-container-run='sudo docker container run'
@@ -264,12 +288,6 @@ alias SR=screen-resume
 alias SL=screen-list
 
 # =============================
-# nano aliases (NN*)
-function nano-reset { echo "" > "$1"; nano "$1"; } # $1=file-to-reset-and-edit
-
-alias NNR=nano-reset
-
-# =============================
 # quick aliases (Q*)
 function quick-dd-random { dd bs=1048576 count="${1:-100}" if=/dev/urandom of="./RANDOM-${1:-100}MiB"; } # $1=size-in-MiB-default-to-100
 alias quick-shutdown='sudo shutdown 0'
@@ -301,6 +319,7 @@ function quick-git-tag-push { TAG="$(node -p "'v'+require('./package.json').vers
 function quick-git-tag-push-force { TAG="$(node -p "'v'+require('./package.json').version")" && git tag --force "$TAG" && git push origin --force "$TAG"; }
 alias quick-git-push-combo='git-push && quick-git-tag-push'
 alias quick-git-push-combo-force='git-push-force && quick-git-tag-push-force'
+function quick-nano-reset { echo "" > "$1"; nano "$1"; } # $1=file-to-reset-and-edit
 
 alias QDDR=quick-dd-random
 alias QSHUTDOWN=quick-shutdown
@@ -320,11 +339,12 @@ alias QGTP=quick-git-tag-push
 alias QGTPF=quick-git-tag-push-force
 alias QGPC=quick-git-push-combo
 alias QGPCF=quick-git-push-combo-force
+alias QNR=quick-nano-reset
 
 # =============================
 # @dr-js aliases (D*)
-alias dr-js-npm-install-global-all='sudo npm i -g @dr-js/core @dr-js/node @dr-js/dev'
-alias dr-js-npm-install-global-all-dev='sudo npm i -g @dr-js/core@dev @dr-js/node@dev @dr-js/dev@dev'
+alias dr-js-npm-install-global-all='sudo npm i -g @dr-js/core @dr-js/dev'
+alias dr-js-npm-install-global-all-dev='sudo npm i -g @dr-js/core@dev @dr-js/dev@dev'
 alias dr-js-rm='dr-js --rm'
 alias dr-js-package-reset='dr-js-rm package-lock.json node_modules'
 alias dr-js-package-reset-combo='dr-js-package-reset && npm-install'

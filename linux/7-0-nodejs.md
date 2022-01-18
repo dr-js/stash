@@ -9,7 +9,7 @@ install `nodejs` and `npm`:
   #   so the DIY install here will only use npm self update
   mkdir ~/DIY_NPM/
   ( cd ~/DIY_NPM/
-    wget https://registry.npmjs.org/npm/-/npm-6.14.12.tgz # find latest version from: npm.im/npm, or with: `npm view npm`
+    wget https://registry.npmjs.org/npm/-/npm-6.14.15.tgz # find latest version from: npm.im/npm, or with: `npm view npm`
     tar xf ./*.tgz # extract
     sudo mkdir -p /usr/lib/node_modules/ # `sudo rm -rf /usr/lib/node_modules/`
     sudo cp -rT ./package /usr/lib/node_modules/npm
