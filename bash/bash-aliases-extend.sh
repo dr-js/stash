@@ -5,7 +5,7 @@
 
 # =============================
 # mark version
-alias bash-aliases-extend-version='echo 0.3.29'
+alias bash-aliases-extend-version='echo 0.3.30'
 alias bash-aliases-extend-update='dr-dev -f "https://raw.githubusercontent.com/dr-js/stash/master/bash/bash-aliases-extend.sh" -O ~/.bash_aliases_extend && source ~/.bash_aliases_extend'
 
 alias BAEV=bash-aliases-extend-version
@@ -176,27 +176,8 @@ alias NR=npm-run
 
 # =============================
 # npm8 aliases (n*) (from `@min-pack/npm`)
-alias npm8-list-global='npm8 ls --global --depth=0'
 alias npm8-install='npm8 install'
-alias npm8-install-global='sudo npm8 install --global'
-alias npm8-install-prefer-offline='npm8 install --prefer-offline'
-alias npm8-install-package-lock-only='npm8 install --package-lock-only'
-alias npm8-outdated='npm8 outdated'
-alias npm8-dedup-install='npm8 ddp && npm8 install --prefer-offline'
-alias npm8-audit='npm8 audit'
-alias npm8-audit-fix='npm8 audit fix'
-alias npm8-run='npm8 run'
-
-alias NNLSG=npm8-list-global
 alias NNI=npm8-install
-alias NNIG=npm8-install-global
-alias NNIO=npm8-install-prefer-offline
-alias NNIPLO=npm8-install-package-lock-only
-alias NNO=npm8-outdated
-alias NNDI=npm8-dedup-install
-alias NNA=npm8-audit
-alias NNAF=npm8-audit-fix
-alias NNR=npm8-run
 
 # =============================
 # docker aliases (DC*,DI*,DV*)
