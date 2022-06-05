@@ -1,78 +1,86 @@
 # `shadowsocks` and `privoxy`
 
 
-#### install `shadowsocks`
+## install `shadowsocks`
 
-install `shadowsocks-libev`:
+install `shadowsocks-rust`: (check https://github.com/shadowsocks/shadowsocks-rust/releases)
 ```shell script
-( # arch
-  sudo pacman -S shadowsocks-libev --noconfirm
-  sudo mkdir -p /etc/shadowsocks/
-  sudo ln -sfT /etc/shadowsocks /etc/shadowsocks-libev # patch naming
-  sudo ln -sfT shadowsocks-libev@.service /lib/systemd/system/shadowsocks-libev-local@.service # patch naming
-)
-
-( # debian can use backport to get newer version
-  # ubuntu, old but easy version (for new and hacky version check: server/data-host/51-shadowsocks/setup.sh)
-  # also check: https://github.com/shadowsocks/shadowsocks-libev#debian--ubuntu
-  sudo apt update
-  sudo apt install shadowsocks-libev -y
+( mkdir -p "/opt/dr/common/shadowsocks-rust/" && cd "/opt/dr/common/shadowsocks-rust/"
+  SS_PLATFORM="$(uname -m)"
+  SS_VERSION="v1.14.3"
+  dr-js -f "https://github.com/shadowsocks/shadowsocks-rust/releases/download/${SS_VERSION}/shadowsocks-${SS_VERSION}.${SS_PLATFORM}-unknown-linux-gnu.tar.xz" -O "ss-rust.tar.xz"
+  dr-js -xI "ss-rust.tar.xz" -O "./.ss-rust-${SS_VERSION}-${SS_PLATFORM}/"
+  rm "ss-rust.tar.xz"
+  ln -sfT "./.ss-rust-${SS_VERSION}-${SS_PLATFORM}/sslocal" "sslocal"
+  ln -sfT "./.ss-rust-${SS_VERSION}-${SS_PLATFORM}/ssserver" "ssserver"
 )
 ```
 
-check manual for config file: `man shadowsocks-libev`
+check manual at: https://github.com/shadowsocks/shadowsocks-rust#getting-started
 
+#### `shadowsocks` server config
 
-#### `shadowsocks` server
-
-config `sudo nano /etc/shadowsocks-libev/config.json` and add:
+config `nano /opt/dr/common/shadowsocks-rust/config.json` and add:
 ```json
 {
-  "server": [ "::", "0.0.0.0" ],
-  "server_port": 12345,
-  "password": "123456",
-  "method": "chacha20-ietf-poly1305",
+  "servers": [
+    { "server": "0.0.0.0", "server_port": 123, "password": "123456", "method": "chacha20-ietf-poly1305" },
+    { "server": "0.0.0.0", "server_port": 1234, "password": "123456", "method": "chacha20-ietf-poly1305" },
+    { "server": "0.0.0.0", "server_port": 12345, "password": "123456", "method": "chacha20-ietf-poly1305" }
+  ],
+  "mode": "tcp_and_udp",
+  "timeout": 1000,
+  "fast_open": true,
+  "acl": "/opt/dr/common/shadowsocks-rust/server_block_local.acl"
+}
+```
+
+also `nano /opt/dr/common/shadowsocks-rust/server_block_local.acl` and add:
+```
+# All IPs listed here will be blocked while the ss-server try to outbound. Only IP is allowed, *NOT* domain name.
+[outbound_block_list]
+0.0.0.0/8
+10.0.0.0/8
+100.64.0.0/10
+127.0.0.0/8
+169.254.0.0/16
+172.16.0.0/12
+192.0.0.0/24
+192.0.2.0/24
+192.88.99.0/24
+192.168.0.0/16
+198.18.0.0/15
+198.51.100.0/24
+203.0.113.0/24
+224.0.0.0/4
+240.0.0.0/4
+255.255.255.255/32
+::1/128
+::ffff:127.0.0.1/104
+fc00::/7
+fe80::/10
+```
+
+start with `sudo /opt/dr/common/shadowsocks-rust/ssserver -c /opt/dr/common/shadowsocks-rust/config.json`
+
+#### `shadowsocks` local config
+
+config `nano /opt/dr/common/shadowsocks-rust/local-config.json` add:
+```json
+{
+  "local_address": "127.0.0.1", "local_port": 1081,
+  "server":"999.999.999.999", "server_port": 12345,
+  "password": "123456", "method": "chacha20-ietf-poly1305",
   "mode": "tcp_and_udp",
   "timeout": 1000,
   "fast_open": true
 }
 ```
 
-enable server service:
-```shell script
-sudo systemctl enable shadowsocks-libev-server@config.service # enable server
-sudo systemctl restart shadowsocks-libev-server@config.service # apply config
-sudo systemctl status shadowsocks-libev-server@config.service # check status
-```
+start with `sudo /opt/dr/common/shadowsocks-rust/sslocal -c /opt/dr/common/shadowsocks-rust/local-config.json`
 
 
-#### `shadowsocks` local
-
-config `sudo nano /etc/shadowsocks-libev/local-config.json` add:
-```json
-{
-  "local_address": "127.0.0.1",
-  "local_port": 1081,
-  "server":"999.999.999.999",
-  "server_port": 12345,
-  "password": "123456",
-  "method": "chacha20-ietf-poly1305",
-  "mode": "tcp_and_udp",
-  "timeout": 1000,
-  "fast_open": true
-}
-```
-
-enable server service: 
-```shell script
-sudo systemctl enable shadowsocks-libev-local@local-config.service # enable server
-sudo systemctl restart shadowsocks-libev-local@local-config.service # apply config
-sudo systemctl status shadowsocks-libev-local@local-config.service # check status
-```
-
-
-#### install `privoxy`
-
+## install `privoxy`
 
 ```shell script
 sudo pacman -S privoxy --noconfirm # arch

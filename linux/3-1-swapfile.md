@@ -24,3 +24,4 @@ sudo swapoff /swapfile
 
 TODO: mention zram
 arch use: https://github.com/systemd/zram-generator
+basic config file to enable: `echo '[zram0]' | sudo tee /etc/systemd/zram-generator.conf`

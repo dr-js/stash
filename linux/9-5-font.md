@@ -7,7 +7,7 @@ reload font cache: `fc-cache -vf`
 
 #### add custom default
 
-with `sudo nano /etc/fonts/local.conf` and add config like:
+with `nano /opt/dr/common/font/local.conf` and add config like:
 ```xml
 <?xml version="1.0"?>
 <!DOCTYPE fontconfig SYSTEM "fonts.dtd">
@@ -40,6 +40,8 @@ with `sudo nano /etc/fonts/local.conf` and add config like:
  </alias>
 </fontconfig>
 ```
+
+and symlink to system font config `sudo ln -sfT /opt/dr/common/font/local.conf /etc/fonts/local.conf`
 
 NOTE: for `Consolas` the file need to be copied from a win32 machine at `C:\Windows\Fonts\Consolas`,
   and put under path like `/usr/share/fonts/TTF/` then reload font cache.

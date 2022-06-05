@@ -56,7 +56,7 @@ EOM
 # arch
 sudo pacman -S --needed \
   which nano less screen curl wget openssh rsync $(: "essential tool, sanity check") \
-  tar gzip p7zip $(: "compress tool") \
+  tar gzip xz p7zip $(: "compress tool") \
   htop lsof $(: "process stat") \
   vnstat $(: "net stat") \
   git $(: "develop tool") \
@@ -67,7 +67,7 @@ sudo pacman -S --needed \
 sudo apt update
 sudo apt install \
   nano less screen curl wget openssh-client openssh-server rsync $(: "essential tool, sanity check") \
-  tar gzip p7zip-full $(: "compress tool") \
+  tar gzip xz-utils p7zip-full $(: "compress tool") \
   htop lsof $(: "process stat") \
   vnstat $(: "net stat") \
   git $(: "develop tool") \
