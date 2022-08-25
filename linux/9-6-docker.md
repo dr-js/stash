@@ -2,6 +2,29 @@
 
 just follow: https://docs.docker.com/engine/install/
 
+#### prevent log bloats
+check: https://docs.docker.com/config/containers/logging/configure/#configure-the-default-logging-driver
+basically run `sudo mkdir -p /etc/docker/ && sudo nano /etc/docker/daemon.json` and add:
+```json
+{
+  "log-driver": "json-file",
+  "log-opts": { "max-size": "8m", "max-file": "4" }
+}
+```
+Note: should restart `dockerd`, and re-create existing container for default log config to fully apply
+
+#### install `docker-compose@1.29.2`
+
+because docker-compose V2 is still not stable & reasonable enough (20220825)
+
+```shell
+sudo curl \
+  -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64" \
+  -o "/usr/local/bin/docker-compose"
+sudo chmod +x "/usr/local/bin/docker-compose"
+[[ -f /usr/lib/libcrypt.so.1 ]] || ( echo 'missing "/usr/lib/libcrypt.so.1"'; ls -al /usr/lib/libcrypt.*; sudo ln -sfT libcrypt.so /usr/lib/libcrypt.so.1 ) # patch old python lib for arch-linux
+docker-compose -v
+```
 
 #### WSL2
 

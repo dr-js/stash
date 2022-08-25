@@ -37,6 +37,15 @@ ExecStop="/optional/absolute/path/to/script/file.sh"
 WantedBy=multi-user.target
 ```
 
+#### Manjaro
+
+manjaro will auto update it's pacman mirror-list per-week by default,
+  if local cache mirror is set in `/etc/pacman.d/mirrorlist`,
+  stop the timer or the change will be lost: (check https://wiki.manjaro.org/index.php?title=Pacman-mirrors#Country)
+```shell
+sudo systemctrl stop pamac-mirrorlist.timer
+sudo systemctrl disable pamac-mirrorlist.timer
+```
 
 #### WSL2
 
