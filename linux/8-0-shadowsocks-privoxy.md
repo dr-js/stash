@@ -4,17 +4,7 @@
 ## install `shadowsocks`
 
 install `shadowsocks-rust`: (check https://github.com/shadowsocks/shadowsocks-rust/releases)
-```shell script
-( mkdir -p "/opt/dr/common/shadowsocks-rust/" && cd "/opt/dr/common/shadowsocks-rust/"
-  SS_PLATFORM="$(uname -m)"
-  SS_VERSION="v1.14.3"
-  dr-js -f "https://github.com/shadowsocks/shadowsocks-rust/releases/download/${SS_VERSION}/shadowsocks-${SS_VERSION}.${SS_PLATFORM}-unknown-linux-gnu.tar.xz" -O "ss-rust.tar.xz"
-  dr-js -xI "ss-rust.tar.xz" -O "./.ss-rust-${SS_VERSION}-${SS_PLATFORM}/"
-  rm "ss-rust.tar.xz"
-  ln -sfT "./.ss-rust-${SS_VERSION}-${SS_PLATFORM}/sslocal" "sslocal"
-  ln -sfT "./.ss-rust-${SS_VERSION}-${SS_PLATFORM}/ssserver" "ssserver"
-)
-```
+use: https://www.npmjs.com/package/@min-pack/ss-rust
 
 check manual at: https://github.com/shadowsocks/shadowsocks-rust#getting-started
 
@@ -23,14 +13,13 @@ check manual at: https://github.com/shadowsocks/shadowsocks-rust#getting-started
 config `nano /opt/dr/common/shadowsocks-rust/config.json` and add:
 ```json
 {
-  "servers": [
-    { "server": "0.0.0.0", "server_port": 123, "password": "123456", "method": "chacha20-ietf-poly1305" },
-    { "server": "0.0.0.0", "server_port": 1234, "password": "123456", "method": "chacha20-ietf-poly1305" },
-    { "server": "0.0.0.0", "server_port": 12345, "password": "123456", "method": "chacha20-ietf-poly1305" }
-  ],
-  "mode": "tcp_and_udp",
+  "servers": [ {
+    "server": "0.0.0.0", "server_port": 123,   "password": "123456", "method": "chacha20-ietf-poly1305" }, {
+    "server": "0.0.0.0", "server_port": 1234,  "password": "123456", "method": "chacha20-ietf-poly1305" }, {
+    "server": "0.0.0.0", "server_port": 12345, "password": "123456", "method": "chacha20-ietf-poly1305"
+  } ],
   "timeout": 1000,
-  "fast_open": true,
+  "mode": "tcp_only",
   "acl": "/opt/dr/common/shadowsocks-rust/server_block_local.acl"
 }
 ```
@@ -61,56 +50,58 @@ fc00::/7
 fe80::/10
 ```
 
-start with `sudo /opt/dr/common/shadowsocks-rust/ssserver -c /opt/dr/common/shadowsocks-rust/config.json`
+start with `sudo ss-rust server -c /opt/dr/common/shadowsocks-rust/config.json`
 
 #### `shadowsocks` local config
 
 config `nano /opt/dr/common/shadowsocks-rust/local-config.json` add:
 ```json
 {
-  "local_address": "127.0.0.1", "local_port": 1081,
+  "locals": [
+    { "local_address": "127.0.0.1", "local_port": 1081 },
+    { "protocol": "http", "local_address": "127.0.0.1", "local_port": 1080 }
+  ],
   "server":"999.999.999.999", "server_port": 12345,
   "password": "123456", "method": "chacha20-ietf-poly1305",
-  "mode": "tcp_and_udp",
-  "timeout": 1000,
-  "fast_open": true
+  "mode": "tcp_only", "timeout": 1000
 }
 ```
 
-start with `sudo /opt/dr/common/shadowsocks-rust/sslocal -c /opt/dr/common/shadowsocks-rust/local-config.json`
+start with `sudo ss-rust local -c /opt/dr/common/shadowsocks-rust/local-config.json`
 
+this will open both `sock5@1081` and `http@1080`, so no `privoxy` needed
 
-## install `privoxy`
-
-```shell script
-sudo pacman -S privoxy --noconfirm # arch
-sudo apt install privoxy -y # ubuntu
-```
-
-to convert http to socks5 for local `shadowsocks`,
-edit `sudo nano /etc/privoxy/config` and add:
-```shell script
-# listen-address 127.0.0.1:8118 # should already have this line
-listen-address  127.0.0.1:1080 # change to port 1080, change to 0.0.0.0:1080 to allow LAN proxy connection
-
-# check: https://www.privoxy.org/user-manual/config.html#SOCKS
-
-# convert protocol to socks5 and forward to shadowsocks
-forward-socks5  /             127.0.0.1:1081  .
-
-# skip proxy common localhost connection
-forward         192.168.*.*/                  .
-forward         10.*.*.*/                     .
-forward         127.*.*.*/                    .
-forward         localhost/                    .
-```
-
-apply config:
-```shell script
-sudo systemctl enable privoxy.service # enable server
-sudo systemctl restart privoxy.service # apply config
-sudo systemctl status privoxy.service # check status
-```
+    ## install `privoxy`
+    
+    ```shell script
+    sudo pacman -S privoxy --noconfirm # arch
+    sudo apt install privoxy -y # ubuntu
+    ```
+    
+    to convert http to socks5 for local `shadowsocks`,
+    edit `sudo nano /etc/privoxy/config` and add:
+    ```shell script
+    # listen-address 127.0.0.1:8118 # should already have this line
+    listen-address  0.0.0.0:1080 # change to port 1080, change to 0.0.0.0:1080 to allow LAN proxy connection
+    
+    # check: https://www.privoxy.org/user-manual/config.html#SOCKS
+    
+    # convert protocol to socks5 and forward to shadowsocks
+    forward-socks5  /             127.0.0.1:1081  .
+    
+    # skip proxy common localhost connection
+    forward         192.168.*.*/                  .
+    forward         10.*.*.*/                     .
+    forward         127.*.*.*/                    .
+    forward         localhost/                    .
+    ```
+    
+    apply config:
+    ```shell script
+    sudo systemctl enable privoxy.service # enable server
+    sudo systemctl restart privoxy.service # apply config
+    sudo systemctl status privoxy.service # check status
+    ```
 
 basic usage:
 ```shell script
